@@ -46,11 +46,11 @@
   },
   "devDependencies": {
     "@ant-design/icons": "6.3.4",
-    "@cloudflare/vite-plugin": "1.63.2",
+    "@cloudflare/vite-plugin": "1.64.0",
     "@tailwindcss/language-server": "0.16.0",
     "@tailwindcss/vite": "4.3.3",
-    "@tanstack/router-generator": "1.167.43",
-    "@tanstack/router-plugin": "1.168.45",
+    "@tanstack/router-generator": "1.167.44",
+    "@tanstack/router-plugin": "1.168.46",
     "@types/node": "26.6.5",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
@@ -59,14 +59,14 @@
     "drizzle-kit": "1.0.0-rc.5-ab785fc",
     "knip": "6.41.0",
     "oxc-transform-react": "0.154.0",
-    "playwright": "1.64.0",
+    "playwright": "1.64.1",
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2",
     "vite": "catalog:",
     "vite-plus": "catalog:",
     "vitest": "catalog:",
     "vscode-languageserver-protocol": "3.18.4",
-    "wrangler": "4.150.0"
+    "wrangler": "4.151.0"
   },
   "engines": {
     "node": "24.22.0"

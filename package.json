@@ -66,7 +66,7 @@
     "vite-plus": "catalog:",
     "vitest": "catalog:",
     "vscode-languageserver-protocol": "3.18.4",
-    "wrangler": "4.151.0"
+    "wrangler": "4.151.1"
   },
   "engines": {
     "node": "24.22.0"

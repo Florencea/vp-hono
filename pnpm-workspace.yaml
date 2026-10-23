@@ -44,13 +44,13 @@ minimumReleaseAgeExclude:
   - playwright-core@1.64.0 || 1.64.1
   - playwright@1.64.0 || 1.64.1
   - "@cloudflare/vite-plugin@1.63.1 || 1.63.2 || 1.64.0"
-  - miniflare@5.20261006.1-alpha || 5.20261006.2-beta || 5.20261012.0-beta || 5.20261012.1-beta || 5.20261019.1-beta
-  - wrangler@4.149.0 || 4.150.0 || 4.151.0 || 4.151.1 || 4.151.3
+  - miniflare@5.20261006.1-alpha || 5.20261006.2-beta || 5.20261012.0-beta || 5.20261012.1-beta || 5.20261019.1-beta || 5.20261019.2-beta
+  - wrangler@4.149.0 || 4.150.0 || 4.151.0 || 4.151.1 || 4.151.3 || 4.152.0
   - "@tanstack/history@1.162.5"
-  - "@tanstack/react-router@1.170.42 || 1.170.44"
-  - "@tanstack/router-core@1.171.35 || 1.171.37"
-  - "@tanstack/router-generator@1.167.41 || 1.167.43 || 1.167.44"
-  - "@tanstack/router-plugin@1.168.43 || 1.168.45 || 1.168.46"
+  - "@tanstack/react-router@1.170.42 || 1.170.44 || 1.170.46"
+  - "@tanstack/router-core@1.171.35 || 1.171.37 || 1.171.39"
+  - "@tanstack/router-generator@1.167.41 || 1.167.43 || 1.167.44 || 1.167.46"
+  - "@tanstack/router-plugin@1.168.43 || 1.168.45 || 1.168.46 || 1.168.48"
   - "@scalar/validation@0.6.7"
   - zod@4.6.7
   - "@tanstack/router-utils@1.162.4"
@@ -67,21 +67,24 @@ minimumReleaseAgeExclude:
   - "@vitest/spy@5.0.5"
   - "@vitest/ui@5.0.5"
   - "@vitest/utils@5.0.5"
-  - "@voidzero-dev/vite-plus-core@1.3.0"
-  - "@voidzero-dev/vite-plus-darwin-arm64@1.3.0"
-  - "@voidzero-dev/vite-plus-darwin-x64@1.3.0"
-  - "@voidzero-dev/vite-plus-linux-arm64-gnu@1.3.0"
-  - "@voidzero-dev/vite-plus-linux-arm64-musl@1.3.0"
-  - "@voidzero-dev/vite-plus-linux-x64-gnu@1.3.0"
-  - "@voidzero-dev/vite-plus-linux-x64-musl@1.3.0"
-  - "@voidzero-dev/vite-plus-win32-arm64-msvc@1.3.0"
-  - "@voidzero-dev/vite-plus-win32-x64-msvc@1.3.0"
-  - vite-plus@1.3.0
+  - "@voidzero-dev/vite-plus-core@1.3.0 || 1.4.0"
+  - "@voidzero-dev/vite-plus-darwin-arm64@1.3.0 || 1.4.0"
+  - "@voidzero-dev/vite-plus-darwin-x64@1.3.0 || 1.4.0"
+  - "@voidzero-dev/vite-plus-linux-arm64-gnu@1.3.0 || 1.4.0"
+  - "@voidzero-dev/vite-plus-linux-arm64-musl@1.3.0 || 1.4.0"
+  - "@voidzero-dev/vite-plus-linux-x64-gnu@1.3.0 || 1.4.0"
+  - "@voidzero-dev/vite-plus-linux-x64-musl@1.3.0 || 1.4.0"
+  - "@voidzero-dev/vite-plus-win32-arm64-msvc@1.3.0 || 1.4.0"
+  - "@voidzero-dev/vite-plus-win32-x64-msvc@1.3.0 || 1.4.0"
+  - vite-plus@1.3.0 || 1.4.0
   - vitest@5.0.5
   - antd@6.6.7
   - knip@6.42.1
+  - vscode-jsonrpc@10.0.0
+  - vscode-languageserver-protocol@3.18.5
+  - vscode-languageserver-types@3.18.5
 catalog:
-  vite: npm:@voidzero-dev/vite-plus-core@1.3.0
+  vite: npm:@voidzero-dev/vite-plus-core@1.4.0
   vitest: 5.0.5
-  vite-plus: 1.3.0
+  vite-plus: 1.4.0
   "@vitest/browser-playwright": 5.0.5

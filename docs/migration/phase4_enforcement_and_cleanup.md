@@ -5,6 +5,7 @@
 > 2. **shadcn/ui (React Aria Base)**: https://ui.shadcn.com/llms.txt
 > 3. **@shadcn/lint (Agent-First Linter)**: https://github.com/shadcn-ui/lint
 > 4. **TanStack Form (Type-Safe Forms)**: https://tanstack.com/form/latest
+> 5. **Vite+ (Unified Web Toolchain)**: https://viteplus.dev/llms-full.txt
 
 # Phase 4 執行手冊：嚴格守門、清理與文檔收尾
 
@@ -14,44 +15,67 @@
 
 ---
 
-## 2. 升級 `@shadcn/lint` 規則為 `error`
+## 2. 升級 `vite.config.ts` 中的 `@shadcn/lint` 規則為 `error`
 
-修改 `.oxlintrc.json`，將所有警告級別提升為強制報錯：
+依據 Vite+ 規範（SSOT 集中於 `vite.config.ts`），修改專案根目錄 `vite.config.ts` 的 `lint` 區塊，將所有 `@shadcn/lint` 設計系統規則由 `warn` 正式提升為強制報錯 (`error`)，構築無法逾越的防線：
 
-```json
-{
-  "jsPlugins": ["@shadcn/lint"],
-  "settings": {
-    "shadcn": {
-      "ui": "src/client/components/ui",
-      "componentImports": ["^src/client/components/ui(/|$)"]
-    }
-  },
-  "rules": {
-    "shadcn/no-restyle": [
-      "error",
-      {
-        "allow": ["layout"],
-        "contracts": [
-          { "pattern": "^Button$", "allow": ["layout"] },
-          { "pattern": "^CardContent$", "allow": ["layout", "spacing"] }
-        ]
-      }
-    ],
-    "shadcn/no-raw-colors": "error",
-    "shadcn/no-arbitrary-values": "error",
-    "shadcn/no-inline-styles": "error"
-  },
-  "overrides": [
-    {
-      "files": ["src/client/components/ui/**"],
-      "rules": {
-        "shadcn/no-restyle": "off",
-        "shadcn/no-arbitrary-values": "off"
-      }
-    }
-  ]
-}
+```ts
+// vite.config.ts
+    lint: {
+      ignorePatterns: [
+        "dist/**",
+        ".cache/**",
+        ".tanstack/**",
+        ".vitest/**",
+        "test-results/**",
+        "playwright-report/**",
+        "blob-report/**",
+        "src/client/routeTree.gen.ts",
+      ],
+      options: {
+        typeAware: true,
+        typeCheck: true,
+      },
+      categories: {
+        correctness: "error",
+        suspicious: "error",
+        perf: "error",
+      },
+      plugins: ["react", "unicorn", "typescript", "oxc", "vitest", "promise"],
+      jsPlugins: ["@shadcn/lint"],
+      settings: {
+        shadcn: {
+          ui: "src/client/components/ui",
+          componentImports: ["^src/client/components/ui(/|$)"],
+        },
+      },
+      rules: {
+        "react/react-in-jsx-scope": "off",
+        // Phase 4 升級為 error：全面禁止任意樣式破壞與未授權覆寫
+        "shadcn/no-restyle": [
+          "error",
+          {
+            allow: ["layout"],
+            contracts: [
+              { pattern: "^Button$", allow: ["layout"] },
+              { pattern: "^CardContent$", allow: ["layout", "spacing"] },
+            ],
+          },
+        ],
+        "shadcn/no-raw-colors": "error",
+        "shadcn/no-arbitrary-values": "error",
+        "shadcn/no-inline-styles": "error",
+      },
+      overrides: [
+        {
+          files: ["src/client/components/ui/**"],
+          rules: {
+            "shadcn/no-restyle": "off",
+            "shadcn/no-arbitrary-values": "off",
+          },
+        },
+      ],
+    },
 ```
 
 ---
@@ -144,7 +168,7 @@ vpr agent:verify:gate
 
 請在宣告整個重構專案結束前，逐一核對以下終極清單：
 
-- [ ] `.oxlintrc.json` 中 `@shadcn/lint` 規則已提升為 `error`，且 `vpr agent:verify:inner` 0 報錯。
+- [ ] `vite.config.ts` 中的 `@shadcn/lint` 規則已提升為 `error`，專案內無任何 `.oxlintrc.json` 殘留，且 `vpr agent:verify:inner` 0 報錯。
 - [ ] `package.json` 中的 `antd` 與 `@ant-design/icons` 已徹底卸載。
 - [ ] `src/client/hooks/useAntdForm.ts` 已刪除。
 - [ ] `src/client/hooks/useI18n.ts` 已移除 `antdLocales` 與 Antd 語系引入。

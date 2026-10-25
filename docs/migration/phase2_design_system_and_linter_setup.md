@@ -5,6 +5,7 @@
 > 2. **shadcn/ui (React Aria Base)**: https://ui.shadcn.com/llms.txt
 > 3. **@shadcn/lint (Agent-First Linter)**: https://github.com/shadcn-ui/lint
 > 4. **TanStack Form (Type-Safe Forms)**: https://tanstack.com/form/latest
+> 5. **Vite+ (Unified Web Toolchain)**: https://viteplus.dev/llms-full.txt
 
 # Phase 2 執行手冊：設計系統基礎建設與 @shadcn/lint 導入
 
@@ -99,41 +100,79 @@ vp install -D @shadcn/lint tw-animate-css
 
 ---
 
-## 5. 配置 `@shadcn/lint` (Oxlint 警告模式)
+## 5. 配置 `@shadcn/lint` 於 `vite.config.ts` (Oxlint 警告模式)
 
-建立根目錄 `.oxlintrc.json`，註冊 `@shadcn/lint` 插件並設置規則為 `warn`：
+> [!IMPORTANT]
+> **Vite+ 單一配置來源 (SSOT) 規範**：
+> 依據 Vite+ 官方指引（[Vite+ Lint Configuration](https://viteplus.dev/llms-full.txt)），**嚴格禁止在專案根目錄或子目錄建立 `.oxlintrc.json` 或 `oxlint.config.ts`**。
+> Vite+ 原生支援在根目錄 `vite.config.ts` 的 `lint` 區塊中集中宣告所有 Oxlint 設定（包含 `jsPlugins`、`settings`、`rules` 與 `overrides`），以確保單趟 `vp check` 與 `vp lint` 能以 Rust/Go 極速執行，並杜絕獨立設定檔造成的規則漂移。
 
-```json
-{
-  "jsPlugins": ["@shadcn/lint"],
-  "settings": {
-    "shadcn": {
-      "ui": "src/client/components/ui",
-      "componentImports": ["^src/client/components/ui(/|$)"]
-    }
-  },
-  "rules": {
-    "shadcn/no-restyle": [
-      "warn",
-      {
-        "allow": ["layout"],
-        "contracts": [{ "pattern": "^Button$", "allow": ["layout"] }]
-      }
-    ],
-    "shadcn/no-raw-colors": "warn",
-    "shadcn/no-arbitrary-values": "warn",
-    "shadcn/no-inline-styles": "warn"
-  },
-  "overrides": [
-    {
-      "files": ["src/client/components/ui/**"],
-      "rules": {
-        "shadcn/no-restyle": "off",
-        "shadcn/no-arbitrary-values": "off"
-      }
-    }
-  ]
-}
+修改根目錄 `vite.config.ts`，在 `lint` 物件中註冊 `@shadcn/lint` 作為 `jsPlugins`，並配置規則為 `warn` 級別：
+
+```ts
+// vite.config.ts
+export default defineConfig(({ mode }) => {
+  const isTest = mode === "test" || process.env.NODE_ENV === "test";
+
+  return {
+    build: {
+      outDir: "dist",
+      chunkSizeWarningLimit: 1000,
+    },
+    lint: {
+      ignorePatterns: [
+        "dist/**",
+        ".cache/**",
+        ".tanstack/**",
+        ".vitest/**",
+        "test-results/**",
+        "playwright-report/**",
+        "blob-report/**",
+        "src/client/routeTree.gen.ts",
+      ],
+      options: {
+        typeAware: true,
+        typeCheck: true,
+      },
+      categories: {
+        correctness: "error",
+        suspicious: "error",
+        perf: "error",
+      },
+      plugins: ["react", "unicorn", "typescript", "oxc", "vitest", "promise"],
+      // 註冊 @shadcn/lint 作為 Oxlint JS Plugin
+      jsPlugins: ["@shadcn/lint"],
+      settings: {
+        shadcn: {
+          ui: "src/client/components/ui",
+          componentImports: ["^src/client/components/ui(/|$)"],
+        },
+      },
+      rules: {
+        "react/react-in-jsx-scope": "off",
+        // Phase 2 嚴格配置為 warn，提供即時引導而不阻斷現有構建與測試
+        "shadcn/no-restyle": [
+          "warn",
+          {
+            allow: ["layout"],
+            contracts: [{ pattern: "^Button$", allow: ["layout"] }],
+          },
+        ],
+        "shadcn/no-raw-colors": "warn",
+        "shadcn/no-arbitrary-values": "warn",
+        "shadcn/no-inline-styles": "warn",
+      },
+      overrides: [
+        {
+          files: ["src/client/components/ui/**"],
+          rules: {
+            "shadcn/no-restyle": "off",
+            "shadcn/no-arbitrary-values": "off",
+          },
+        },
+      ],
+    },
+    // ... 其餘 fmt, run, environments, plugins, test 保持不變
 ```
 
 ---
@@ -235,7 +274,7 @@ vpr agent:verify:gate
 - [ ] 所有相依套件已完成安裝（包含 `class-variance-authority` 與 `@tanstack/react-table`）。
 - [ ] 專案根目錄 `components.json` 已正確建立且設定 `"base": "aria"`。
 - [ ] `src/client/global.css` 已擴充 `@theme` 語意 Token（如 `--color-primary`, `--color-background`, `--color-muted` 等）。
-- [ ] `.oxlintrc.json` 已正確配置 `@shadcn/lint` 插件為 `warn` 模式，且未破壞原有 linter 行為。
+- [ ] `vite.config.ts` 中的 `lint` 區塊已正確配置 `@shadcn/lint` 插件為 `warn` 模式與 `overrides`，專案內無新增 `.oxlintrc.json`，且未破壞原有 linter 行為。
 - [ ] `src/client/components/ui/form.tsx` 與 `src/client/utils/toast.ts` 已建立且無型別錯誤。
 - [ ] 執行 `vpr agent:verify:inner` 零報錯；執行 `vpr agent:verify:gate` 100% 綠燈通過。
 - [ ] 產生英文 Conventional Commit 建議並由使用者在本地終端機完成提交。
@@ -249,10 +288,10 @@ vpr agent:verify:gate
 
 1. `docs/migration/README.md`
 2. `docs/migration/phase3_bottom_up_component_migration.md`
-3. 官方最新文件：https://react-aria.adobe.com/llms.txt 與 https://tanstack.com/form/latest
+3. 官方最新文件：https://react-aria.adobe.com/llms.txt、https://tanstack.com/form/latest 與 https://viteplus.dev/llms-full.txt
 
 【當前狀態】
-Phase 1 測試安全網與 Phase 2 基礎建設（RAC, TanStack Form/Table, cva, @shadcn/lint warn）已全數就緒，門禁檢驗 100% 綠燈。
+Phase 1 測試安全網與 Phase 2 基礎建設（RAC, TanStack Form/Table, cva, @shadcn/lint warn in vite.config.ts）已全數就緒，門禁檢驗 100% 綠燈。
 
 【本次任務目標】
 執行 Phase 3「由底而上分批次組件遷移」。

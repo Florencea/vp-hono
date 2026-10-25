@@ -5,6 +5,7 @@
 > 2. **shadcn/ui (React Aria Base)**: https://ui.shadcn.com/llms.txt
 > 3. **@shadcn/lint (Agent-First Linter)**: https://github.com/shadcn-ui/lint
 > 4. **TanStack Form (Type-Safe Forms)**: https://tanstack.com/form/latest
+> 5. **Vite+ (Unified Web Toolchain)**: https://viteplus.dev/llms-full.txt
 
 # Phase 3 執行手冊：由底而上分批次組件遷移
 
@@ -191,7 +192,7 @@ vpr agent:verify:gate
 
 1. `docs/migration/README.md`
 2. `docs/migration/phase4_enforcement_and_cleanup.md`
-3. 官方最新文件：https://github.com/shadcn-ui/lint
+3. 官方最新文件：https://github.com/shadcn-ui/lint 與 https://viteplus.dev/llms-full.txt
 
 【當前狀態】
 Phase 1、Phase 2 與 Phase 3（5 個 Batch）已全數完成，所有業務頁面皆已現代化，E2E 測試 100% 綠燈。
@@ -199,7 +200,7 @@ Phase 1、Phase 2 與 Phase 3（5 個 Batch）已全數完成，所有業務頁�
 【本次任務目標】
 執行 Phase 4「嚴格守門、清理與文檔收尾」：
 
-1. 將 `.oxlintrc.json` 中的 `@shadcn/lint` 規則等級正式提升為 `error`。
+1. 將 `vite.config.ts` 的 `lint` 區塊中的 `@shadcn/lint` 規則等級正式提升為 `error`。
 2. 徹底卸載套件：`vp remove antd @ant-design/icons`。
 3. 刪除與簡化過渡檔案：
    - 刪除 `src/client/hooks/useAntdForm.ts`。

@@ -25,8 +25,8 @@
 使用專案統一工具鏈 `vp` 安裝相依套件：
 
 ```bash
-# 1. 安裝核心運行時套件
-vp install react-aria-components @internationalized/date lucide-react @tanstack/react-form
+# 1. 安裝核心運行時套件（含無障礙基底、日期、圖示、表單、表格與變體樣式）
+vp install react-aria-components @internationalized/date lucide-react @tanstack/react-form @tanstack/react-table class-variance-authority
 
 # 2. 安裝開發階段工具與動畫支援
 vp install -D @shadcn/lint tw-animate-css
@@ -138,40 +138,79 @@ vp install -D @shadcn/lint tw-animate-css
 
 ---
 
-## 6. 建置 TanStack Form + React Aria 轉接層 (`src/client/components/ui/form.tsx`)
+## 6. 建置 TanStack Form 欄位橋接與錯誤渲染 (`src/client/components/ui/form.tsx`)
 
-為了實現極致型別安全並消除重複代碼，在 `src/client/components/ui/form.tsx` 中封裝 TanStack Form 與 React Aria Components 的欄位綁定橋樑：
+為了實現極致型別安全並消除重複代碼，在 `src/client/components/ui/form.tsx` 中封裝通用欄位佈局與錯誤訊息組件。
+請注意：React Aria Components 各輸入組件（`TextField`, `RadioGroup`, `Select`, `NumberField`）各自具備獨立的 ARIA 容器，因此此處提供靈活的 Field 容器與錯誤提取器：
 
 ```tsx
 import type { AnyFieldApi } from "@tanstack/react-form";
 import type { ReactNode } from "react";
-import { FieldError, Label, TextField as RACTextField } from "react-aria-components";
+import { cn } from "../../utils/cn.ts";
 
-interface FormFieldProps {
-  field: AnyFieldApi;
+export interface FieldItemProps {
   label?: string;
+  required?: boolean;
+  error?: string;
   children: ReactNode;
+  className?: string;
 }
 
-export function FormField({ field, label, children }: FormFieldProps) {
-  const isInvalid = field.state.meta.errors.length > 0;
+export function FieldItem({ label, required, error, children, className }: FieldItemProps) {
   return (
-    <RACTextField isInvalid={isInvalid} className="flex flex-col gap-1.5">
-      {label && <Label className="text-sm font-medium text-foreground">{label}</Label>}
-      {children}
-      {isInvalid && (
-        <FieldError className="text-xs text-destructive">
-          {field.state.meta.errors.join(", ")}
-        </FieldError>
+    <div className={cn("flex flex-col gap-1.5", className)}>
+      {label && (
+        <label className="text-sm font-medium text-foreground">
+          {label}
+          {required && <span className="ml-1 text-destructive">*</span>}
+        </label>
       )}
-    </RACTextField>
+      {children}
+      {error && <span className="text-xs text-destructive">{error}</span>}
+    </div>
   );
+}
+
+export function getFieldError(field: AnyFieldApi): string | undefined {
+  const errors = field.state.meta.errors;
+  if (!errors || errors.length === 0) return undefined;
+  const first = errors[0];
+  return typeof first === "string" ? first : (first as { message?: string })?.message;
 }
 ```
 
 ---
 
-## 7. Phase 2 驗收標準 (Acceptance Gate)
+## 7. 建置 Toast 通知基礎架構 (`src/client/utils/toast.ts`)
+
+基於 React Aria Components (v1.7+) 的 `UNSTABLE_ToastQueue` 建立全域單例 Toast 發送系統，為後續替換 Antd `message.error()` 與 `message.success()` 提供統一介面：
+
+```tsx
+import { UNSTABLE_ToastQueue as ToastQueue } from "react-aria-components";
+
+export interface ToastContent {
+  title: string;
+  description?: string;
+  type?: "success" | "error" | "info" | "warning";
+}
+
+export const toastQueue = new ToastQueue<ToastContent>({
+  maxVisibleToasts: 5,
+});
+
+export const toast = {
+  success: (title: string, description?: string) =>
+    toastQueue.add({ title, description, type: "success" }, { timeout: 4000 }),
+  error: (title: string, description?: string) =>
+    toastQueue.add({ title, description, type: "error" }, { timeout: 5000 }),
+  info: (title: string, description?: string) =>
+    toastQueue.add({ title, description, type: "info" }, { timeout: 4000 }),
+};
+```
+
+---
+
+## 8. Phase 2 驗收標準 (Acceptance Gate)
 
 執行以下指令驗證基礎建設完整性：
 

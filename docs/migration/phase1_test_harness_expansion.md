@@ -42,11 +42,17 @@
 
 ### 3.2 認證流轉與登出測試 (`test/client/e2e-auth-flow.test.tsx`)
 
+> [!WARNING]
+> **Playwright 瀏覽器測試環境注意事項（重要避坑指引）**：
+> 現有 `src/client/hooks/useAuth.ts` 在登入與登出成功時會執行 `window.location.reload()`。
+> 在 Vitest Playwright 瀏覽器測試中，若未攔截原生 reload，會導致測試執行器頁面重載而中斷測試。
+> 撰寫本測試時，**必須** 使用 `vi.spyOn(window.location, "reload").mockImplementation(() => {})` 攔截，並驗證以下流程：
+
 - **行為驗證**：
   1. 登入狀態下，點擊 Header 的「登出」按鈕。
   2. 驗證發出 `POST /api/auth/logout` 請求。
-  3. 驗證路由自動重導向至 `/login` 頁面，且 Header 與側邊導航選單正確隱藏。
-  4. 在 `/login` 頁面輸入帳號密碼並提交，驗證發出 `POST /api/auth/login` 成功後自動導回首頁 `/`。
+  3. 驗證 `window.location.reload` 或導航被觸發，重新以未登入狀態渲染時，路由處於 `/login` 頁面，且 Header 與側邊導航選單正確隱藏。
+  4. 在 `/login` 頁面輸入帳號密碼並點擊送出按鈕，驗證發出 `POST /api/auth/login` 請求且負載符合 `LoginReqSchema`。
 
 ### 3.3 佈局與側邊欄互動測試 (`test/client/e2e-layout.test.tsx`)
 
@@ -57,8 +63,8 @@
 
 ### 3.4 表單驗證錯誤與無障礙反饋測試 (`test/client/e2e-form-validation.test.tsx`)
 
-- **行為驗證**：
-  1. **UserModal**：打開新增人員彈窗，故意留空必填欄位並點擊確認，驗證客戶端攔截提交、不發送網路請求，並在 DOM 中渲染出可辨識的錯誤訊息文字。
+- **行為驗證**（全數使用無障礙角色與文字定位，嚴禁依賴 `.ant-*` 類名）：
+  1. **UserModal**：打開新增人員彈窗，故意留空必填欄位並點擊確認，驗證客戶端攔截提交、不發送網路請求，並在 DOM 中以 `screen.getByText(/required|請輸入/i)` 捕捉可辨識的錯誤訊息文字。
   2. **RoleDrawer**：打開新增角色抽屜，輸入不符合規範的代碼或留空，驗證表單觸發錯誤提示。
   3. **DepartmentModal**：驗證名稱留空時的表單防呆。
 
@@ -67,14 +73,14 @@
 - **行為驗證**：
   1. Mock 後端 API 回傳 HTTP 500 或 400 錯誤。
   2. 觸發該操作，驗證 React Query 的 `QueryCache` / `MutationCache` 正確捕捉錯誤。
-  3. 驗證畫面上彈出錯誤提示通知，且包含錯誤描述。
+  3. 透過通用標準斷言 `screen.getByText(errorMessage)` 驗證畫面上彈出包含錯誤描述的通知浮層（Phase 1 為 Antd message，Phase 3 會無縫切換為 RAC Toast，保持測試 100% 相容）。
 
 ### 3.6 403 權限拒絕頁面流轉測試 (`test/client/e2e-403.test.tsx`)
 
 - **行為驗證**：
   1. 直接訪問 `/403`。
-  2. 驗證頁面渲染 403 提示資訊。
-  3. 點擊「返回首頁」按鈕，驗證成功導回 `/`。
+  2. 驗證頁面渲染 403 禁止訪問之標題與描述資訊。
+  3. 點擊「返回首頁」按鈕，驗證成功透過 TanStack Router 導回首頁 `/`。
 
 ---
 

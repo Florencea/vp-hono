@@ -66,18 +66,32 @@ vp remove antd @ant-design/icons
 
 ### 3.2 刪除廢棄檔案
 
-- 刪除 `src/client/hooks/useAntdForm.ts`。
+- 刪除舊表單 Hook：`src/client/hooks/useAntdForm.ts`。
 
-### 3.3 簡化 `src/client/theme.ts`
+### 3.3 清理 `src/client/hooks/useI18n.ts`
 
-- 移除 `createAntdTheme`、`useAntdTheme`、`MutationObserver` 監聽。
+- 移除 Antd 語系型別與字典引入：
+  - 移除 `import type { Locale } from "antd/es/locale"`。
+  - 移除 `import antdEnUS` 與 `import antdZhTW`。
+  - 移除 `antdLocales` 物件常數，使 i18n 系統純粹維護專案自主語系。
+
+### 3.4 簡化 `src/client/theme.ts`
+
+- 移除 `ThemeConfig`、`createAntdTheme`、`useAntdTheme` 與動態 `MutationObserver` 監聽。
 - 全站色彩完全回歸純 Tailwind v4 CSS 變數，零運行時成本。
 
-### 3.4 簡化 `src/client/providers.tsx`
+### 3.5 簡化 `src/client/providers.tsx`
 
-- 移除 `ConfigProvider`、`antdLocales` 與 Antd 的 `<App>` 上下文包裝。
+- 移除 `AntdProvider`、`ConfigProvider` 與 Antd 的 `<App>` 上下文包裝。
+- 掛載 `<ToastRegion queue={toastQueue} />`（引用自 `src/client/utils/toast.ts`），確保全域錯誤攔截與操作回饋通知正常彈出。
 
-### 3.5 清理臨時遷移目錄
+### 3.6 適配 Canary 測試 (`test/client/canary.test.tsx`)
+
+- 將原本測試「`SSOT Token Bridge: Tailwind --color-primary bridges into Antd primary button background`」更新為測試 RAC Button：
+  - 斷言以純 Tailwind v4 `--color-primary` 渲染的登入送出按鈕背景色依然精準符合 `rgb(47, 84, 235)`。
+  - 確保 Phase 4 門禁執行 `vpr agent:test:e2e` 時 100% 綠燈。
+
+### 3.7 清理臨時遷移目錄
 
 - 在通過驗收後，刪除 `docs/migration/` 整個目錄：
   ```bash

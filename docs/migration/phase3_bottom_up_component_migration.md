@@ -22,9 +22,9 @@
 flowchart TD
     B1["Batch 3.1: 核心原子組件與展示類 (5組件)"]
     B2["Batch 3.2: 基礎輸入組件與登入頁 (5組件)"]
-    B3["Batch 3.3: 彈窗、抽屜與反饋浮層 (4組件)"]
-    B4["Batch 3.4: 數據表格與階層選擇器 (3組件)"]
-    B5["Batch 3.5: 頁面佈局與各模組重構 (5組件)"]
+    B3["Batch 3.3: 選擇器、浮層與反饋系統 (5組件)"]
+    B4["Batch 3.4: 樹狀結構與數據表格 (4組件)"]
+    B5["Batch 3.5: 頁面佈局與各模組重構 (5模組)"]
 
     B1 --> B2 --> B3 --> B4 --> B5
 ```
@@ -36,23 +36,25 @@ flowchart TD
 ### Batch 3.1: 核心展示與原子組件 (Atoms & Display)
 
 - **目標組件清單（5 個）**：
-  1. `ui/button.tsx`：RAC `Button` + `cva` variants (`default`, `destructive`, `outline`, `ghost`, `link`) 與 sizes (`sm`, `md`, `lg`)。
-  2. `components/PermissionButton.tsx`：將原本 Antd Button 改為封裝上述 RAC Button。
-  3. `ui/badge.tsx`：取代 Antd `Tag`，提供 `success`, `default`, `error`, `primary` 語意色彩。
+  1. `ui/button.tsx`：RAC `Button` + `cva` variants (`default`, `destructive`, `outline`, `ghost`, `link`) 與 sizes (`sm`, `md`, `lg`)，支援 `data-[hovered]`, `data-[pressed]`, `data-[disabled]` 狀態。
+  2. `components/PermissionButton.tsx`：將原本 Antd Button 改為封裝上述 RAC Button，維持 RBAC 權限判斷（無權限時 `hide` 或 `disable`）。
+  3. `ui/badge.tsx`：取代 Antd `Tag`，提供 `default`, `primary`, `success`, `error`, `gold` 等語意色彩變體（用於 UserTable 的狀態與 System 標籤）。
   4. `ui/card.tsx`：純 Tailwind v4 卡片組件（`Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`）。
-  5. `components/I18nSwitcher.tsx`：使用 RAC `MenuTrigger`, `Menu`, `MenuItem`, `Popover` 替換 Antd Dropdown，並以 `lucide-react` 的 `Globe` 替換 `GlobalOutlined`。
+  5. `components/I18nSwitcher.tsx` & `src/client/constants/routes.tsx`：
+     - `I18nSwitcher`：使用 RAC `MenuTrigger`, `Menu`, `MenuItem`, `Popover` 替換 Antd Dropdown，並以 `lucide-react` 的 `Globe` 替換 `GlobalOutlined`。
+     - `constants/routes.tsx`：將選單項目的 Antd 圖示 (`ApartmentOutlined`, `SafetyCertificateOutlined`, `TeamOutlined`) 替換為 `lucide-react` 的 `Network`, `ShieldCheck`, `Users`。
 - **驗證指標**：
-  - `vpr agent:test:e2e` 確保 `test/client/e2e-i18n.test.tsx` 順利通過。
+  - `vpr agent:test:e2e` 確保 `test/client/e2e-i18n.test.tsx` 與既有 RBAC 測試順利通過。
 
 ---
 
 ### Batch 3.2: 基礎輸入組件與登入頁面 (Inputs & Login Flow)
 
 - **目標組件清單（5 個）**：
-  1. `ui/textfield.tsx` (`ui/input.tsx`)：RAC `TextField`, `Input`。
+  1. `ui/textfield.tsx` (`ui/input.tsx`)：RAC `TextField`, `Input`, 以及 `TextArea`（供角色描述欄位使用）。
   2. `ui/password-input.tsx`：帶有 `lucide-react` `Eye` / `EyeOff` 切換的密碼輸入框。
-  3. `ui/radio-group.tsx`：RAC `RadioGroup`, `Radio`。
-  4. `ui/select.tsx`：RAC `Select`, `Button`, `SelectValue`, `Popover`, `ListBox`, `ListBoxItem`。
+  3. `ui/number-field.tsx`：RAC `NumberField`, `Group`, `Input`, `Button`（供部門與角色表單的「排序」欄位使用）。
+  4. `ui/radio-group.tsx`：RAC `RadioGroup`, `Radio`（供人員狀態與角色資料範圍選擇）。
   5. **頁面重構**：`src/client/routes/login.tsx`：
      - 移除 Antd `Form`, `Input`, `Button`, `Card`。
      - 採用 TanStack Form 綁定 `LoginReqSchema`，並以上述組件渲染。
@@ -61,24 +63,30 @@ flowchart TD
 
 ---
 
-### Batch 3.3: 彈窗、抽屜與確認浮層 (Overlays & Feedback)
+### Batch 3.3: 選擇器、浮層與反饋系統 (Selects, Overlays & Feedback)
 
-- **目標組件清單（4 個）**：
-  1. `components/common/DataModal.tsx`：使用 RAC `ModalOverlay`, `Modal`, `Dialog` 封裝，相容原有 `open`, `title`, `onCancel`, `onOk`, `confirmLoading` 介面，並以 `lucide-react` `X` 作為關閉按鈕。
-  2. `components/common/DataDrawer.tsx`：使用 RAC `Sheet` 或 slide-in `Modal` 實作右側滑出抽屜。
-  3. `ui/popconfirm.tsx`：使用 RAC `DialogTrigger` + `Popover` + `Button` 封裝氣泡確認框，相容原有確認/取消行為。
-  4. `ui/toast.tsx` (`src/client/utils/toast.ts`)：建立輕量 Toast 系統，替換 React Query 與 hooks 中對 Antd `message.error()` 的依賴。
+- **目標組件清單（5 個）**：
+  1. `ui/select.tsx`：
+     - 單選：RAC `Select`, `Button`, `SelectValue`, `Popover`, `ListBox`, `ListBoxItem`。
+     - 多選：封裝 `MultiSelect` / `TagPicker`（供 `UserModal` 選擇多個角色 `roleIds` 使用）。
+  2. `components/common/DataModal.tsx`：使用 RAC `ModalOverlay`, `Modal`, `Dialog` 封裝，相容原有 `open`, `title`, `onCancel`, `onOk`, `confirmLoading` 介面，並以 `lucide-react` `X` 作為關閉按鈕。
+  3. `components/common/DataDrawer.tsx`：使用 RAC `Sheet` 或右側 slide-in `Modal` 實作右側滑出抽屜，相容 `open`, `title`, `onClose`, `extra` 介面。
+  4. `ui/popconfirm.tsx`：使用 RAC `DialogTrigger` + `Popover` + `Button` 封裝氣泡確認框，相容原有確認/取消行為。
+  5. `ui/toast.tsx` (`src/client/utils/toast.ts`)：
+     - 封裝基於 RAC `ToastQueue` 的通知浮層系統，在 `src/client/providers.tsx` 掛載 `<ToastRegion>`。
+     - 替換 React Query 與 hooks 中對 Antd `App.useApp().message.error()` 與 `message.success()` 的依賴。
 - **驗證指標**：
-  - 驗證 Modal 開啟、抽屜滑出、Popconfirm 氣泡點擊皆符合原本行為。
+  - 驗證 Modal 開啟、抽屜滑出、Popconfirm 氣泡點擊、Toast 彈出皆符合原本行為。
 
 ---
 
-### Batch 3.4: 數據表格與階層選擇器 (Tables & Trees)
+### Batch 3.4: 樹狀結構與數據表格 (Trees & Tables)
 
-- **目標組件清單（3 個）**：
-  1. `components/common/DataTable.tsx`：結合 RAC `Table` 與 `@tanstack/react-table`，維持 `max-content` 響應式橫向捲動、分頁與選取邏輯。
-  2. `ui/tree-select.tsx`：使用 RAC `Popover` + RAC `Tree` (v1.7+) 自製下拉樹狀選擇器，支援部門階層單選與清空。
-  3. `components/department/DepartmentTreeTable.tsx`：基於 TanStack Table 樹狀展開結構 (`getSubRows`) 實現部門階層展開與摺疊。
+- **目標組件清單（4 個）**：
+  1. `ui/tree.tsx`：使用 RAC `Tree` (v1.7+) + `Checkbox` 實作可勾選的多選階層樹，用於 `RoleDrawer` 中的權限樹勾選 (`PermissionTreeInput`)。
+  2. `ui/tree-select.tsx`：使用 RAC `Popover` + RAC `Tree` 自製下拉樹狀選擇器，支援部門階層單選（上級部門）與多選（自訂資料權限之自訂部門）。
+  3. `components/common/DataTable.tsx`：結合 RAC `Table` 與 `@tanstack/react-table`，維持 `max-content` 響應式橫向捲動、分頁與選取邏輯，預設 `rowKey="id"`。
+  4. `components/department/DepartmentTreeTable.tsx`：基於 TanStack Table 樹狀展開結構 (`getSubRows`) 實現部門階層展開與摺疊，搭配 `ChevronRight` / `ChevronDown` 圖示。
 - **驗證指標**：
   - `test/client/e2e-departments.test.tsx` 樹狀層級展示與選取完全綠燈。
 
@@ -88,12 +96,14 @@ flowchart TD
 
 - **目標組件清單（5 個模組/頁面）**：
   1. `components/Layout.tsx`：
-     - 移除 `AntdLayout`, `Header`, `Sider`, `Menu`。
-     - 使用標準 `<header>`, `<aside>`, `<main>` 配合 Tailwind v4 打造響應式側邊導航，Icon 全面採用 `lucide-react` (`Users`, `ShieldCheck`, `Network`, `LogOut`, `Menu`)。
-  2. `src/client/routes/user.tsx` & `components/user/*`：切換為 TanStack Form + RAC Modal/Table。
-  3. `src/client/routes/roles.tsx` & `components/role/*`：切換為 TanStack Form + RAC Drawer/Table。
-  4. `src/client/routes/departments.tsx` & `components/department/*`：切換為 TanStack Form + RAC Modal/TreeTable。
-  5. `src/client/routes/403.tsx` & `src/client/routes/index.tsx`：改以純 Tailwind + RAC 渲染 403 錯誤頁與空看板。
+     - 移除 `AntdLayout`, `Header`, `Sider`, `Menu`, `Typography`。
+     - 使用標準 `<header>`, `<aside>`, `<main>` 配合 Tailwind v4 打造響應式側邊導航，Icon 全面採用 `lucide-react` (`Users`, `ShieldCheck`, `Network`, `LogOut`, `Menu`, `ChevronLeft`, `ChevronRight`)。
+  2. `src/client/routes/departments.tsx` & `components/department/DepartmentModal.tsx`：切換為 TanStack Form + RAC Modal/NumberField/TreeSelect。將所有 Antd `<Flex>` 與 `<Space>` 替換為 Tailwind Flex 工具類別。
+  3. `src/client/routes/roles.tsx` & `components/role/*`：切換為 TanStack Form + RAC Drawer/Table/Tree。
+  4. `src/client/routes/user.tsx` & `components/user/*`：切換為 TanStack Form + RAC Modal/Table/MultiSelect。
+  5. `src/client/routes/403.tsx` & `src/client/routes/index.tsx`：
+     - `403.tsx`：以純 Tailwind 卡片與 `ShieldAlert` 圖示重構，移除 Antd `Result`。
+     - `index.tsx`：以純 Tailwind 居中容器展示系統 Logo 與灰階空看板，移除 Antd `Empty`。
 - **驗證指標**：
   - 執行全站 E2E 測試，確保所有業務管理頁面功能無損。
 

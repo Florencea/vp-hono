@@ -38,10 +38,10 @@
   - 核心目標：安裝 RAC、TanStack Form、lucide、@shadcn/lint；建立 `components.json`；擴充 Tailwind v4 色彩 Token；將 Linter 設為 `warn` 模式；封裝基礎 Form 橋接層。
 - 🧱 [Phase 3 執行手冊：由底而上分批次組件遷移](./phase3_bottom_up_component_migration.md)
   - 核心目標：嚴格依循由底而上、一次 3~5 個組件的原則，分 5 個批次替換組件並維持每批次 E2E 測試全綠：
-    - Batch 3.1: 核心原子與展示類 (Button, PermissionButton, Badge, Card, I18nSwitcher)
-    - Batch 3.2: 基礎輸入組件與登入頁 (TextField, PasswordInput, RadioGroup, Select, Login 頁)
-    - Batch 3.3: 彈窗、抽屜與確認浮層 (DataModal, DataDrawer, Popconfirm, Toast)
-    - Batch 3.4: 數據表格與階層選擇器 (DataTable, TreeSelect, DepartmentTreeTable)
-    - Batch 3.5: 頁面佈局與各模組重構 (Layout, User 頁, Role 頁, Department 頁, 403/看板)
+    - Batch 3.1: 核心原子與展示類 (Button, PermissionButton, Badge, Card, I18nSwitcher 與 `routes.tsx` 選單圖示)
+    - Batch 3.2: 基礎輸入組件與登入頁 (TextField/TextArea, PasswordInput, NumberField, RadioGroup, Login 頁)
+    - Batch 3.3: 選擇器、浮層與反饋系統 (Select/MultiSelect, DataModal, DataDrawer, Popconfirm, Toast 系統)
+    - Batch 3.4: 樹狀結構與數據表格 (Tree 權限樹, TreeSelect 選擇器, DataTable, DepartmentTreeTable)
+    - Batch 3.5: 頁面佈局與各模組重構 (Layout, Department 模組, Role 模組, User 模組, 403 與看板空狀態)
 - 🧹 [Phase 4 執行手冊：嚴格守門、清理與文檔收尾](./phase4_enforcement_and_cleanup.md)
-  - 核心目標：將 `@shadcn/lint` 提升為 `error`；卸載 `antd` 與 `@ant-design/icons`；刪除遺留 theme bridge 與舊表單 hook；更新 `AGENTS.md`、規則與技能文檔；刪除 `docs/migration/`。
+  - 核心目標：將 `@shadcn/lint` 提升為 `error`；卸載 `antd` 與 `@ant-design/icons`；清理 `useAntdForm.ts`、`useI18n.ts`、`theme.ts` 與 `providers.tsx`；更新 `canary.test.tsx`；全面更新 `AGENTS.md`、規則與技能文檔；刪除 `docs/migration/`。

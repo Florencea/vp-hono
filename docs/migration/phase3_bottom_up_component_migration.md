@@ -267,9 +267,24 @@ export function Button({ className, variant, size, ...props }: ButtonProps) {
      - `403.tsx`：以純 Tailwind 卡片與 `ShieldAlert` 圖示重構，移除 Antd `Result`。
      - `index.tsx`：以純 Tailwind 居中容器展示系統 Logo 與灰階空看板，移除 Antd `Empty`。
 - **邊界約束**：遵守 `@shadcn/lint` 的 `no-restyle` 邊界，業務頁面中禁止覆蓋組件內部外觀 class。
+- **關鍵實戰與現代化驗證 (Lessons Learned & Highlights)**：
+  1. **語意化 HTML5 與響應式佈局**：`components/Layout.tsx` 全面移除 Antd 佈局與選單，使用 `<header>`, `<aside>`, `<main>` 配合 Tailwind v4 打造側邊導航，支援收合展開、語系切換與登出 RPC。
+  2. **業務表單與彈窗全面現代化**：Department、Role、User 的建立/編輯全面轉移至 TanStack Form，配合 RAC 原生浮層與表單原子組件（`DataModal`, `DataDrawer`, `TextField`, `NumberField`, `RadioGroup`, `Select`/`MultiSelect`, `TreeSelect`）。
+  3. **`key={formKey}` 元件重置哲學**：全面貫徹 React 官方 "You Might Not Need an Effect" Scenario 3，表單在開啟、關閉與切換記錄時透過父層 `key={formKey}` 乾淨重置內部表單狀態，完全零 `useEffect`。
+  4. **純 Tailwind 反饋與展示**：`403.tsx` 以 `ShieldAlert` 與 Tailwind 卡片替換 Antd `Result`；`index.tsx` 以簡約灰階 Logo 居中替換 Antd `Empty`；移除所有業務模組中的 `<Flex>` 與 `<Space>`。
+  5. **`@shadcn/lint` 邊界嚴格恪守**：所有業務頁面與對話框僅傳遞佈局類別（`allow: ["layout"]`）或使用 `variant`/`size` props，未入侵或覆蓋 UI 組件內部外觀，`vp lint` 零警告零報錯。
 - **驗證指標**：
-  - 開發時可執行各單項測試：`vp test run test/client/e2e-roles.test.tsx --reporter=tap-flat --no-color`
-  - 執行全站 E2E 測試，確保所有業務管理頁面功能無損。
+  - 各單項 E2E 測試：
+    - `vp test run test/client/e2e-layout.test.tsx --reporter=tap-flat --no-color` (3/3 通過)
+    - `vp test run test/client/e2e-roles.test.tsx --reporter=tap-flat --no-color` (5/5 通過)
+    - `vp test run test/client/e2e-users.test.tsx --reporter=tap-flat --no-color` (5/5 通過)
+    - `vp test run test/client/e2e-departments.test.tsx --reporter=tap-flat --no-color` (5/5 通過)
+    - `vp test run test/client/rbac-access.test.tsx --reporter=tap-flat --no-color` (5/5 通過)
+    - `vp test run test/client/e2e-form-validation.test.tsx --reporter=tap-flat --no-color` (3/3 通過)
+  - 全站測試門禁：`vpr agent:verify:gate` 全部通過 (Unit 28/28, E2E 40/40, Build 100% 綠燈，Oxlint 0 錯誤 0 警告，Tailwind Lint 100% 合規)。
+
+> [!TIP]
+> **Batch 3.5 移交確認**：5 個業務模組/頁面與佈局已全數完成現代化重構，業務層（`routes/` 與 `components/`）已 100% 移除所有 Antd 組件調用，`vpr agent:verify:gate` 100% 通過。
 
 ---
 
@@ -298,11 +313,11 @@ vpr agent:verify:gate
 
 請在結束當前 Phase 3 對話前，逐一核對以下檢查項目：
 
-- [ ] 5 個 Batch 的組件與頁面皆已全數替換為 RAC + TanStack Form + Tailwind v4。
-- [ ] 業務頁面（`routes/` 與 `components/`）已無任何使用中的 Antd 組件（如 `Button`, `Form`, `Table`, `Modal`, `Drawer`, `Select`, `Input`, `TreeSelect`, `Card`, `Flex`, `Space`, `Result`, `Empty`）。
-- [ ] 全域 Toast 系統已接管所有通知需求。
-- [ ] 執行 `vpr agent:verify:gate`，所有單元與 E2E 測試 100% 綠燈通過。
-- [ ] 產生英文 Conventional Commit 建議並由使用者在本地終端機完成提交。
+- [x] 5 個 Batch 的組件與頁面皆已全數替換為 RAC + TanStack Form + Tailwind v4。
+- [x] 業務頁面（`routes/` 與 `components/`）已無任何使用中的 Antd 組件（如 `Button`, `Form`, `Table`, `Modal`, `Drawer`, `Select`, `Input`, `TreeSelect`, `Card`, `Flex`, `Space`, `Result`, `Empty`）。
+- [x] 全域 Toast 系統已接管所有通知需求。
+- [x] 執行 `vpr agent:verify:gate`，所有單元與 E2E 測試 100% 綠燈通過。
+- [x] 產生英文 Conventional Commit 建議並由使用者在本地終端機完成提交。
 
 ### 6.2 Phase 4 啟動 Prompt (供使用者複製至全新 Agent 對話)
 

@@ -41,22 +41,22 @@ vp install -D @shadcn/lint tw-animate-css
 
 ```json
 {
-  "$schema": "https://ui.shadcn.com/schema.json",
-  "style": "default",
+  "style": "new-york",
   "rsc": false,
   "tsx": true,
   "tailwind": {
     "config": "",
     "css": "src/client/global.css",
-    "baseColor": "slate",
+    "baseColor": "neutral",
     "cssVariables": true
   },
   "aliases": {
     "components": "src/client/components",
     "utils": "src/client/utils",
-    "ui": "src/client/components/ui"
-  },
-  "base": "aria"
+    "ui": "src/client/components/ui",
+    "lib": "src/client/utils",
+    "hooks": "src/client/hooks"
+  }
 }
 ```
 
@@ -272,7 +272,7 @@ vpr agent:verify:gate
 請在結束當前 Phase 2 對話前，逐一核對以下檢查項目：
 
 - [ ] 所有相依套件已完成安裝（包含 `class-variance-authority` 與 `@tanstack/react-table`）。
-- [ ] 專案根目錄 `components.json` 已正確建立且設定 `"base": "aria"`。
+- [ ] 專案根目錄 `components.json` 已正確建立且符合最新 shadcn 規範（`style: "new-york"`, `baseColor: "neutral"`, 無固定 `$schema`）。
 - [ ] `src/client/global.css` 已擴充 `@theme` 語意 Token（如 `--color-primary`, `--color-background`, `--color-muted` 等）。
 - [ ] `vite.config.ts` 中的 `lint` 區塊已正確配置 `@shadcn/lint` 插件為 `warn` 模式與 `overrides`，專案內無新增 `.oxlintrc.json`，且未破壞原有 linter 行為。
 - [ ] `src/client/components/ui/form.tsx` 與 `src/client/utils/toast.ts` 已建立且無型別錯誤。

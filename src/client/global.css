@@ -9,6 +9,17 @@
 
 @theme {
   --color-primary: #2f54eb;
+  --color-primary-foreground: #ffffff;
+  --color-background: #ffffff;
+  --color-foreground: #09090b;
+  --color-muted: #f4f4f5;
+  --color-muted-foreground: #71717a;
+  --color-border: #e4e4e7;
+  --color-input: #e4e4e7;
+  --color-ring: #2f54eb;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+
   --breakpoint-xs: 480px;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;

@@ -35,9 +35,35 @@ export default defineConfig(({ mode }) => {
         perf: "error",
       },
       plugins: ["react", "unicorn", "typescript", "oxc", "vitest", "promise"],
+      jsPlugins: ["@shadcn/lint"],
+      settings: {
+        shadcn: {
+          ui: "src/client/components/ui",
+          componentImports: ["^src/client/components/ui(/|$)"],
+        },
+      },
       rules: {
         "react/react-in-jsx-scope": "off",
+        "shadcn/no-restyle": [
+          "warn",
+          {
+            allow: ["layout"],
+            contracts: [{ pattern: "^Button$", allow: ["layout"] }],
+          },
+        ],
+        "shadcn/no-raw-colors": "warn",
+        "shadcn/no-arbitrary-values": "warn",
+        "shadcn/no-inline-styles": "warn",
       },
+      overrides: [
+        {
+          files: ["src/client/components/ui/**"],
+          rules: {
+            "shadcn/no-restyle": "off",
+            "shadcn/no-arbitrary-values": "off",
+          },
+        },
+      ],
     },
     fmt: {
       ignorePatterns: [

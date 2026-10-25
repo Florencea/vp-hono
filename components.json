@@ -1,0 +1,18 @@
+{
+  "style": "new-york",
+  "rsc": false,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/client/global.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  },
+  "aliases": {
+    "components": "src/client/components",
+    "utils": "src/client/utils",
+    "ui": "src/client/components/ui",
+    "lib": "src/client/utils",
+    "hooks": "src/client/hooks"
+  }
+}

@@ -29,14 +29,18 @@ This creates:
 ## 2. Implement Business Logic
 
 1. Customize request/response fields in `<feature>.schema.ts`.
-2. Connect database queries in `<feature>.handlers.ts`.
+2. Connect database queries and RBAC permissions in `<feature>.handlers.ts`.
 3. Add UI presentational components under `src/client/components/<feature>/` and client hook `src/client/hooks/use<Feature>.ts`.
-4. Build form interactions using `@tanstack/react-form` and React Aria Components (`Button`, `TextField`, `Select`, `DataModal`).
+4. Build form interactions using `@tanstack/react-form` and React Aria Components (`Button`, `TextField`, `Select`, `DialogContent`, `SheetContent`, `Popconfirm`, `Table`).
 
 ## 3. Verify Newly Scaffolded Slice
 
 Run verification gates:
 
 ```bash
+# 1. Typecheck and unit contract tests
 vpr agent:verify:unit
+
+# 2. Comprehensive verification gate
+vpr agent:verify:gate
 ```

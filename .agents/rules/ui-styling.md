@@ -28,10 +28,48 @@ Guidelines for building UI components with React Aria Components, TanStack Form,
 
 - **React Compiler**: Automatic fine-grained memoization is powered by React Compiler via `oxc-transform-react`. Avoid manual `useMemo`, `useCallback`, or `React.memo` unless handling non-compiler boundary edge cases.
 - **Core Atomic UI Primitives** (`src/client/components/ui/`):
-  - `<Button>`: React Aria Button wrapped with CVA variants, focus rings, and micro-press transitions.
-  - `<DialogContent>` / `<DataModal>`: Accessible modals with backdrop blur, smooth zoom animations, and dialog roles.
-  - `<SheetContent>` / `<DataDrawer>`: Accessible side drawers with slide-in/out transitions.
-  - `<DataTable>`: TanStack Table wrapper standardizing responsive scrolling, headers, and accessible row selection.
-  - `<Popconfirm>`: Accessible confirmation popover with arrow indicators and warning feedback.
-  - `<ToastRegion>`: Unobtrusive bottom-right feedback notifications powered by React Aria toast queues.
-- **Forms**: Use `@tanstack/react-form` paired with Zod validation for all client-side forms. Bind errors via `field.state.meta.errors` and RAC `isInvalid` props. Avoid `useEffect` to synchronize form state.
+  - **Actions & Feedback**:
+    - `<Button>`: React Aria Button with CVA variants (`default`, `destructive`, `outline`, `secondary`, `ghost`, `link`) and sizes (`default`, `sm`, `lg`, `icon`).
+    - `<Popconfirm>`: Accessible confirmation popover powered by RAC `DialogTrigger` + `Popover` with destructive action confirmation.
+    - `<Badge>`: Status indicator with CVA variants (`default`, `secondary`, `outline`, `destructive`).
+    - `<ToastRegion>` & `toast`: Accessible floating notifications queue (`toast.success()`, `toast.error()`, `toast.info()`).
+  - **Inputs & Form Controls**:
+    - `<TextField>`, `<Input>`, `<Label>`, `<FieldError>`: Form field primitives with accessible state bindings.
+    - `<Select>`, `<SelectItem>`: Accessible dropdown selection powered by RAC `Select`.
+    - `<MultiSelect>`: Tag-based multi-selection with responsive chips and keyboard removal.
+    - `<NumberField>`: Number input with increment/decrement steppers.
+    - `<PasswordInput>`: Secure password field with reveal/hide toggle.
+    - `<Checkbox>`, `<CheckboxGroup>`, `<RadioGroup>`, `<Radio>`: Accessible selection controls.
+  - **Overlays**:
+    - `<DialogContent>`, `<DialogHeader>`, `<DialogTitle>`, `<DialogFooter>`: Accessible modal dialogs with backdrop blur and smooth zoom transitions.
+    - `<SheetContent>`, `<SheetHeader>`, `<SheetTitle>`, `<SheetFooter>`: Accessible slide-over side drawers.
+  - **Data Display**:
+    - `<Table>`, `<TableHeader>`, `<TableBody>`, `<TableRow>`, `<TableHead>`, `<TableCell>`: Responsive tabular layout primitives.
+    - `<Card>`, `<CardHeader>`, `<CardTitle>`, `<CardDescription>`, `<CardContent>`, `<CardFooter>`: Container primitives.
+
+## 4. TanStack Form & Validation Pattern
+
+All forms bind `@tanstack/react-form` to React Aria Components with Zod validation:
+
+```tsx
+<form.Field name="username">
+  {(field) => {
+    const isInvalid = field.state.meta.errors.length > 0;
+    return (
+      <TextField isInvalid={isInvalid} className="w-full">
+        <Label>{t("user.username")}</Label>
+        <Input
+          value={field.state.value}
+          onChange={(e) => field.handleChange(e.target.value)}
+          onBlur={field.handleBlur}
+          placeholder={t("common.pleaseEnter", { field: t("user.username") })}
+        />
+        {isInvalid ? <FieldError>{field.state.meta.errors.join(", ")}</FieldError> : null}
+      </TextField>
+    );
+  }}
+</form.Field>
+```
+
+- Bind `field.state.meta.errors` directly to `<FieldError>`.
+- Never use `useEffect` to synchronize form state with props; use controlled `defaultValues` or form reset handlers.

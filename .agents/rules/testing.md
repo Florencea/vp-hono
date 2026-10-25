@@ -17,11 +17,14 @@ Guidelines for automated testing across the dual-track testing architecture.
     - `await expect.element(el).toBeInTheDocument()`
     - `await expect.element(el).toBeVisible()`
   - Prefer accessible queries (`screen.getByRole`, `screen.getByLabelText`) or `data-testid`. Never query volatile CSS classes.
+  - **Testing React Aria Overlays**: Popconfirm, Dialog, and Sheet mount popovers and modal overlays. Query confirmation buttons inside `role="tooltip"` or `role="dialog"` rather than relying on positional selectors.
 - **Server Tests (`vpr agent:test:unit`)**:
   - Run in Node.js environment.
   - Leverage Hono's native in-memory `app.request()` for fast, deterministic HTTP/RPC and schema verification without port conflicts.
+  - Pass cookies via `Cookie: session_token=...` headers to test authenticated scenarios.
 
-## 2. End-to-End Type Safety Contracts
+## 2. End-to-End Type Safety & Security Contracts
 
 - **Static Contract Assertions**: Guard type parity between server schemas and client RPC types using `expectTypeOf` in `test/canary/e2e-type-contract.test.ts`.
-- **Security Audit Contracts**: Guard RBAC declarations on all endpoints via `test/canary/rbac-contract.test.ts`.
+- **Security Audit Contracts**: Guard RBAC declarations on all endpoints via `test/canary/rbac-contract.test.ts`. All endpoints must be registered and guarded.
+- **i18n Parity Contracts**: Verify key parity between `en-US` and `zh-TW` via `test/canary/i18n-contract.test.ts`.

@@ -16,5 +16,10 @@ Guidelines for file-based client routing with TanStack Router.
 
 ## 2. Navigation & Type-Safety
 
-- **Type-Safe Search Parameters**: Validate query parameters using `validateSearch` on `createFileRoute`.
+- **Type-Safe Search Parameters**: Validate query parameters using `validateSearch` with Zod or TypeScript schema on `createFileRoute`.
 - **Type-Safe Navigation**: Use `useNavigate` and `Link` components from `@tanstack/react-router` with typed `to`, `search`, and `params` arguments.
+
+## 3. Client Access Control & RBAC Guards
+
+- **Page-Level Protection**: Authenticated and permission-guarded routes check session status in `beforeLoad` or through layout components.
+- **Element-Level Protection**: Use `<PermissionGate code="...">` or `<PermissionButton code="...">` to conditionally render actions (e.g. create, edit, delete buttons) based on the user's granted permissions (`useAccess()`).

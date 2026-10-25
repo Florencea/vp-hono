@@ -1,20 +1,21 @@
 # vp-hono
 
-Enterprise-grade, full-stack web template combining **Hono** backend and **React 19 + Ant Design 6** frontend into a single type-safe codebase, powered by **Vite+** (`vp`).
+Enterprise-grade, full-stack web template combining **Hono** backend and **React 19 + React Aria Components + TanStack Form + Tailwind CSS v4** frontend into a single type-safe codebase, powered by **Vite+** (`vp`).
 
 ---
 
 ## Highlights
 
-- **Vite+ (`vp`) Unified Toolchain**: Sub-second static checks with Oxlint (`vp lint`), Oxfmt (`vp fmt`), and integrated Vitest 5 (`vp test`).
-- **End-to-End Type Safety**: Server schemas (`@hono/zod-openapi`) infer client RPC (`hc<AppType>`), TanStack Router, and Ant Design forms (`useAntdForm`) without manual interfaces.
+- **Vite+ (`vp`) Unified Toolchain**: Sub-second static checks with Oxlint (`vp lint`), Oxfmt (`vp fmt`), and integrated Vitest (`vp test`).
+- **End-to-End Type Safety**: Server schemas (`@hono/zod-openapi`) infer client RPC (`hc<AppType>`), TanStack Router, and TanStack Form validation with zero manual type duplication.
 - **Strict Single Source of Truth (SSOT)**:
-  - **Tokens**: TailwindCSS v4 `@theme` bridged into Ant Design v6 theme variables.
-  - **Database**: Drizzle ORM schema with code-first schema push (`vpr db:push`) and automatic dual-target database seeding (`vpr db:seed`).
+  - **Design System & Tokens**: TailwindCSS v4 `@theme` in `src/client/global.css` strictly guarded by `@shadcn/lint`. Native light / dark mode with CSS variables.
+  - **UI Primitives**: Headless, fully accessible React Aria Components (RAC) styled to shadcn-ui standards with CVA and Lucide icons.
+  - **Database**: Drizzle ORM schema with code-first schema push (`vpr db:push`) and automatic dual-target database seeding (`vpr db:seed` for SQLite & Cloudflare D1).
   - **i18n**: Type-safe isomorphic translations (`LocaleSchema`) with recursive parity contract tests between `en-US` and `zh-TW`.
-- **RBAC & Zero Unprotected Routes**: Fail-closed gatekeeper ensuring every route declares permissions, authentication, or explicit public access.
+- **RBAC & Zero Unprotected Routes**: Fail-closed gatekeeper ensuring every route declares permissions, authentication, or explicit public access, combined with fine-grained data scopes (`ALL`, `DEPT_AND_CHILD`, `DEPT`, `SELF`, `CUSTOM`).
 - **Dual-Track Testing**: Vitest browser mode running in headless Chromium (`@vitest/browser-playwright`) for UI flows, and in-memory Hono (`app.request()`) for server contract tests.
-- **Strict Quality Gate**: Unified verification (`vpr check` or `vp check`) enforcing strict TypeScript, Oxlint, Tailwind CSS v4 canonical classes, Knip dead-code detection, dual-track testing, and dual-bundle builds.
+- **Strict Quality Gate**: Unified verification (`vpr verify`) enforcing strict TypeScript, Oxlint, Tailwind CSS v4 canonical classes, Knip dead-code detection, dual-track testing, and multi-target builds (Client SPA, Node.js server, Cloudflare Worker).
 
 ---
 
@@ -47,6 +48,20 @@ For Node.js production runner, start with `vpr start` (listening on `PORT`, defa
 
 ---
 
+## UI & Design System Architecture
+
+The frontend follows an atomic, accessible design system architecture:
+
+- **Primitives (`src/client/components/ui/`)**: Built upon React Aria Components and styled with Tailwind CSS v4 & CVA:
+  - **Actions & Feedback**: `Button`, `Badge`, `Popconfirm`, `ToastRegion` (`toast`)
+  - **Data Input**: `TextField`, `Input`, `Label`, `FieldError`, `NumberField`, `PasswordInput`, `Select`, `MultiSelect`, `Checkbox`, `RadioGroup`
+  - **Overlays**: `DialogContent` (Modal), `SheetContent` (Drawer)
+  - **Data Display**: `Table`, `Card`
+- **Form Architecture**: Powered by `@tanstack/react-form` + Zod schema validation, binding directly to RAC accessible error states (`isInvalid`, `field.state.meta.errors`).
+- **Theme & Styling**: Token-driven design tokens declared in `src/client/global.css` `@theme`, strictly guarded against off-token arbitrary values via `@shadcn/lint`.
+
+---
+
 ## Feature Development Workflow
 
 This template follows an **End-to-End Type-Safe & Test-Driven (TDD)** development flow:
@@ -56,12 +71,12 @@ This template follows an **End-to-End Type-Safe & Test-Driven (TDD)** developmen
 2. **Implement Business Logic**:
    - Connect handlers and database models in `src/server/routes/<feature>/`.
 3. **Client UI & Form**:
-   - Create routes in `src/client/routes/` and components in `src/client/components/`.
-   - Bind forms to RPC types via `useAntdForm<RouterInputs["<feature>"]>()`.
+   - Create routes in `src/client/routes/` and components in `src/client/components/<feature>/`.
+   - Build accessible forms using `@tanstack/react-form` and React Aria Components (`TextField`, `Select`, `DialogContent`, etc.).
 4. **Browser Mode Test**:
    - Write real browser tests in `test/client/` using `renderAppAt()` to verify UI interactions, token styles, and RPC calls.
 5. **Unified Verification Gate**:
-   - Execute `vpr check` to verify types, lints, formatting, dead code, tests, and build.
+   - Execute `vpr verify` (or `vpr agent:verify:gate`) to verify types, lints, formatting, dead code, tests, and builds.
 
 ---
 

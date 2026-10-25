@@ -4,13 +4,15 @@
 
 ## 0. 官方最新真相來源 (SSOT) 與查閱規範
 
-| 框架 / 工具               | 官方最新真相來源 (SSOT URL)                                                                                                                                                             | 關鍵查閱重點 (Verification Focus)                                                                                                                                                                                         | 查閱指令範例                                                                  |
-| :------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------- |
-| **React Aria Components** | `https://react-aria.adobe.com/llms.txt`<br/>`https://react-aria.adobe.com/customization.md`<br/>`https://react-aria.adobe.com/styling.md`<br/>`https://react-aria.adobe.com/testing.md` | 官方標準 **`render` prop**（取代舊版自訂標籤或脆弱 wrapper）；`composeRenderProps` 樣式合併；Tailwind v4 短修飾字（`selected:`, `pressed:`, `entering:`, `exiting:`）；`hidden="until-found"` 支援；Popover `placement`。 | `webread https://react-aria.adobe.com/customization.md#dom-elements`          |
-| **shadcn/ui**             | `https://ui.shadcn.com/llms.txt`<br/>`https://ui.shadcn.com/docs/components-json`<br/>`https://ui.shadcn.com/docs/tailwind-v4`                                                          | New York 風格（`"style": "new-york"`）；標準 `src/components/ui/` 原子原語目錄分層；CVA (`class-variance-authority`) 與 `cn` 變體管理模式；外觀與行為責任分離。                                                           | `webread https://ui.shadcn.com/docs/components-json`                          |
-| **`@shadcn/lint`**        | `https://github.com/shadcn-ui/lint`<br/>`https://raw.githubusercontent.com/shadcn-ui/lint/main/SETUP.md`<br/>`https://raw.githubusercontent.com/shadcn-ui/lint/main/docs/rules.md`      | `no-restyle` 邊界：`src/components/ui/**` 豁免（允許原子組件自主樣式定義）；外部業務組件僅傳遞佈局類別（`allow: ["layout"]`）或使用 variant/size，禁止覆蓋組件內部 appearance。                                           | `webread https://raw.githubusercontent.com/shadcn-ui/lint/main/docs/rules.md` |
-| **Vite+**                 | `https://viteplus.dev/llms-full.txt`<br/>`https://viteplus.dev/guide/lint.md`<br/>`https://viteplus.dev/guide/test.md`                                                                  | 原生 `vp` / `vpx` / `vpr` 工具鏈；單測試執行指令（`vp test run <spec> --reporter=tap-flat --no-color`）；`vite.config.ts` SSOT 零額外配置（**嚴禁建立 `.oxlintrc.json`**）；毫秒級 Vite Task 快取重放。                   | `webread https://viteplus.dev/guide/test.md`                                  |
-| **TanStack Form**         | `https://tanstack.com/form/latest`                                                                                                                                                      | 端到端型別安全表單綁定；Zod Validator 適配；欄位狀態與錯誤提取 (`field.state.meta.errors`)；與 RAC 輸入組件的受控與無障礙橋接。                                                                                           | `webread https://tanstack.com/form/latest`                                    |
+| 框架 / 工具                  | 官方最新真相來源 (SSOT URL)                                                                                                                                                             | 關鍵查閱重點 (Verification Focus)                                                                                                                                                                                         | 查閱指令範例                                                                  |
+| :--------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------- |
+| **React Aria Components**    | `https://react-aria.adobe.com/llms.txt`<br/>`https://react-aria.adobe.com/customization.md`<br/>`https://react-aria.adobe.com/styling.md`<br/>`https://react-aria.adobe.com/testing.md` | 官方標準 **`render` prop**（取代舊版自訂標籤或脆弱 wrapper）；`composeRenderProps` 樣式合併；Tailwind v4 短修飾字（`selected:`, `pressed:`, `entering:`, `exiting:`）；`hidden="until-found"` 支援；Popover `placement`。 | `webread https://react-aria.adobe.com/customization.md#dom-elements`          |
+| **shadcn/ui**                | `https://ui.shadcn.com/llms.txt`<br/>`https://ui.shadcn.com/docs/components-json`<br/>`https://ui.shadcn.com/docs/tailwind-v4`                                                          | New York 風格（`"style": "new-york"`）；標準 `src/components/ui/` 原子原語目錄分層；CVA (`class-variance-authority`) 與 `cn` 變體管理模式；外觀與行為責任分離。                                                           | `webread https://ui.shadcn.com/docs/components-json`                          |
+| **`@shadcn/lint`**           | `https://github.com/shadcn-ui/lint`<br/>`https://raw.githubusercontent.com/shadcn-ui/lint/main/SETUP.md`<br/>`https://raw.githubusercontent.com/shadcn-ui/lint/main/docs/rules.md`      | `no-restyle` 邊界：`src/components/ui/**` 豁免（允許原子組件自主樣式定義）；外部業務組件僅傳遞佈局類別（`allow: ["layout"]`）或使用 variant/size，禁止覆蓋組件內部 appearance。                                           | `webread https://raw.githubusercontent.com/shadcn-ui/lint/main/docs/rules.md` |
+| **Vite+**                    | `https://viteplus.dev/llms-full.txt`<br/>`https://viteplus.dev/guide/lint.md`<br/>`https://viteplus.dev/guide/test.md`                                                                  | 原生 `vp` / `vpx` / `vpr` 工具鏈；單測試執行指令（`vp test run <spec> --reporter=tap-flat --no-color`）；`vite.config.ts` SSOT 零額外配置（**嚴禁建立 `.oxlintrc.json`**）；毫秒級 Vite Task 快取重放。                   | `webread https://viteplus.dev/guide/test.md`                                  |
+| **React Compiler**           | `https://react.dev/learn/react-compiler`<br/>`https://react.dev/reference/react/useMemo`                                                                                                | React 19 自動 memoization (`react({ compiler: true })`)；零冗餘手動 `useMemo`/`useCallback`；嚴守 Rules of React（禁止 render 內 mutate、禁止 render 內宣告巢狀組件）。                                                   | `webread https://react.dev/learn/react-compiler`                              |
+| **Tailwind CSS v4 & Linter** | `https://tailwindcss.com/docs`<br/>`scripts/lint-tailwind.ts`                                                                                                                           | Tailwind v4 Canonical Classes（如 `stroke-3` 取代 `stroke-[3]`）；CSS 變數動態寬度 (`w-(--col-w)`)；嚴禁行內 `style={{}}`；執行 `vpr lint:tailwind` 與 `vpr lint:tailwind:fix`。                                          | `vpr lint:tailwind --help`                                                    |
+| **TanStack Form & Table**    | `https://tanstack.com/form/latest`<br/>`https://tanstack.com/table/latest`                                                                                                              | 端到端型別安全表單綁定；TanStack Table v9 `createTableHook` + `tableFeatures` 架構；`columnVisibilityFeature`；樹狀縮排與折疊展開；頂層 columns 構建避開 nested component 報錯。                                          | `webread https://tanstack.com/form/latest`                                    |
 
 ---
 
@@ -102,6 +104,14 @@ export function Button({ className, variant, size, ...props }: ButtonProps) {
 > 1. **官方標準 `render` prop**：當需要變更底層 DOM 元素（如 Motion 動畫按鈕）時，使用 RAC 官方的 `render={(domProps, renderProps) => <motion.button ... />}`，嚴禁使用舊版自訂標籤或脆弱的外部 wrapper。
 > 2. **Tailwind v4 短修飾字**：優先使用 RAC 原生短修飾字（`pressed:`, `hovered:`, `selected:`, `focused:`, `entering:`, `exiting:`），提高樣式簡潔度。
 > 3. **`no-restyle` 邊界遵從**：`src/client/components/ui/` 內享有 appearance 定義權；外部業務頁面調用時，僅能傳遞佈局類別（如 `w-full`, `mt-4`）或透過 `variant`/`size` prop 切換樣式，**嚴禁覆蓋組件內部外觀（如背景色、邊框色）**。
+> 4. **React Compiler 自動 Memoization**：專案開啟 `react({ compiler: true })`。信任 React Compiler，**嚴禁撰寫多餘的 `useMemo` 或 `useCallback`** 除非涉及非 React 外部系統訂閱。衍生狀態（Derived State）直接於 render 頂層以純運算表達；嚴禁在 render 期間 mutate 變數或動態宣告組件（避免觸發 `react/no-unstable-nested-components`）。
+> 5. **Tailwind CSS v4 語法與 Linter 驗證**：
+>    - 使用規範的 Canonical Classes，例如使用 `stroke-3` 取代 `stroke-[3]`，避免任意值 class。
+>    - 嚴禁行內 `style={{ ... }}`；動態寬度或變數應使用 CSS 變數橋接搭配 Tailwind 任意屬性（如 `style={{"--col-w": "100px"}}` 與 class `w-(--col-w)`）。
+>    - 開發與修改組件後，必須執行 `vpr lint:tailwind` 檢查（可用 `vpr lint:tailwind:fix` 自動修復）。
+> 6. **Strict TypeScript & `exactOptionalPropertyTypes`**：
+>    - 嚴禁未受限泛型強制轉型（`as unknown as T`），透過型別守衛或寬鬆參數定義消除 `typescript/no-unsafe-type-assertion`。
+>    - `exactOptionalPropertyTypes: true` 環境下，可選屬性嚴禁傳遞 `{ prop: undefined }`，一律使用條件擴展 `{...(prop !== undefined ? { prop } : {})}`。
 
 ---
 
@@ -195,17 +205,37 @@ export function Button({ className, variant, size, ...props }: ButtonProps) {
 
 ### Batch 3.4: 樹狀結構與數據表格 (Trees & Tables)
 
-- **目標組件清單（4 個）**：
-  1. `ui/tree.tsx`：使用 RAC `Tree` (v1.7+) + `Checkbox` 實作可勾選的多選階層樹，用於 `RoleDrawer` 中的權限樹勾選 (`PermissionTreeInput`)。
-  2. `ui/tree-select.tsx`：使用 RAC `Popover` + RAC `Tree` 自製下拉樹狀選擇器，支援部門階層單選（上級部門）與多選（自訂資料權限之自訂部門）。
-  3. `components/common/DataTable.tsx`：結合 RAC `Table` 與 `@tanstack/react-table`，維持 `max-content` 響應式橫向捲動、分頁與選取邏輯，預設 `rowKey="id"`。
-  4. `components/department/DepartmentTreeTable.tsx`：基於 TanStack Table 樹狀展開結構 (`getSubRows`) 實現部門階層展開與摺疊，搭配 `ChevronRight` / `ChevronDown` 圖示。
+- **目標組件清單（4 個核心組件 + 1 個原子原語）**：
+  1. `ui/checkbox.tsx` (補充原子原語)：RAC 原生 `Checkbox`，搭配 `lucide-react` `Check` / `Minus`，內部裝飾容器加註 `pointer-events-none`，採用 Tailwind Canonical Class `stroke-3`。
+  2. `ui/tree.tsx`：使用 RAC `Tree` (v1.7+) + `Checkbox` 實作可勾選的多選階層樹，支援宣告式 `treeData` 遞迴、`defaultExpandAll`、`checkedKeys` 雙向綁定與鍵值類型自適應，用於 `RoleDrawer` 中的權限樹勾選 (`PermissionTreeInput`)。
+  3. `ui/tree-select.tsx`：使用 RAC `Popover` + RAC `Tree` 自製下拉樹狀選擇器，支援部門階層單選（上級部門）與多選（自訂資料權限之自訂部門），支援 `allowClear` 與靜態相容常數 `TreeSelect.SHOW_ALL`。
+  4. `components/common/DataTable.tsx`：結合 RAC `Table` 與 `@tanstack/react-table` (v9)，支援 `max-content` 響應式橫向捲動、載入中遮罩、首欄樹狀層級深度縮排（Tailwind class `pl-6`, `pl-12`, `pl-18`）與折疊展開按鈕。
+  5. `components/department/DepartmentTreeTable.tsx`：基於 TanStack Table 樹狀展開結構 (`getSubRows`) 實現部門階層展開與摺疊，全面移除 Antd Table 與 Space。
+- **關鍵踩坑與實戰解決方案 (Lessons Learned)**：
+  1. **TanStack Table v9 核心架構**：
+     - 專案依賴 `@tanstack/react-table: 9.3.1`，必須使用 `createTableHook` 綁定 `features`（`tableFeatures({ columnVisibilityFeature, rowExpandingFeature, expandedRowModel: createExpandedRowModel(), ... })`）。
+     - 行渲染必須依賴 `row.getAllCells()`，未註冊 `columnVisibilityFeature` 會導致 `getVisibleCells` 運行時缺失。
+     - 欄位定義產生器 `buildTanstackColumns` 必須宣告於組件頂層，嚴禁在組件 render 期間透過 `useMemo` 動態回傳內聯組件，避免違反 `react/no-unstable-nested-components`。
+  2. **React Compiler 自動 Memoization 協作**：
+     - 專案配置 Vite React 插件 `compiler: true`。組件內部衍生狀態（如選中標籤、樹狀節點轉化）應直接於 render 頂層以純運算表達，避免手動包裹冗餘的 `useMemo`，信任編譯器自動細粒度快取。
+     - 嚴格維持組件為純函數，不可在 render 期間 mutate 任何外部狀態或對象。
+  3. **Tailwind CSS v4 Linter 與樣式標準**：
+     - 圖示筆觸寬度嚴禁使用任意值 `stroke-[3]`，必須使用 Tailwind v4 Canonical Class `stroke-3`。
+     - 欄寬動態計算嚴禁使用行內 `style={{ width }}`，統一使用 CSS 變數 `--col-w` 搭配 Tailwind class `w-(--col-w)` 與條件展開 `{...(widthStyle !== undefined ? { style: widthStyle } : {})}`。
+     - 任何 UI 組件變動後，必須跑 `vpr lint:tailwind`（或 `vpr lint:tailwind:fix` 自動修復）。
+  4. **Strict TypeScript & `exactOptionalPropertyTypes`**：
+     - 泛型表單回調 `onChange` 應避免 `as unknown as T`，防止觸發 `typescript/no-unsafe-type-assertion`。
+     - 表格設定物件（如 `appTableOptions.initialState`）在型別定義上為 readonly，必須在物件初始化宣告時以三元運算子決定，嚴禁宣告後再去賦值。
+  5. **RAC Table & Playwright 無障礙角色差異**：
+     - RAC `Table` 產出的 `<table>` 元素帶有 `role="grid"`，在 Vitest Browser 測試中需使用 `getByRole("grid")` 查詢。
+     - Checkbox 與 TreeItem 文字必須加註 `pointer-events-none` 避免 Playwright 點擊穿透判定被阻擋。
 - **驗證指標**：
-  - 開發時可執行單測試：`vp test run test/client/e2e-departments.test.tsx --reporter=tap-flat --no-color`
-  - `test/client/e2e-departments.test.tsx` 樹狀層級展示與選取完全綠燈。
+  - 組件單元測試：`vp test run test/client/ui-trees-and-tables.test.tsx --reporter=tap-flat --no-color` (4/4 通過)
+  - 部門 E2E 測試：`vp test run test/client/e2e-departments.test.tsx --reporter=tap-flat --no-color` (5/5 通過)
+  - 全站測試門禁：`vpr agent:verify:gate` 全部通過 (Unit 28/28, E2E 40/40, Build 100% 綠燈)。
 
 > [!TIP]
-> **Batch 3.4 移交確認**：數據表格與階層樹全部通過瀏覽器 E2E 測試驗證，`vpr agent:verify:gate` 100% 通過。
+> **Batch 3.4 移交確認**：數據表格與階層樹全部通過瀏覽器 E2E 測試驗證，`DataTableColumn` 已向下相容 `RoleTable` 與 `UserTable`，`vpr agent:verify:gate` 100% 通過。
 >
 > **Batch 3.5 啟動 Prompt**：
 >
@@ -214,7 +244,12 @@ export function Button({ className, variant, size, ...props }: ButtonProps) {
 > 請先查閱 `docs/migration/README.md` 第 0 節 SSOT 對照表與 `docs/migration/phase3_bottom_up_component_migration.md` 中 Batch 3.5 規範。
 > 目標：重構 `Layout.tsx` 為標準語意 HTML5 + Tailwind 導航；重構 Department, Role, User 業務頁面與對應 Modal/Drawer；重構 403 頁面與首頁空看板；將所有 Antd `<Flex>` 與 `<Space>` 替換為 Tailwind 工具類。
 > 嚴格遵守 `@shadcn/lint` 的 `no-restyle` 邊界：業務頁面僅傳遞佈局類別（`allow: ["layout"]`）或使用 variant/size，禁止覆蓋 appearance。
-> 完成後執行 `vpr agent:verify:gate` 確保全站業務功能零退化。
+> 特別注意：
+>
+> 1. 專案具備 React Compiler (`compiler: true`)，請直接撰寫乾淨純粹的衍生狀態，避免冗餘的 `useMemo`/`useCallback`。
+> 2. 隨時執行 `vpr lint:tailwind` 確保無任意值樣式。
+> 3. 欄位定義需符合 Batch 3.4 定義之 `DataTableColumn<T>` 標準。
+>    完成後執行 `vpr agent:verify:gate` 確保全站業務功能零退化。
 > ```
 
 ---

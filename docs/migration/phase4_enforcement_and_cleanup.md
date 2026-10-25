@@ -135,3 +135,32 @@ vpr agent:verify:gate
 ```
 
 當所有指令順利通過，Client JS 打包體積降至預期水準，且無任何警告與錯誤時，宣告本次前端現代化重構圓滿完成！
+
+---
+
+## 6. 完工驗收確認事項與總結指引 (Final Completion Checklist & Wrap-up)
+
+### 6.1 完工驗收確認清單 (Final Acceptance Checklist)
+
+請在宣告整個重構專案結束前，逐一核對以下終極清單：
+
+- [ ] `.oxlintrc.json` 中 `@shadcn/lint` 規則已提升為 `error`，且 `vpr agent:verify:inner` 0 報錯。
+- [ ] `package.json` 中的 `antd` 與 `@ant-design/icons` 已徹底卸載。
+- [ ] `src/client/hooks/useAntdForm.ts` 已刪除。
+- [ ] `src/client/hooks/useI18n.ts` 已移除 `antdLocales` 與 Antd 語系引入。
+- [ ] `src/client/theme.ts` 已簡化，移除 Antd 主題橋接與 MutationObserver。
+- [ ] `src/client/providers.tsx` 已移除 `AntdProvider`、`ConfigProvider`、`App`，並掛載 `ToastRegion`。
+- [ ] `test/client/canary.test.tsx` 已適配 RAC Button 且全套 E2E 測試 100% 通過。
+- [ ] `AGENTS.md`、`.agents/rules/ui-styling.md` 與 `.agents/skills/scaffold-feature/SKILL.md` 已全面更新。
+- [ ] 執行 `vpr check:deadcode` (Knip) 0 未使用依賴。
+- [ ] 執行 `vpr agent:verify:gate` 通過（單元測試、打包構建與瀏覽器 E2E 全綠）。
+- [ ] 執行 `rm -rf docs/migration` 徹底刪除臨時遷移手冊目錄。
+- [ ] 產生英文 Conventional Commit 建議並由使用者在本地終端機完成最終提交。
+
+### 6.2 完工總結輸出模板 (Completion Summary Output)
+
+完成上述檢查後，請輸出繁體中文的完工總結，向使用者彙報：
+
+1. **依賴與體積變化**：呈現卸載 antd 後 Client Chunk 體積的縮減數據。
+2. **門禁驗收成果**：列出 `vpr agent:verify:gate` 與 `knip` 的 100% 通過證明。
+3. **規範與文檔狀態**：說明 `AGENTS.md` 與技能文檔已正式對齊最新架構。

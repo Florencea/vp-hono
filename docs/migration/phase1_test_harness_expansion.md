@@ -94,3 +94,91 @@ vpr agent:test:e2e
 ```
 
 當 `agent:test:e2e` 顯示所有案例（預計 35+ 個 E2E 測試）100% 通過時，Phase 1 即告完成，可平順移交給 Phase 2 Agent。
+
+---
+
+## 5. 階段結束確認事項與 Phase 2 啟動指令 (Handover & Next Phase Activation)
+
+### 5.1 移交前確認事項 (Pre-flight Checklist)
+
+請在結束當前 Phase 1 對話前，逐一核對以下檢查項目：
+
+- [ ] 6 個新增測試檔案皆已建立且符合標準 ARIA 角色與標籤查詢模式（嚴禁依賴 `.ant-*` 特有類名）。
+- [ ] 認證測試已正確 Mock `window.location.reload`，測試執行期間無瀏覽器重新載入之崩潰現象。
+- [ ] 執行 `vpr agent:test:e2e`，確保所有既有與新增測試 100% 通過（零失敗、零跳過）。
+- [ ] 執行 `git status` 確認本階段未更動任何 `src/client/` 業務代碼與 UI 組件（嚴守 Phase 1 階段邊界）。
+- [ ] 執行 `vpx oxfmt test/client` 確保新增的測試腳本排版格式合規。
+- [ ] 產生英文 Conventional Commit 建議並由使用者在本地終端機完成提交。
+
+### 5.2 Phase 2 啟動 Prompt (供使用者複製至全新 Agent 對話)
+
+```markdown
+請擔任前端現代化遷移的 Phase 2 負責 Agent。
+
+請先依序閱讀以下文件以建立上下文：
+
+1. `docs/migration/README.md`
+2. `docs/migration/phase2_design_system_and_linter_setup.md`
+3. 官方最新文件：https://react-aria.adobe.com/llms.txt 與 https://github.com/shadcn-ui/lint
+
+【當前狀態】
+Phase 1 測試安全網已完全建立，所有 Playwright E2E 瀏覽器測試皆 100% 通過。
+
+【本次任務目標】
+執行 Phase 2 設計系統基礎建設與 @shadcn/lint 導入：
+
+1. 安裝核心運行時套件（`react-aria-components`, `@internationalized/date`, `lucide-react`, `@tanstack/react-form`, `@tanstack/react-table`, `class-variance-authority`）與開發工具（`@shadcn/lint`, `tw-animate-css`）。
+2. 建立根目錄 `components.json`（Base: aria）。
+3. 擴充 `src/client/global.css` 中的 `@theme` 語意色彩 Token。
+4. 建立 `.oxlintrc.json` 並配置 `@shadcn/lint` 為 `warn` 模式。
+5. 建置健全的 TanStack Form 欄位橋接層 (`src/client/components/ui/form.tsx`) 與 Toast 全域單例 (`src/client/utils/toast.ts`)。
+
+【執行約束】
+
+- 嚴格遵守 Phase 2 邊界：不得修改既有 Antd 業務頁面。
+- 完成後必須執行 `vpr agent:verify:inner` 與 `vpr agent:verify:gate`，確保現有功能與 Phase 1 測試 100% 綠燈。
+```
+
+---
+
+## 5. 階段結束確認事項與 Phase 2 啟動指令 (Handover & Next Phase Activation)
+
+### 5.1 移交前確認事項 (Pre-flight Checklist)
+
+請在結束當前 Phase 1 對話前，逐一核對以下檢查項目：
+
+- [ ] 6 個新增測試檔案皆已建立且符合標準 ARIA 角色與標籤查詢模式（嚴禁依賴 `.ant-*` 特有類名）。
+- [ ] 認證測試已正確 Mock `window.location.reload`，測試執行期間無瀏覽器重新載入之崩潰現象。
+- [ ] 執行 `vpr agent:test:e2e`，確保所有既有與新增測試 100% 通過（零失敗、零跳過）。
+- [ ] 執行 `git status` 確認本階段未更動任何 `src/client/` 業務代碼與 UI 組件（嚴守 Phase 1 階段邊界）。
+- [ ] 執行 `vpx oxfmt test/client` 確保新增的測試腳本排版格式合規。
+- [ ] 產生英文 Conventional Commit 建議並由使用者在本地終端機完成提交。
+
+### 5.2 Phase 2 啟動 Prompt (供使用者複製至全新 Agent 對話)
+
+```markdown
+請擔任前端現代化遷移的 Phase 2 負責 Agent。
+
+請先依序閱讀以下文件以建立上下文：
+
+1. `docs/migration/README.md`
+2. `docs/migration/phase2_design_system_and_linter_setup.md`
+3. 官方最新文件：https://react-aria.adobe.com/llms.txt 與 https://github.com/shadcn-ui/lint
+
+【當前狀態】
+Phase 1 測試安全網已完全建立，所有 Playwright E2E 瀏覽器測試皆 100% 通過。
+
+【本次任務目標】
+執行 Phase 2 設計系統基礎建設與 @shadcn/lint 導入：
+
+1. 安裝核心運行時套件（`react-aria-components`, `@internationalized/date`, `lucide-react`, `@tanstack/react-form`, `@tanstack/react-table`, `class-variance-authority`）與開發工具（`@shadcn/lint`, `tw-animate-css`）。
+2. 建立根目錄 `components.json`（Base: aria）。
+3. 擴充 `src/client/global.css` 中的 `@theme` 語意色彩 Token。
+4. 建立 `.oxlintrc.json` 並配置 `@shadcn/lint` 為 `warn` 模式。
+5. 建置健全的 TanStack Form 欄位橋接層 (`src/client/components/ui/form.tsx`) 與 Toast 全域單例 (`src/client/utils/toast.ts`)。
+
+【執行約束】
+
+- 嚴格遵守 Phase 2 邊界：不得修改既有 Antd 業務頁面。
+- 完成後必須執行 `vpr agent:verify:inner` 與 `vpr agent:verify:gate`，確保現有功能與 Phase 1 測試 100% 綠燈。
+```

@@ -25,6 +25,7 @@
    vpr agent:verify:gate
    ```
 4. **Git 協議**：依照本專案 `AGENTS.md` 規範，AI Agent **嚴禁直接執行 `git commit`**，請使用 `git add <files>` 並輸出推薦的英文 Conventional Commit 訊息供使用者本地執行。
+5. **跨階段移交與啟動協議**：每個階段（與 Phase 3 的每個 Batch）手冊末尾均已附上**移交前確認事項 (Pre-flight Checklist)** 與**下一階段/批次啟動 Prompt (Next Phase/Batch Activation Prompt)**。當前階段 Agent 完成任務並核對清單後，使用者即可開啟全新對話視窗並直接複製該 Prompt，確保零上下文漂移。
 
 ---
 

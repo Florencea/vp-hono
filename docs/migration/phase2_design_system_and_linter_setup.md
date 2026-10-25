@@ -223,3 +223,43 @@ vpr agent:verify:gate
 ```
 
 驗收合格後，Phase 2 Agent 即可將健全的基礎設施交付給 Phase 3 執行組件批次遷移。
+
+---
+
+## 9. 階段結束確認事項與 Phase 3 啟動指令 (Handover & Next Phase Activation)
+
+### 9.1 移交前確認事項 (Pre-flight Checklist)
+
+請在結束當前 Phase 2 對話前，逐一核對以下檢查項目：
+
+- [ ] 所有相依套件已完成安裝（包含 `class-variance-authority` 與 `@tanstack/react-table`）。
+- [ ] 專案根目錄 `components.json` 已正確建立且設定 `"base": "aria"`。
+- [ ] `src/client/global.css` 已擴充 `@theme` 語意 Token（如 `--color-primary`, `--color-background`, `--color-muted` 等）。
+- [ ] `.oxlintrc.json` 已正確配置 `@shadcn/lint` 插件為 `warn` 模式，且未破壞原有 linter 行為。
+- [ ] `src/client/components/ui/form.tsx` 與 `src/client/utils/toast.ts` 已建立且無型別錯誤。
+- [ ] 執行 `vpr agent:verify:inner` 零報錯；執行 `vpr agent:verify:gate` 100% 綠燈通過。
+- [ ] 產生英文 Conventional Commit 建議並由使用者在本地終端機完成提交。
+
+### 9.2 Phase 3 啟動 Prompt (供使用者複製至全新 Agent 對話)
+
+```markdown
+請擔任前端現代化遷移的 Phase 3 負責 Agent。
+
+請先依序閱讀以下文件以建立上下文：
+
+1. `docs/migration/README.md`
+2. `docs/migration/phase3_bottom_up_component_migration.md`
+3. 官方最新文件：https://react-aria.adobe.com/llms.txt 與 https://tanstack.com/form/latest
+
+【當前狀態】
+Phase 1 測試安全網與 Phase 2 基礎建設（RAC, TanStack Form/Table, cva, @shadcn/lint warn）已全數就緒，門禁檢驗 100% 綠燈。
+
+【本次任務目標】
+執行 Phase 3「由底而上分批次組件遷移」。
+請從 Batch 3.1（核心展示與原子組件：`ui/button.tsx`, `PermissionButton.tsx`, `ui/badge.tsx`, `ui/card.tsx`, `I18nSwitcher.tsx` 與 `routes.tsx` 選單圖示）開始執行。
+
+【執行約束】
+
+- 嚴格落實「一次 3~5 個組件、由底而上」原則。
+- 每完成一個 Batch，必須立即在終端機執行 `vpr agent:verify:gate`，確認既有業務功能與 Phase 1 測試零破壞，再進行下一批次（或移交給下一對話）。
+```

@@ -46,6 +46,18 @@ flowchart TD
 - **驗證指標**：
   - `vpr agent:test:e2e` 確保 `test/client/e2e-i18n.test.tsx` 與既有 RBAC 測試順利通過。
 
+> [!TIP]
+> **Batch 3.1 移交確認**：`Button`, `PermissionButton`, `Badge`, `Card`, `I18nSwitcher` 與 `routes.tsx` 圖示已無 Antd 依賴，`vpr agent:verify:gate` 100% 通過。
+>
+> **Batch 3.2 啟動 Prompt**：
+>
+> ```markdown
+> 請繼續執行前端遷移 Phase 3 的 Batch 3.2（基礎輸入組件與登入頁面）。
+> 請閱讀 `docs/migration/phase3_bottom_up_component_migration.md` 中 Batch 3.2 規範。
+> 目標：實作 `ui/textfield.tsx`（含 TextArea）、`ui/password-input.tsx`、`ui/number-field.tsx`、`ui/radio-group.tsx`，並將 `src/client/routes/login.tsx` 重構為 TanStack Form。
+> 完成後執行 `vpr agent:verify:gate` 確保全綠。
+> ```
+
 ---
 
 ### Batch 3.2: 基礎輸入組件與登入頁面 (Inputs & Login Flow)
@@ -60,6 +72,18 @@ flowchart TD
      - 採用 TanStack Form 綁定 `LoginReqSchema`，並以上述組件渲染。
 - **驗證指標**：
   - `vpr agent:test:e2e` 確保登入流程與 Wire Contract 測試 100% 通過。
+
+> [!TIP]
+> **Batch 3.2 移交確認**：登入頁已切換為 TanStack Form + RAC，`canary.test.tsx` 與登入測試通過，`vpr agent:verify:gate` 100% 通過。
+>
+> **Batch 3.3 啟動 Prompt**：
+>
+> ```markdown
+> 請繼續執行前端遷移 Phase 3 的 Batch 3.3（選擇器、浮層與反饋系統）。
+> 請閱讀 `docs/migration/phase3_bottom_up_component_migration.md` 中 Batch 3.3 規範。
+> 目標：實作 `ui/select.tsx`（含 MultiSelect）、`DataModal.tsx`、`DataDrawer.tsx`、`ui/popconfirm.tsx`，以及以 RAC `ToastQueue` 實作的 `ui/toast.tsx`，並在 `providers.tsx` 掛載 `<ToastRegion>`。
+> 完成後執行 `vpr agent:verify:gate` 確保全綠。
+> ```
 
 ---
 
@@ -78,6 +102,18 @@ flowchart TD
 - **驗證指標**：
   - 驗證 Modal 開啟、抽屜滑出、Popconfirm 氣泡點擊、Toast 彈出皆符合原本行為。
 
+> [!TIP]
+> **Batch 3.3 移交確認**：浮層與反饋系統皆已就緒且相容既有調用，Toast 通知正常，`vpr agent:verify:gate` 100% 通過。
+>
+> **Batch 3.4 啟動 Prompt**：
+>
+> ```markdown
+> 請繼續執行前端遷移 Phase 3 的 Batch 3.4（樹狀結構與數據表格）。
+> 請閱讀 `docs/migration/phase3_bottom_up_component_migration.md` 中 Batch 3.4 規範。
+> 目標：實作可勾選之階層樹 `ui/tree.tsx`、下拉選擇器 `ui/tree-select.tsx`，並結合 `@tanstack/react-table` 與 RAC Table 打造 `DataTable.tsx` 與樹狀展開表格 `DepartmentTreeTable.tsx`。
+> 完成後執行 `vpr agent:verify:gate` 確保全綠。
+> ```
+
 ---
 
 ### Batch 3.4: 樹狀結構與數據表格 (Trees & Tables)
@@ -89,6 +125,18 @@ flowchart TD
   4. `components/department/DepartmentTreeTable.tsx`：基於 TanStack Table 樹狀展開結構 (`getSubRows`) 實現部門階層展開與摺疊，搭配 `ChevronRight` / `ChevronDown` 圖示。
 - **驗證指標**：
   - `test/client/e2e-departments.test.tsx` 樹狀層級展示與選取完全綠燈。
+
+> [!TIP]
+> **Batch 3.4 移交確認**：數據表格與階層樹全部通過瀏覽器 E2E 測試驗證，`vpr agent:verify:gate` 100% 通過。
+>
+> **Batch 3.5 啟動 Prompt**：
+>
+> ```markdown
+> 請繼續執行前端遷移 Phase 3 的 Batch 3.5（頁面佈局與各模組重構）。
+> 請閱讀 `docs/migration/phase3_bottom_up_component_migration.md` 中 Batch 3.5 規範。
+> 目標：重構 `Layout.tsx` 為標準語意 HTML5 + Tailwind 導航；重構 Department, Role, User 業務頁面與對應 Modal/Drawer；重構 403 頁面與首頁空看板；將所有 Antd `<Flex>` 與 `<Space>` 替換為 Tailwind 工具類。
+> 完成後執行 `vpr agent:verify:gate` 確保全站業務功能零退化。
+> ```
 
 ---
 
@@ -119,3 +167,46 @@ vpr agent:verify:gate
 ```
 
 驗收合格後，Phase 3 Agent 即可將代碼移交至 Phase 4 進行依賴清理與規範收束。
+
+---
+
+## 5. 階段結束確認事項與 Phase 4 啟動指令 (Handover & Next Phase Activation)
+
+### 5.1 移交前確認事項 (Pre-flight Checklist)
+
+請在結束當前 Phase 3 對話前，逐一核對以下檢查項目：
+
+- [ ] 5 個 Batch 的組件與頁面皆已全數替換為 RAC + TanStack Form + Tailwind v4。
+- [ ] 業務頁面（`routes/` 與 `components/`）已無任何使用中的 Antd 組件（如 `Button`, `Form`, `Table`, `Modal`, `Drawer`, `Select`, `Input`, `TreeSelect`, `Card`, `Flex`, `Space`, `Result`, `Empty`）。
+- [ ] 全域 Toast 系統已接管所有通知需求。
+- [ ] 執行 `vpr agent:verify:gate`，所有單元與 E2E 測試 100% 綠燈通過。
+- [ ] 產生英文 Conventional Commit 建議並由使用者在本地終端機完成提交。
+
+### 5.2 Phase 4 啟動 Prompt (供使用者複製至全新 Agent 對話)
+
+```markdown
+請擔任前端現代化遷移的 Phase 4 負責 Agent。
+
+請先依序閱讀以下文件以建立上下文：
+
+1. `docs/migration/README.md`
+2. `docs/migration/phase4_enforcement_and_cleanup.md`
+3. 官方最新文件：https://github.com/shadcn-ui/lint
+
+【當前狀態】
+Phase 1、Phase 2 與 Phase 3（5 個 Batch）已全數完成，所有業務頁面皆已現代化，E2E 測試 100% 綠燈。
+
+【本次任務目標】
+執行 Phase 4「嚴格守門、清理與文檔收尾」：
+
+1. 將 `.oxlintrc.json` 中的 `@shadcn/lint` 規則等級正式提升為 `error`。
+2. 徹底卸載套件：`vp remove antd @ant-design/icons`。
+3. 刪除與簡化過渡檔案：
+   - 刪除 `src/client/hooks/useAntdForm.ts`。
+   - 清理 `src/client/hooks/useI18n.ts`（移除 `antdLocales` 與 Antd 語系引入）。
+   - 簡化 `src/client/theme.ts`（移除 `createAntdTheme`、`useAntdTheme` 與 `MutationObserver`）。
+   - 簡化 `src/client/providers.tsx`（移除 `AntdProvider`, `ConfigProvider`, `App` 並掛載 `ToastRegion`）。
+4. 適配 `test/client/canary.test.tsx`（測試對象轉移至 RAC Button）。
+5. 同步專案規範文件（`AGENTS.md`, `.agents/rules/ui-styling.md`, `.agents/skills/scaffold-feature/SKILL.md`）。
+6. 通過全門禁驗證後，刪除 `docs/migration/` 目錄。
+```

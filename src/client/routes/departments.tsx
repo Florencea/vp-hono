@@ -1,8 +1,8 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { Card, Flex } from "antd";
 import { DepartmentModal } from "../components/department/DepartmentModal.tsx";
 import { DepartmentTreeTable } from "../components/department/DepartmentTreeTable.tsx";
 import { PermissionButton } from "../components/PermissionGate.tsx";
+import { Card } from "../components/ui/card.tsx";
 import { useDepartments } from "../hooks/useDepartments.ts";
 import { useI18n } from "../hooks/useI18n.ts";
 import { userInfoQueryOptions } from "./__root.tsx";
@@ -30,14 +30,14 @@ function DepartmentsPage() {
     isLoading,
     modalOpen,
     selectedDept,
+    parentPresetId,
     formKey,
-    deptForm,
     isSaving,
     openCreateModal,
     openAddChildModal,
     openEditModal,
     closeModal,
-    submitForm,
+    saveDepartment,
     deleteDepartment,
   } = useDepartments();
 
@@ -45,15 +45,15 @@ function DepartmentsPage() {
     <Card
       title={t("routes./departments")}
       extra={
-        <Flex gap="small">
+        <div className="flex gap-2">
           <PermissionButton
-            type="primary"
+            variant="default"
             permission="system:dept:create"
             onClick={openCreateModal}
           >
             {t("dept.create")}
           </PermissionButton>
-        </Flex>
+        </div>
       }
     >
       <DepartmentTreeTable
@@ -66,14 +66,12 @@ function DepartmentsPage() {
       <DepartmentModal
         open={modalOpen}
         department={selectedDept}
+        parentPresetId={parentPresetId}
         departments={departments}
         formKey={formKey}
-        deptForm={deptForm}
         confirmLoading={isSaving}
         onCancel={closeModal}
-        onOk={() => {
-          void submitForm();
-        }}
+        onSubmit={saveDepartment}
       />
     </Card>
   );

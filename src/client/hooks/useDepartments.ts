@@ -4,7 +4,6 @@ import { api } from "../api.ts";
 import type { DepartmentNode } from "../components/department/DepartmentTreeTable.tsx";
 import type { DepartmentItem, RouterInputs } from "../types/api.ts";
 import { toast } from "../utils/toast.ts";
-import { useAntdForm } from "./useAntdForm.ts";
 import { useI18n } from "./useI18n.ts";
 
 export type DepartmentFormValues = Pick<RouterInputs["department"]["create"], "name" | "sort"> & {
@@ -37,7 +36,7 @@ function buildTree(items: DepartmentItem[]): DepartmentNode[] {
 }
 
 /**
- * Headless Feature Hook encapsulating all Department state, queries, RPC mutations, and forms.
+ * Headless Feature Hook encapsulating all Department state, queries, and RPC mutations.
  */
 export function useDepartments() {
   const { t } = useI18n();
@@ -46,6 +45,7 @@ export function useDepartments() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedDept, setSelectedDept] = useState<DepartmentItem | null>(null);
   const [parentPresetId, setParentPresetId] = useState<number | null>(null);
+  const [formRevision, setFormRevision] = useState(0);
 
   const { data, isLoading } = useQuery({
     queryKey: ["departments", "list"],
@@ -124,40 +124,7 @@ export function useDepartments() {
     },
   });
 
-  const [formRevision, setFormRevision] = useState(0);
-
-  const initialValues: DepartmentFormValues = {
-    name: selectedDept?.name ?? "",
-    parentId: selectedDept !== null ? (selectedDept.parentId ?? 0) : (parentPresetId ?? 0),
-    sort: selectedDept?.sort ?? 1,
-  };
-
   const formKey = `${selectedDept !== null ? selectedDept.id.toString() : `new-${(parentPresetId ?? 0).toString()}`}-${formRevision.toString()}`;
-
-  const deptForm = useAntdForm<DepartmentFormValues>({
-    formProps: {
-      layout: "vertical",
-      initialValues,
-      onFinish: (values) => {
-        saveMutation.mutate(values);
-      },
-    },
-    formItemProps: {
-      name: {
-        name: "name",
-        label: t("dept.name"),
-        rules: [{ required: true }],
-      },
-      parentId: {
-        name: "parentId",
-        label: t("dept.parent"),
-      },
-      sort: {
-        name: "sort",
-        label: t("dept.sort"),
-      },
-    },
-  });
 
   const openCreateModal = () => {
     setSelectedDept(null);
@@ -184,11 +151,6 @@ export function useDepartments() {
     setModalOpen(false);
   };
 
-  const submitForm = async () => {
-    const values = await deptForm.formInstance.validateFields();
-    saveMutation.mutate(values);
-  };
-
   return {
     departments: departmentItems,
     treeData,
@@ -197,14 +159,15 @@ export function useDepartments() {
     selectedDept,
     parentPresetId,
     formKey,
-    deptForm,
     isSaving: saveMutation.isPending,
     isDeleting: deleteMutation.isPending,
     openCreateModal,
     openAddChildModal,
     openEditModal,
     closeModal,
-    submitForm,
+    saveDepartment: (values: DepartmentFormValues) => {
+      saveMutation.mutate(values);
+    },
     deleteDepartment: (id: number) => {
       deleteMutation.mutate(id);
     },

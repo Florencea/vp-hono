@@ -3,7 +3,6 @@ import { useState } from "react";
 import { api } from "../api.ts";
 import type { RoleItem, RouterInputs } from "../types/api.ts";
 import { toast } from "../utils/toast.ts";
-import { useAntdForm } from "./useAntdForm.ts";
 import { useI18n } from "./useI18n.ts";
 
 export type RoleFormValues = Pick<
@@ -16,7 +15,7 @@ export type RoleFormValues = Pick<
 };
 
 /**
- * Headless Feature Hook encapsulating all Role state, queries, RPC mutations, and forms.
+ * Headless Feature Hook encapsulating all Role state, queries, and RPC mutations.
  */
 export function useRoles() {
   const { t } = useI18n();
@@ -24,6 +23,7 @@ export function useRoles() {
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<RoleItem | null>(null);
+  const [formRevision, setFormRevision] = useState(0);
 
   const { data: rolesData, isLoading: rolesLoading } = useQuery({
     queryKey: ["roles", "list"],
@@ -126,63 +126,7 @@ export function useRoles() {
     },
   });
 
-  const [formRevision, setFormRevision] = useState(0);
-
-  const initialValues: RoleFormValues = {
-    code: selectedRole?.code ?? "",
-    name: selectedRole?.name ?? "",
-    description: selectedRole?.description ?? "",
-    dataScope: selectedRole?.dataScope ?? "SELF",
-    sort: selectedRole?.sort ?? 1,
-    departmentIds: selectedRole?.departmentIds ?? [],
-    permissionIds: selectedRole?.permissionIds ?? [],
-  };
-
   const formKey = `${selectedRole !== null ? selectedRole.id.toString() : "new"}-${formRevision.toString()}`;
-
-  const roleForm = useAntdForm<RoleFormValues>({
-    formProps: {
-      layout: "vertical",
-      initialValues,
-      onFinish: (values) => {
-        saveMutation.mutate(values);
-      },
-    },
-    formItemProps: {
-      code: {
-        name: "code",
-        label: t("role.code"),
-        rules: [{ required: true }],
-      },
-      name: {
-        name: "name",
-        label: t("role.name"),
-        rules: [{ required: true }],
-      },
-      description: {
-        name: "description",
-        label: t("role.description"),
-      },
-      sort: {
-        name: "sort",
-        label: t("dept.sort"),
-      },
-      dataScope: {
-        name: "dataScope",
-        label: t("role.dataScope"),
-        rules: [{ required: true }],
-      },
-      departmentIds: {
-        name: "departmentIds",
-        label: t("role.customDepts"),
-        rules: [{ required: true }],
-      },
-      permissionIds: {
-        name: "permissionIds",
-        label: t("role.permissions"),
-      },
-    },
-  });
 
   const openCreateDrawer = () => {
     setSelectedRole(null);
@@ -200,11 +144,6 @@ export function useRoles() {
     setDrawerOpen(false);
   };
 
-  const submitForm = async () => {
-    const values = await roleForm.formInstance.validateFields();
-    saveMutation.mutate(values);
-  };
-
   return {
     roles: rolesData?.items ?? [],
     permissions: permsData?.items ?? [],
@@ -213,13 +152,14 @@ export function useRoles() {
     drawerOpen,
     selectedRole,
     formKey,
-    roleForm,
     isSaving: saveMutation.isPending,
     isDeleting: deleteMutation.isPending,
     openCreateDrawer,
     openEditDrawer,
     closeDrawer,
-    submitForm,
+    saveRole: (values: RoleFormValues) => {
+      saveMutation.mutate(values);
+    },
     deleteRole: (id: number) => {
       deleteMutation.mutate(id);
     },

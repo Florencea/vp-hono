@@ -44,3 +44,33 @@
   --breakpoint-xl: 1200px;
   --breakpoint-2xl: 1600px;
 }
+
+/* Ensure React Aria visually-hidden radio inputs inside interactive labels align with indicator for Playwright/browser accessibility */
+label[data-rac]:has(input[type="radio"]) {
+  position: relative;
+}
+
+label[data-rac]:has(input[type="radio"]) > span[style*="clip"] {
+  clip: auto !important;
+  clip-path: none !important;
+  height: 1rem !important;
+  width: 1rem !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  pointer-events: none !important;
+}
+
+label[data-rac]:has(input[type="radio"]) > span[style*="clip"] > input {
+  height: 1rem !important;
+  width: 1rem !important;
+  opacity: 0.0001 !important;
+  cursor: pointer !important;
+  position: absolute !important;
+  inset: 0 !important;
+  margin: 0 !important;
+  pointer-events: auto !important;
+}

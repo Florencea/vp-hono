@@ -1,89 +1,113 @@
-import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
-import { Layout as AntdLayout, Button, Flex, Menu, Typography } from "antd";
-import { cn } from "../utils/cn.ts";
+import { Link, Outlet, useRouterState } from "@tanstack/react-router";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import logo from "../assets/logo.png";
 import { APP_TITLE } from "../config.ts";
 import { useAuth } from "../hooks/useAuth.ts";
 import { useI18n } from "../hooks/useI18n.ts";
 import { useUserInfo } from "../hooks/useUserInfo.ts";
+import { cn } from "../utils/cn.ts";
 import { DocTitle } from "./DocTitle.tsx";
 import { I18nSwitcher } from "./I18nSwitcher.tsx";
-
-const { Header, Sider, Content } = AntdLayout;
-const { Text } = Typography;
+import { Button } from "./ui/button.tsx";
 
 export const Layout = () => {
   const { t } = useI18n();
   const routerState = useRouterState();
-  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const { logout } = useAuth();
   const { isLogin, account, menuItems } = useUserInfo();
 
+  const currentPath = routerState.location.pathname;
+
   return (
     <>
       <DocTitle />
-      <AntdLayout className="h-svh max-w-svw">
+      <div className="flex h-svh max-w-svw flex-col overflow-hidden bg-background text-foreground">
         {isLogin && (
-          <Header
-            className={cn(
-              "flex items-center justify-between bg-white px-3 dark:bg-(--ant-color-bg-container)",
-              {
-                "lg:px-4": !collapsed,
-              },
-            )}
-          >
+          <header className="flex h-14 shrink-0 items-center justify-between border-b border-border bg-background px-3 lg:px-4">
             <Link className="inline-flex items-center gap-3" to="/">
               <img className="h-6 w-6 shrink-0" src={logo} alt="logo" />
-              <Text strong className="shrink-0 text-sm tracking-wide sm:text-base">
+              <span className="shrink-0 text-sm font-semibold tracking-wide sm:text-base">
                 {APP_TITLE}
-              </Text>
+              </span>
             </Link>
-            <Flex align="center">
-              <Text strong className="mr-3">
-                {account}
-              </Text>
+            <div className="flex items-center gap-3">
+              {account !== undefined && (
+                <span className="text-sm font-medium text-foreground">{account}</span>
+              )}
               <I18nSwitcher />
               <Button
-                type="text"
+                variant="ghost"
+                size="sm"
                 onClick={() => {
                   logout.mutate();
                 }}
               >
                 {t("common.logout")}
               </Button>
-            </Flex>
-          </Header>
+            </div>
+          </header>
         )}
-        <AntdLayout hasSider={isLogin}>
+
+        <div className="flex flex-1 overflow-hidden">
           {isLogin && (
-            <Sider
-              theme="light"
-              breakpoint="lg"
-              collapsedWidth="48"
-              collapsible
-              collapsed={collapsed}
-              onCollapse={(value) => {
-                setCollapsed(value);
-              }}
+            <aside
+              role="complementary"
+              aria-label="Sidebar navigation"
+              className={cn(
+                "relative flex flex-col border-r border-border bg-background transition-all duration-200 shrink-0",
+                collapsed ? "w-16" : "w-52",
+              )}
             >
-              <Menu
-                selectedKeys={[routerState.location.pathname]}
-                onClick={({ key }) => {
-                  void navigate({ to: key });
+              <nav aria-label="Main Navigation" className="flex-1 overflow-y-auto p-2">
+                <ul role="menu" className="flex flex-col gap-1">
+                  {menuItems.map((item) => {
+                    const isSelected = currentPath === item.key;
+                    return (
+                      <li key={item.key} role="none">
+                        <Link
+                          to={item.key}
+                          role="menuitem"
+                          className={cn(
+                            "flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors cursor-pointer",
+                            isSelected
+                              ? "bg-primary text-primary-foreground"
+                              : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                            collapsed && "justify-center px-2",
+                          )}
+                        >
+                          <span className="shrink-0">{item.icon}</span>
+                          {!collapsed && <span className="truncate">{item.label}</span>}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
+
+              <button
+                type="button"
+                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                onClick={() => {
+                  setCollapsed(!collapsed);
                 }}
-                items={menuItems}
-              />
-            </Sider>
+                className="flex h-10 w-full items-center justify-center border-t border-border text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer transition-colors"
+              >
+                {collapsed ? (
+                  <ChevronRight role="img" aria-label="right" className="h-4 w-4" />
+                ) : (
+                  <ChevronLeft role="img" aria-label="left" className="h-4 w-4" />
+                )}
+              </button>
+            </aside>
           )}
-          <AntdLayout>
-            <Content className="p-3">
-              <Outlet />
-            </Content>
-          </AntdLayout>
-        </AntdLayout>
-      </AntdLayout>
+
+          <main className="flex-1 overflow-auto p-3">
+            <Outlet />
+          </main>
+        </div>
+      </div>
     </>
   );
 };

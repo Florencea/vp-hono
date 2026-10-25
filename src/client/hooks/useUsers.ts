@@ -3,7 +3,6 @@ import { useState } from "react";
 import { api } from "../api.ts";
 import type { RouterInputs, UserItem } from "../types/api.ts";
 import { toast } from "../utils/toast.ts";
-import { useAntdForm } from "./useAntdForm.ts";
 import { useI18n } from "./useI18n.ts";
 
 export type UserFormValues = Pick<
@@ -18,7 +17,7 @@ export type UserFormValues = Pick<
 };
 
 /**
- * Headless Feature Hook encapsulating all User state, queries, RPC mutations, and forms.
+ * Headless Feature Hook encapsulating all User state, queries, and RPC mutations.
  */
 export function useUsers() {
   const { t } = useI18n();
@@ -26,6 +25,7 @@ export function useUsers() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserItem | null>(null);
+  const [formRevision, setFormRevision] = useState(0);
 
   const { data: usersData, isLoading: usersLoading } = useQuery({
     queryKey: ["users", "list"],
@@ -138,67 +138,7 @@ export function useUsers() {
     },
   });
 
-  const [formRevision, setFormRevision] = useState(0);
-  const isEdit = selectedUser !== null;
-
-  const initialValues: UserFormValues = {
-    account: selectedUser?.account ?? "",
-    password: "",
-    name: selectedUser?.name ?? "",
-    employeeNo: selectedUser?.employeeNo ?? "",
-    title: selectedUser?.title ?? "",
-    status: selectedUser?.status ?? "active",
-    departmentId: selectedUser?.departmentId ?? null,
-    roleIds: selectedUser?.roleIds ?? [],
-  };
-
   const formKey = `${selectedUser !== null ? selectedUser.id.toString() : "new"}-${formRevision.toString()}`;
-
-  const userForm = useAntdForm<UserFormValues>({
-    formProps: {
-      layout: "vertical",
-      initialValues,
-      onFinish: (values) => {
-        saveMutation.mutate(values);
-      },
-    },
-    formItemProps: {
-      account: {
-        name: "account",
-        label: t("user.account"),
-        rules: [{ required: true }],
-      },
-      password: {
-        name: "password",
-        label: t("user.password"),
-        rules: [{ required: !isEdit, min: 6 }],
-      },
-      name: {
-        name: "name",
-        label: t("user.name"),
-      },
-      employeeNo: {
-        name: "employeeNo",
-        label: t("user.employeeNo"),
-      },
-      title: {
-        name: "title",
-        label: t("user.title"),
-      },
-      departmentId: {
-        name: "departmentId",
-        label: t("user.department"),
-      },
-      roleIds: {
-        name: "roleIds",
-        label: t("user.roles"),
-      },
-      status: {
-        name: "status",
-        label: t("common.status"),
-      },
-    },
-  });
 
   const openCreateModal = () => {
     setSelectedUser(null);
@@ -216,11 +156,6 @@ export function useUsers() {
     setModalOpen(false);
   };
 
-  const submitForm = async () => {
-    const values = await userForm.formInstance.validateFields();
-    saveMutation.mutate(values);
-  };
-
   return {
     users: usersData?.items ?? [],
     departments: deptsData?.items ?? [],
@@ -229,13 +164,14 @@ export function useUsers() {
     modalOpen,
     selectedUser,
     formKey,
-    userForm,
     isSaving: saveMutation.isPending,
     isDeleting: deleteMutation.isPending,
     openCreateModal,
     openEditModal,
     closeModal,
-    submitForm,
+    saveUser: (values: UserFormValues) => {
+      saveMutation.mutate(values);
+    },
     deleteUser: (id: number) => {
       deleteMutation.mutate(id);
     },

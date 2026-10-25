@@ -1,24 +1,19 @@
-import { Space, type TableProps, Tag } from "antd";
 import { useI18n } from "../../hooks/useI18n.ts";
 import type { DepartmentItem, RoleItem, UserItem } from "../../types/api.ts";
 import { DataTable, type DataTableColumn } from "../common/DataTable.tsx";
 import { PermissionButton, PermissionGate } from "../PermissionGate.tsx";
+import { Badge } from "../ui/badge.tsx";
 import { Button } from "../ui/button.tsx";
 import { Popconfirm } from "../ui/popconfirm.tsx";
 
-export interface UserTableProps extends Pick<TableProps<UserItem>, "loading"> {
+export interface UserTableProps {
   data: UserItem[];
   departments: DepartmentItem[];
   roles: RoleItem[];
+  loading?: boolean;
   onEdit: (record: UserItem) => void;
   onDelete: (id: number) => void;
 }
-
-const STATUS_COLORS: Record<UserItem["status"], string> = {
-  active: "success",
-  inactive: "default",
-  suspended: "error",
-};
 
 export function UserTable({ data, departments, roles, loading, onEdit, onDelete }: UserTableProps) {
   const { t } = useI18n();
@@ -33,10 +28,12 @@ export function UserTable({ data, departments, roles, loading, onEdit, onDelete 
       key: "account",
       width: 160,
       render: (account: string, record) => (
-        <Space>
+        <div className="flex items-center gap-2">
           <span>{account}</span>
-          {record.isSystem || record.account === "admin" ? <Tag color="gold">System</Tag> : null}
-        </Space>
+          {record.isSystem || record.account === "admin" ? (
+            <Badge variant="secondary">System</Badge>
+          ) : null}
+        </div>
       ),
     },
     {
@@ -69,13 +66,13 @@ export function UserTable({ data, departments, roles, loading, onEdit, onDelete 
       dataIndex: "roleIds",
       key: "roleIds",
       render: (roleIds: number[]) => (
-        <Space size={[0, 4]} wrap>
+        <div className="flex flex-wrap items-center gap-1">
           {roleIds.map((rid) => (
-            <Tag color="blue" key={rid}>
+            <Badge variant="outline" key={rid}>
               {roleMap.get(rid) ?? rid}
-            </Tag>
+            </Badge>
           ))}
-        </Space>
+        </div>
       ),
     },
     {
@@ -84,13 +81,17 @@ export function UserTable({ data, departments, roles, loading, onEdit, onDelete 
       key: "status",
       width: 100,
       render: (status: UserItem["status"]) => (
-        <Tag color={STATUS_COLORS[status]}>
+        <Badge
+          variant={
+            status === "active" ? "default" : status === "inactive" ? "secondary" : "destructive"
+          }
+        >
           {status === "active"
             ? t("user.statusActive")
             : status === "inactive"
               ? t("user.statusInactive")
               : t("user.statusSuspended")}
-        </Tag>
+        </Badge>
       ),
     },
     {
@@ -98,7 +99,7 @@ export function UserTable({ data, departments, roles, loading, onEdit, onDelete 
       key: "actions",
       width: 140,
       render: (_, record) => (
-        <Space size="middle">
+        <div className="flex items-center gap-3">
           <PermissionButton
             type="link"
             size="small"
@@ -123,7 +124,7 @@ export function UserTable({ data, departments, roles, loading, onEdit, onDelete 
               </Popconfirm>
             </PermissionGate>
           )}
-        </Space>
+        </div>
       ),
     },
   ];

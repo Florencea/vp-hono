@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Empty, Flex } from "antd";
 import logo from "../assets/logo.png";
 
 export const Route = createFileRoute("/")({
@@ -8,19 +7,12 @@ export const Route = createFileRoute("/")({
 
 function Page() {
   return (
-    <Flex align="center" justify="center" className="h-full w-full">
-      <Empty
-        image={logo}
-        styles={{
-          image: {
-            filter: "grayscale(1)",
-            opacity: 0.3,
-            userSelect: "none",
-            pointerEvents: "none",
-          },
-        }}
-        description={false}
+    <div className="flex h-full w-full items-center justify-center">
+      <img
+        src={logo}
+        alt="Empty dashboard"
+        className="pointer-events-none h-32 w-32 select-none opacity-30 grayscale"
       />
-    </Flex>
+    </div>
   );
 }

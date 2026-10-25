@@ -1,24 +1,17 @@
-import { Space, type TableProps, Tag } from "antd";
 import { useI18n } from "../../hooks/useI18n.ts";
 import type { RoleItem } from "../../types/api.ts";
 import { DataTable, type DataTableColumn } from "../common/DataTable.tsx";
 import { PermissionButton, PermissionGate } from "../PermissionGate.tsx";
+import { Badge } from "../ui/badge.tsx";
 import { Button } from "../ui/button.tsx";
 import { Popconfirm } from "../ui/popconfirm.tsx";
 
-export interface RoleTableProps extends Pick<TableProps<RoleItem>, "loading"> {
+export interface RoleTableProps {
   data: RoleItem[];
+  loading?: boolean;
   onEdit: (record: RoleItem) => void;
   onDelete: (id: number) => void;
 }
-
-const SCOPE_COLORS: Record<string, string> = {
-  ALL: "purple",
-  DEPT_AND_CHILD: "blue",
-  DEPT: "cyan",
-  SELF: "orange",
-  CUSTOM: "geekblue",
-};
 
 export function RoleTable({ data, loading, onEdit, onDelete }: RoleTableProps) {
   const { t } = useI18n();
@@ -30,10 +23,10 @@ export function RoleTable({ data, loading, onEdit, onDelete }: RoleTableProps) {
       key: "code",
       width: 150,
       render: (text: string, record) => (
-        <Space>
+        <div className="flex items-center gap-2">
           <span>{text}</span>
-          {record.isSystem ? <Tag color="gold">System</Tag> : null}
-        </Space>
+          {record.isSystem ? <Badge variant="secondary">System</Badge> : null}
+        </div>
       ),
     },
     {
@@ -48,7 +41,7 @@ export function RoleTable({ data, loading, onEdit, onDelete }: RoleTableProps) {
       key: "dataScope",
       width: 180,
       render: (scope: RoleItem["dataScope"]) => (
-        <Tag color={SCOPE_COLORS[scope] ?? "default"}>{t(`role.scopes.${scope}`)}</Tag>
+        <Badge variant="outline">{t(`role.scopes.${scope}`)}</Badge>
       ),
     },
     {
@@ -67,7 +60,7 @@ export function RoleTable({ data, loading, onEdit, onDelete }: RoleTableProps) {
       key: "actions",
       width: 160,
       render: (_, record) => (
-        <Space size="middle">
+        <div className="flex items-center gap-3">
           <PermissionButton
             type="link"
             size="small"
@@ -92,7 +85,7 @@ export function RoleTable({ data, loading, onEdit, onDelete }: RoleTableProps) {
               </Popconfirm>
             </PermissionGate>
           )}
-        </Space>
+        </div>
       ),
     },
   ];

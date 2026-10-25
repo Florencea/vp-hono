@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { Card, Flex } from "antd";
 import { PermissionButton } from "../components/PermissionGate.tsx";
+import { Card } from "../components/ui/card.tsx";
 import { UserModal } from "../components/user/UserModal.tsx";
 import { UserTable } from "../components/user/UserTable.tsx";
 import { useI18n } from "../hooks/useI18n.ts";
@@ -32,12 +32,11 @@ function UsersPage() {
     modalOpen,
     selectedUser,
     formKey,
-    userForm,
     isSaving,
     openCreateModal,
     openEditModal,
     closeModal,
-    submitForm,
+    saveUser,
     deleteUser,
   } = useUsers();
 
@@ -45,15 +44,15 @@ function UsersPage() {
     <Card
       title={t("routes./user")}
       extra={
-        <Flex gap="small">
+        <div className="flex gap-2">
           <PermissionButton
-            type="primary"
+            variant="default"
             permission="system:user:create"
             onClick={openCreateModal}
           >
             {t("user.create")}
           </PermissionButton>
-        </Flex>
+        </div>
       }
     >
       <UserTable
@@ -70,12 +69,9 @@ function UsersPage() {
         departments={departments}
         roles={roles}
         formKey={formKey}
-        userForm={userForm}
         confirmLoading={isSaving}
         onCancel={closeModal}
-        onOk={() => {
-          void submitForm();
-        }}
+        onSubmit={saveUser}
       />
     </Card>
   );

@@ -1,8 +1,8 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { Card, Flex } from "antd";
 import { PermissionButton } from "../components/PermissionGate.tsx";
 import { RoleDrawer } from "../components/role/RoleDrawer.tsx";
 import { RoleTable } from "../components/role/RoleTable.tsx";
+import { Card } from "../components/ui/card.tsx";
 import { useI18n } from "../hooks/useI18n.ts";
 import { useRoles } from "../hooks/useRoles.ts";
 import { userInfoQueryOptions } from "./__root.tsx";
@@ -32,12 +32,11 @@ function RolesPage() {
     drawerOpen,
     selectedRole,
     formKey,
-    roleForm,
     isSaving,
     openCreateDrawer,
     openEditDrawer,
     closeDrawer,
-    submitForm,
+    saveRole,
     deleteRole,
   } = useRoles();
 
@@ -45,15 +44,15 @@ function RolesPage() {
     <Card
       title={t("routes./roles")}
       extra={
-        <Flex gap="small">
+        <div className="flex gap-2">
           <PermissionButton
-            type="primary"
+            variant="default"
             permission="system:role:create"
             onClick={openCreateDrawer}
           >
             {t("role.create")}
           </PermissionButton>
-        </Flex>
+        </div>
       }
     >
       <RoleTable data={roles} loading={isLoading} onEdit={openEditDrawer} onDelete={deleteRole} />
@@ -64,12 +63,9 @@ function RolesPage() {
         permissions={permissions}
         departments={departments}
         formKey={formKey}
-        roleForm={roleForm}
         confirmLoading={isSaving}
         onClose={closeDrawer}
-        onSave={() => {
-          void submitForm();
-        }}
+        onSubmit={saveRole}
       />
     </Card>
   );

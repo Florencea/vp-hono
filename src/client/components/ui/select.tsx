@@ -84,7 +84,7 @@ export function Select({
       {label && <span className="text-sm font-medium text-foreground">{label}</span>}
       <RACButton
         className={cn(
-          "inline-flex h-9 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs ring-offset-background cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+          "inline-flex h-9 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs ring-offset-background cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50",
         )}
       >
         <RACSelectValue className="flex-1 text-left truncate data-placeholder:text-muted-foreground">

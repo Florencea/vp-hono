@@ -7,9 +7,31 @@ test("SSOT Token Bridge: Tailwind --color-primary renders RAC Button primary bac
   const submitBtn = screen.getByRole("button", { name: /submit|送出/i });
   await expect.element(submitBtn).toBeVisible();
 
-  // Validate the computed background color matches Tailwind primary token (#2f54eb -> rgb(47, 84, 235))
+  // Validate the computed background color matches Tailwind primary token (#4f46e5 -> rgb(79, 70, 229))
   const btnBg = window.getComputedStyle(submitBtn.element()).backgroundColor;
-  expect(btnBg).toBe("rgb(47, 84, 235)");
+  expect(btnBg).toBe("rgb(79, 70, 229)");
+});
+
+test("Theme System: clicking ThemeToggle updates document.documentElement dark class and background color", async () => {
+  const screen = await renderAppAt("/login");
+
+  const themeToggle = screen.getByRole("button", { name: /switch to dark theme|切換至深色主題/i });
+  await expect.element(themeToggle).toBeVisible();
+
+  // Initially light mode
+  expect(document.documentElement.classList.contains("dark")).toBe(false);
+  expect(window.getComputedStyle(document.body).backgroundColor).toBe("rgb(255, 255, 255)");
+
+  // Toggle to dark mode
+  await themeToggle.click();
+  expect(document.documentElement.classList.contains("dark")).toBe(true);
+  expect(window.getComputedStyle(document.body).backgroundColor).toBe("rgb(13, 13, 17)");
+
+  // Toggle back to light mode
+  const lightToggle = screen.getByRole("button", { name: /switch to light theme|切換至淺色主題/i });
+  await lightToggle.click();
+  expect(document.documentElement.classList.contains("dark")).toBe(false);
+  expect(window.getComputedStyle(document.body).backgroundColor).toBe("rgb(255, 255, 255)");
 });
 
 test("E2E Form Contract: Required validation blocks empty submission without network call", async () => {
@@ -84,10 +106,14 @@ test("E2E RPC Wire Contract: Form submission dispatches typed payload matching L
     password: "password123",
   });
 
-  // Verify the error toast is rendered via RAC ToastRegion
+  // Verify the error toast is rendered via RAC ToastRegion at top-center
   const toast = screen.getByText("Invalid credentials");
   await expect.element(toast).toBeInTheDocument();
   await expect.element(toast).toBeVisible();
+
+  const toastRegion = toast.element().closest("[aria-label]");
+  expect(toastRegion?.className).toContain("top-4");
+  expect(toastRegion?.className).toContain("left-1/2");
 
   window.fetch = originalFetch;
 });

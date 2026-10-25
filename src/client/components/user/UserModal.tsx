@@ -1,4 +1,5 @@
 import { useForm } from "@tanstack/react-form";
+import { Check, Pencil, Plus } from "lucide-react";
 import { useI18n } from "../../hooks/useI18n.ts";
 import type { UserFormValues } from "../../hooks/useUsers.ts";
 import type { DepartmentItem, RoleItem, UserItem } from "../../types/api.ts";
@@ -251,6 +252,7 @@ function UserForm({
           {cancelLabel}
         </Button>
         <Button type="submit" isDisabled={confirmLoading}>
+          <Check className="size-4" aria-hidden="true" />
           {okLabel}
         </Button>
       </DialogFooter>
@@ -274,7 +276,16 @@ export function UserModal({
   return (
     <DialogContent isOpen={open} onOpenChange={(isOpen) => !isOpen && onCancel()}>
       <DialogHeader>
-        <DialogTitle>{isEdit ? t("user.edit") : t("user.create")}</DialogTitle>
+        <DialogTitle>
+          <span className="inline-flex items-center gap-2">
+            {isEdit ? (
+              <Pencil className="size-4.5 text-primary" aria-hidden="true" />
+            ) : (
+              <Plus className="size-4.5 text-primary" aria-hidden="true" />
+            )}
+            <span>{isEdit ? t("user.edit") : t("user.create")}</span>
+          </span>
+        </DialogTitle>
       </DialogHeader>
       {open && (
         <UserForm

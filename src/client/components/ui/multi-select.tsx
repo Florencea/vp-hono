@@ -63,7 +63,7 @@ export function MultiSelect<T extends string | number>({
           tabIndex={disabled ? -1 : 0}
           onClick={() => !disabled && setIsOpen(!isOpen)}
           className={cn(
-            "flex min-h-9 w-full flex-wrap items-center justify-between gap-1.5 rounded-md border border-input bg-background px-3 py-1.5 text-sm shadow-xs transition-colors cursor-pointer focus-within:ring-2 focus-within:ring-ring",
+            "flex min-h-9 w-full flex-wrap items-center justify-between gap-1.5 rounded-md border border-input bg-background px-3 py-1.5 text-sm shadow-xs transition-colors cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 ring-offset-background",
             disabled && "cursor-not-allowed opacity-50 pointer-events-none",
           )}
         >

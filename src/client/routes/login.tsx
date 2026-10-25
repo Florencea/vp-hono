@@ -1,10 +1,19 @@
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute } from "@tanstack/react-router";
+import { LogIn } from "lucide-react";
 import { LoginSearchSchema } from "../../server/routes/auth/auth.schema.ts";
+import logo from "../assets/logo.svg";
+import { APP_TITLE } from "../config.ts";
 import { I18nSwitcher } from "../components/I18nSwitcher.tsx";
 import { ThemeToggle } from "../components/ThemeToggle.tsx";
 import { Button } from "../components/ui/button.tsx";
-import { Card } from "../components/ui/card.tsx";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card.tsx";
 import { PasswordInput } from "../components/ui/password-input.tsx";
 import { FieldError, Input, Label, TextField } from "../components/ui/textfield.tsx";
 import { useAuth } from "../hooks/useAuth.ts";
@@ -34,91 +43,99 @@ function Page() {
   });
 
   return (
-    <div className="flex h-full w-full items-center justify-center">
-      <Card
-        title={t("auth.login")}
-        extra={
-          <div className="flex items-center gap-1">
-            <ThemeToggle />
-            <I18nSwitcher />
+    <div className="flex min-h-full w-full items-center justify-center p-4">
+      <Card className="w-full max-w-sm">
+        <CardHeader className="flex flex-col">
+          <div className="flex items-center justify-between pb-2">
+            <div className="flex items-center gap-2">
+              <img className="size-6 shrink-0" src={logo} alt="logo" />
+              <span className="font-semibold text-sm tracking-tight">{APP_TITLE}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <ThemeToggle />
+              <I18nSwitcher />
+            </div>
           </div>
-        }
-        className="w-full max-w-sm"
-      >
-        <form
-          noValidate
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            void form.handleSubmit();
-          }}
-          className="flex flex-col gap-4"
-        >
-          <form.Field
-            name="account"
-            validators={{
-              onSubmit: ({ value }) =>
-                !value || !value.trim() ? getRequiredMessage(t("auth.account")) : undefined,
-              onChange: ({ value }) => (value && value.trim() ? undefined : undefined),
+          <CardTitle>{t("auth.login")}</CardTitle>
+          <CardDescription>{t("auth.loginDescription")}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form
+            noValidate
+            onSubmit={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              void form.handleSubmit();
             }}
+            className="flex flex-col gap-4"
           >
-            {(field) => {
-              const error = field.state.meta.errors[0];
-              return (
-                <TextField
-                  name={field.name}
-                  value={field.state.value}
-                  onChange={(val) => field.handleChange(val)}
-                  onBlur={field.handleBlur}
-                  isInvalid={!!error}
-                  isRequired
-                  isDisabled={login.isPending}
-                >
-                  <Label>{t("auth.account")}</Label>
-                  <Input autoFocus placeholder={t("auth.account")} />
-                  {error && <FieldError>{error}</FieldError>}
-                </TextField>
-              );
-            }}
-          </form.Field>
+            <form.Field
+              name="account"
+              validators={{
+                onSubmit: ({ value }) =>
+                  !value || !value.trim() ? getRequiredMessage(t("auth.account")) : undefined,
+                onChange: ({ value }) => (value && value.trim() ? undefined : undefined),
+              }}
+            >
+              {(field) => {
+                const error = field.state.meta.errors[0];
+                return (
+                  <TextField
+                    name={field.name}
+                    value={field.state.value}
+                    onChange={(val) => field.handleChange(val)}
+                    onBlur={field.handleBlur}
+                    isInvalid={!!error}
+                    isRequired
+                    isDisabled={login.isPending}
+                  >
+                    <Label>{t("auth.account")}</Label>
+                    <Input autoFocus placeholder={t("auth.account")} />
+                    {error && <FieldError>{error}</FieldError>}
+                  </TextField>
+                );
+              }}
+            </form.Field>
 
-          <form.Field
-            name="password"
-            validators={{
-              onSubmit: ({ value }) =>
-                !value || !value.trim() ? getRequiredMessage(t("auth.password")) : undefined,
-              onChange: ({ value }) => (value && value.trim() ? undefined : undefined),
-            }}
-          >
-            {(field) => {
-              const error = field.state.meta.errors[0];
-              return (
-                <TextField
-                  name={field.name}
-                  value={field.state.value}
-                  onChange={(val) => field.handleChange(val)}
-                  onBlur={field.handleBlur}
-                  isInvalid={!!error}
-                  isRequired
-                  isDisabled={login.isPending}
-                >
-                  <Label>{t("auth.password")}</Label>
-                  <PasswordInput placeholder={t("auth.password")} />
-                  {error && <FieldError>{error}</FieldError>}
-                </TextField>
-              );
-            }}
-          </form.Field>
+            <form.Field
+              name="password"
+              validators={{
+                onSubmit: ({ value }) =>
+                  !value || !value.trim() ? getRequiredMessage(t("auth.password")) : undefined,
+                onChange: ({ value }) => (value && value.trim() ? undefined : undefined),
+              }}
+            >
+              {(field) => {
+                const error = field.state.meta.errors[0];
+                return (
+                  <TextField
+                    name={field.name}
+                    value={field.state.value}
+                    onChange={(val) => field.handleChange(val)}
+                    onBlur={field.handleBlur}
+                    isInvalid={!!error}
+                    isRequired
+                    isDisabled={login.isPending}
+                  >
+                    <Label>{t("auth.password")}</Label>
+                    <PasswordInput placeholder={t("auth.password")} />
+                    {error && <FieldError>{error}</FieldError>}
+                  </TextField>
+                );
+              }}
+            </form.Field>
 
-          <Button
-            type="submit"
-            variant="default"
-            disabled={login.isPending}
-            className="mt-2 w-full"
-          >
-            {t("common.submit")}
-          </Button>
-        </form>
+            <Button
+              type="submit"
+              variant="default"
+              disabled={login.isPending}
+              className="mt-2 w-full"
+            >
+              <LogIn className="size-4" aria-hidden="true" />
+              {t("common.submit")}
+            </Button>
+          </form>
+        </CardContent>
       </Card>
     </div>
   );

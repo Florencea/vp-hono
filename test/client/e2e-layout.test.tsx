@@ -72,34 +72,32 @@ test("Layout: renders application logo and APP_TITLE in the header", async () =>
   await expect.element(title).toBeVisible();
 });
 
-test("Layout: sidebar toggles collapsed and expanded states via collapse trigger", async () => {
+test("Layout: sidebar provides responsive styling and distinctive active item styling without manual trigger", async () => {
   mockAuthEnvironment();
   const screen = await renderAppAt("/");
 
   const aside = screen.getByRole("complementary");
   await expect.element(aside).toBeInTheDocument();
 
-  // Find the collapse/expand trigger icon inside the sidebar
-  const triggerIcon = aside.getByRole("img", { name: /left|right/i });
-  await expect.element(triggerIcon).toBeVisible();
+  // Verify manual collapse/expand trigger is removed in favor of responsive layout
+  const triggerButtons = aside.element().querySelectorAll("button");
+  expect(triggerButtons).toHaveLength(0);
 
-  const initialWidth = aside.element().getBoundingClientRect().width;
+  // Aside has responsive width classes
+  const asideClass = aside.element().className;
+  expect(asideClass).toContain("w-16");
+  expect(asideClass).toContain("md:w-56");
 
-  // Click the trigger to toggle state
-  await triggerIcon.click();
+  // Verify menuitem inactive vs active selected state
+  const roleItem = screen.getByRole("menuitem", { name: /roles|角色/i });
+  await expect.element(roleItem).toBeVisible();
+  expect(roleItem.element().className).toContain("text-sidebar-foreground/75");
 
+  await roleItem.click();
   await vi.waitFor(() => {
-    const toggledWidth = aside.element().getBoundingClientRect().width;
-    expect(toggledWidth).not.toBe(initialWidth);
-  });
-
-  // Query trigger icon at new position and click again to revert
-  const updatedTrigger = aside.getByRole("img", { name: /left|right/i });
-  await updatedTrigger.click();
-
-  await vi.waitFor(() => {
-    const revertedWidth = aside.element().getBoundingClientRect().width;
-    expect(revertedWidth).toBe(initialWidth);
+    expect(screen.router.state.location.pathname).toBe("/roles");
+    expect(roleItem.element().className).toContain("bg-primary");
+    expect(roleItem.element().className).toContain("text-primary-foreground");
   });
 });
 

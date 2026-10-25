@@ -7,6 +7,7 @@ export interface LocaleSchema {
     logout: string;
     submit: string;
     changeLanguage: string;
+    create: string;
     add: string;
     edit: string;
     delete: string;
@@ -20,9 +21,13 @@ export interface LocaleSchema {
     reset: string;
     status: string;
     success: string;
+    notifications: string;
+    welcomeUser: string;
+    welcomeSystem: string;
   };
   auth: {
     login: string;
+    loginDescription: string;
     account: string;
     password: string;
   };

@@ -1,4 +1,4 @@
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Pencil, Plus, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import { useI18n } from "../../hooks/useI18n.ts";
 import type { DepartmentItem } from "../../types/api.ts";
@@ -90,26 +90,29 @@ export function DepartmentTreeTable({
             <span className="text-muted-foreground">{node.path}</span>
           </TableCell>
           <TableCell>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <PermissionButton
-                variant="link"
+                variant="ghost"
                 size="sm"
                 permission="system:dept:create"
                 onClick={() => onAddChild(node)}
               >
-                {t("common.add")}
+                <Plus className="size-3.5" aria-hidden="true" />
+                {t("common.create")}
               </PermissionButton>
               <PermissionButton
-                variant="link"
+                variant="ghost"
                 size="sm"
                 permission="system:dept:update"
                 onClick={() => onEdit(node)}
               >
+                <Pencil className="size-3.5" aria-hidden="true" />
                 {t("common.edit")}
               </PermissionButton>
               <PermissionGate permission="system:dept:delete">
                 <Popconfirm title={t("common.confirmDelete")} onConfirm={() => onDelete(node.id)}>
-                  <Button variant="link-destructive" size="sm">
+                  <Button variant="ghost-destructive" size="sm">
+                    <Trash2 className="size-3.5" aria-hidden="true" />
                     {t("common.delete")}
                   </Button>
                 </Popconfirm>

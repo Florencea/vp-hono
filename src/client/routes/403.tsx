@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { ShieldAlert } from "lucide-react";
+import { Home, ShieldAlert } from "lucide-react";
 import { Button } from "../components/ui/button.tsx";
 import { Card } from "../components/ui/card.tsx";
 import { useI18n } from "../hooks/useI18n.ts";
@@ -28,6 +28,7 @@ function ForbiddenPage() {
             void navigate({ to: "/" });
           }}
         >
+          <Home className="size-4" aria-hidden="true" />
           {t("forbidden.backHome")}
         </Button>
       </Card>

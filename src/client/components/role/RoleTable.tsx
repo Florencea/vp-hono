@@ -1,3 +1,4 @@
+import { Pencil, Trash2 } from "lucide-react";
 import { useI18n } from "../../hooks/useI18n.ts";
 import type { RoleItem } from "../../types/api.ts";
 import { PermissionButton, PermissionGate } from "../PermissionGate.tsx";
@@ -59,13 +60,14 @@ export function RoleTable({ data, loading = false, onEdit, onDelete }: RoleTable
                 <span className="text-muted-foreground">{record.description ?? "-"}</span>
               </TableCell>
               <TableCell>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1">
                   <PermissionButton
-                    variant="link"
+                    variant="ghost"
                     size="sm"
                     permission="system:role:update"
                     onClick={() => onEdit(record)}
                   >
+                    <Pencil className="size-3.5" aria-hidden="true" />
                     {t("common.edit")}
                   </PermissionButton>
                   {!record.isSystem && (
@@ -74,7 +76,8 @@ export function RoleTable({ data, loading = false, onEdit, onDelete }: RoleTable
                         title={t("common.confirmDelete")}
                         onConfirm={() => onDelete(record.id)}
                       >
-                        <Button variant="link-destructive" size="sm">
+                        <Button variant="ghost-destructive" size="sm">
+                          <Trash2 className="size-3.5" aria-hidden="true" />
                           {t("common.delete")}
                         </Button>
                       </Popconfirm>

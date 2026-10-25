@@ -1,4 +1,5 @@
 import { useForm } from "@tanstack/react-form";
+import { Check, Pencil, Plus } from "lucide-react";
 import type { DepartmentFormValues } from "../../hooks/useDepartments.ts";
 import { useI18n } from "../../hooks/useI18n.ts";
 import type { DepartmentItem } from "../../types/api.ts";
@@ -135,6 +136,7 @@ function DepartmentForm({
           {cancelLabel}
         </Button>
         <Button type="submit" isDisabled={confirmLoading}>
+          <Check className="size-4" aria-hidden="true" />
           {okLabel}
         </Button>
       </DialogFooter>
@@ -158,7 +160,16 @@ export function DepartmentModal({
   return (
     <DialogContent isOpen={open} onOpenChange={(isOpen) => !isOpen && onCancel()}>
       <DialogHeader>
-        <DialogTitle>{isEdit ? t("dept.edit") : t("dept.create")}</DialogTitle>
+        <DialogTitle>
+          <span className="inline-flex items-center gap-2">
+            {isEdit ? (
+              <Pencil className="size-4.5 text-primary" aria-hidden="true" />
+            ) : (
+              <Plus className="size-4.5 text-primary" aria-hidden="true" />
+            )}
+            <span>{isEdit ? t("dept.edit") : t("dept.create")}</span>
+          </span>
+        </DialogTitle>
       </DialogHeader>
       {open && (
         <DepartmentForm

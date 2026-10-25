@@ -1,3 +1,4 @@
+import { Pencil, Trash2 } from "lucide-react";
 import { useI18n } from "../../hooks/useI18n.ts";
 import type { DepartmentItem, RoleItem, UserItem } from "../../types/api.ts";
 import { PermissionButton, PermissionGate } from "../PermissionGate.tsx";
@@ -85,10 +86,10 @@ export function UserTable({
                 <Badge
                   variant={
                     record.status === "active"
-                      ? "default"
+                      ? "success"
                       : record.status === "inactive"
                         ? "secondary"
-                        : "destructive"
+                        : "warning"
                   }
                 >
                   {record.status === "active"
@@ -99,13 +100,14 @@ export function UserTable({
                 </Badge>
               </TableCell>
               <TableCell>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1">
                   <PermissionButton
-                    variant="link"
+                    variant="ghost"
                     size="sm"
                     permission="system:user:update"
                     onClick={() => onEdit(record)}
                   >
+                    <Pencil className="size-3.5" aria-hidden="true" />
                     {t("common.edit")}
                   </PermissionButton>
                   {!record.isSystem && record.account !== "admin" && (
@@ -114,7 +116,8 @@ export function UserTable({
                         title={t("common.confirmDelete")}
                         onConfirm={() => onDelete(record.id)}
                       >
-                        <Button variant="link-destructive" size="sm">
+                        <Button variant="ghost-destructive" size="sm">
+                          <Trash2 className="size-3.5" aria-hidden="true" />
                           {t("common.delete")}
                         </Button>
                       </Popconfirm>

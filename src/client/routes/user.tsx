@@ -1,6 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import { Plus } from "lucide-react";
 import { PermissionButton } from "../components/PermissionGate.tsx";
-import { Card } from "../components/ui/card.tsx";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card.tsx";
 import { UserModal } from "../components/user/UserModal.tsx";
 import { UserTable } from "../components/user/UserTable.tsx";
 import { useI18n } from "../hooks/useI18n.ts";
@@ -41,38 +42,40 @@ function UsersPage() {
   } = useUsers();
 
   return (
-    <Card
-      title={t("routes./user")}
-      extra={
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle>{t("routes./user")}</CardTitle>
         <div className="flex gap-2">
           <PermissionButton
             variant="default"
             permission="system:user:create"
             onClick={openCreateModal}
           >
+            <Plus className="size-4" aria-hidden="true" />
             {t("user.create")}
           </PermissionButton>
         </div>
-      }
-    >
-      <UserTable
-        data={users}
-        departments={departments}
-        roles={roles}
-        loading={isLoading}
-        onEdit={openEditModal}
-        onDelete={deleteUser}
-      />
-      <UserModal
-        open={modalOpen}
-        user={selectedUser}
-        departments={departments}
-        roles={roles}
-        formKey={formKey}
-        confirmLoading={isSaving}
-        onCancel={closeModal}
-        onSubmit={saveUser}
-      />
+      </CardHeader>
+      <CardContent>
+        <UserTable
+          data={users}
+          departments={departments}
+          roles={roles}
+          loading={isLoading}
+          onEdit={openEditModal}
+          onDelete={deleteUser}
+        />
+        <UserModal
+          open={modalOpen}
+          user={selectedUser}
+          departments={departments}
+          roles={roles}
+          formKey={formKey}
+          confirmLoading={isSaving}
+          onCancel={closeModal}
+          onSubmit={saveUser}
+        />
+      </CardContent>
     </Card>
   );
 }

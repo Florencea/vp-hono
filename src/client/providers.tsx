@@ -1,7 +1,6 @@
 import "./global.css";
 
 import {
-  MutationCache,
   QueryCache,
   QueryClient,
   QueryClientProvider,
@@ -49,13 +48,6 @@ const ApiProvider = ({ children, queryClient: customQueryClient }: Props) => {
     () =>
       new QueryClient({
         queryCache: new QueryCache({
-          onError: (err) => {
-            if (err.message !== "") {
-              toast.error(err.message);
-            }
-          },
-        }),
-        mutationCache: new MutationCache({
           onError: (err) => {
             if (err.message !== "") {
               toast.error(err.message);

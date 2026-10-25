@@ -68,7 +68,7 @@ export function DialogContent({
                   type="button"
                   onClick={() => onOpenChange(false)}
                   aria-label="Close"
-                  className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-ring"
+                  className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 ring-offset-background"
                 >
                   <X className="size-4" />
                 </button>

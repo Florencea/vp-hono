@@ -1,8 +1,9 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import { Plus } from "lucide-react";
 import { PermissionButton } from "../components/PermissionGate.tsx";
 import { RoleDrawer } from "../components/role/RoleDrawer.tsx";
 import { RoleTable } from "../components/role/RoleTable.tsx";
-import { Card } from "../components/ui/card.tsx";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card.tsx";
 import { useI18n } from "../hooks/useI18n.ts";
 import { useRoles } from "../hooks/useRoles.ts";
 import { userInfoQueryOptions } from "./__root.tsx";
@@ -41,32 +42,33 @@ function RolesPage() {
   } = useRoles();
 
   return (
-    <Card
-      title={t("routes./roles")}
-      extra={
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle>{t("routes./roles")}</CardTitle>
         <div className="flex gap-2">
           <PermissionButton
             variant="default"
             permission="system:role:create"
             onClick={openCreateDrawer}
           >
+            <Plus className="size-4" aria-hidden="true" />
             {t("role.create")}
           </PermissionButton>
         </div>
-      }
-    >
-      <RoleTable data={roles} loading={isLoading} onEdit={openEditDrawer} onDelete={deleteRole} />
-
-      <RoleDrawer
-        open={drawerOpen}
-        role={selectedRole}
-        permissions={permissions}
-        departments={departments}
-        formKey={formKey}
-        confirmLoading={isSaving}
-        onClose={closeDrawer}
-        onSubmit={saveRole}
-      />
+      </CardHeader>
+      <CardContent>
+        <RoleTable data={roles} loading={isLoading} onEdit={openEditDrawer} onDelete={deleteRole} />
+        <RoleDrawer
+          open={drawerOpen}
+          role={selectedRole}
+          permissions={permissions}
+          departments={departments}
+          formKey={formKey}
+          confirmLoading={isSaving}
+          onClose={closeDrawer}
+          onSubmit={saveRole}
+        />
+      </CardContent>
     </Card>
   );
 }

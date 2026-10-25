@@ -8,7 +8,7 @@ import {
 import { cn } from "../../utils/cn.ts";
 
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all duration-150 cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 ring-offset-background active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-150 cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 ring-offset-background active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -21,14 +21,16 @@ export const buttonVariants = cva(
         secondary:
           "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80 pressed:bg-secondary/70",
         ghost: "hover:bg-muted hover:text-foreground pressed:bg-muted/80",
+        "ghost-destructive":
+          "text-destructive hover:bg-destructive/10 hover:text-destructive pressed:bg-destructive/20",
         link: "text-primary underline-offset-4 hover:underline active:scale-100",
         "link-destructive": "text-destructive underline-offset-4 hover:underline active:scale-100",
       },
       size: {
         default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8 text-base",
-        icon: "size-9 p-0",
+        sm: "h-8 rounded-md px-2.5 text-xs font-medium",
+        lg: "h-10 rounded-lg px-8 text-base",
+        icon: "size-9 p-0 rounded-lg",
       },
     },
     defaultVariants: {
@@ -44,6 +46,7 @@ export type ButtonVariant =
   | "outline"
   | "secondary"
   | "ghost"
+  | "ghost-destructive"
   | "link"
   | "link-destructive";
 

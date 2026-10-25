@@ -1,6 +1,3 @@
-import type { Locale } from "antd/es/locale";
-import antdEnUS from "antd/es/locale/en_US";
-import antdZhTW from "antd/es/locale/zh_TW";
 import { createContext, use } from "react";
 import {
   DEFAULT_LOCALE,
@@ -9,11 +6,6 @@ import {
   type SupportedLocale,
 } from "../../locales/registry.ts";
 import type { TranslationKey, TranslationParams } from "../../locales/schema.ts";
-
-export const antdLocales: Record<SupportedLocale, Locale> = {
-  "en-US": antdEnUS,
-  "zh-TW": antdZhTW,
-};
 
 export const STORAGE_KEY = "app_lang";
 

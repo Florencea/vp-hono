@@ -4,7 +4,7 @@ import { renderAppAt } from "./test-utils";
 const originalFetch = window.fetch.bind(window);
 
 const unhandledRejectionHandler = (e: PromiseRejectionEvent) => {
-  // Prevent unhandled rejections from Antd's validateFields() rejection
+  // Prevent unhandled rejections during form validation
   e.preventDefault();
 };
 

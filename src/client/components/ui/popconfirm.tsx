@@ -48,8 +48,8 @@ export function Popconfirm({
         offset={6}
         className={cn(
           "z-50 rounded-lg border border-border bg-popover p-3 text-popover-foreground shadow-lg outline-hidden min-w-48 max-w-xs",
-          "data-entering:animate-in data-[entering]:fade-in data-entering:zoom-in-95 duration-150",
-          "data-exiting:animate-out data-[exiting]:fade-out data-exiting:zoom-out-95 duration-100",
+          "data-entering:animate-in data-entering:fade-in data-entering:zoom-in-95 duration-150",
+          "data-exiting:animate-out data-exiting:fade-out data-exiting:zoom-out-95 duration-100",
         )}
       >
         <div role="tooltip">

@@ -1,7 +1,7 @@
 import { expect, test, vi } from "vite-plus/test";
 import { renderAppAt } from "./test-utils";
 
-test("SSOT Token Bridge: Tailwind --color-primary bridges into Antd primary button background", async () => {
+test("SSOT Token Bridge: Tailwind --color-primary renders RAC Button primary background", async () => {
   const screen = await renderAppAt("/login");
 
   const submitBtn = screen.getByRole("button", { name: /submit|送出/i });
@@ -22,7 +22,7 @@ test("E2E Form Contract: Required validation blocks empty submission without net
   // Click submit on empty form
   await submitBtn.click();
 
-  // Antd validation should display required error message with auto-waiting
+  // TanStack Form validation displays required error message with auto-waiting
   const errorMsg = screen.getByText(/Please enter Account|請輸入帳號/i);
   await expect.element(errorMsg).toBeVisible();
 
@@ -84,7 +84,7 @@ test("E2E RPC Wire Contract: Form submission dispatches typed payload matching L
     password: "password123",
   });
 
-  // Verify the error toast/message is rendered via Antd App context
+  // Verify the error toast is rendered via RAC ToastRegion
   const toast = screen.getByText("Invalid credentials");
   await expect.element(toast).toBeInTheDocument();
   await expect.element(toast).toBeVisible();

@@ -99,8 +99,8 @@ export function Select({
         offset={4}
         className={cn(
           "z-50 min-w-(--trigger-width) max-h-60 overflow-y-auto rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md outline-hidden",
-          "data-entering:animate-in data-[entering]:fade-in-0 data-entering:zoom-in-95 duration-150",
-          "data-exiting:animate-out data-[exiting]:fade-out-0 data-exiting:zoom-out-95 duration-100",
+          "data-entering:animate-in data-entering:fade-in-0 data-entering:zoom-in-95 duration-150",
+          "data-exiting:animate-out data-exiting:fade-out-0 data-exiting:zoom-out-95 duration-100",
         )}
       >
         <RACListBox

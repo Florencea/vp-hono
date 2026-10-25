@@ -8,13 +8,11 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { RouterProvider } from "@tanstack/react-router";
-import { App, ConfigProvider } from "antd";
 import { StrictMode, useState, type ReactNode } from "react";
 import { I18nProvider } from "./components/I18nProvider.tsx";
 import { ToastRegion } from "./components/ui/toast.tsx";
 import { router } from "./constants/routes.tsx";
-import { antdLocales, useI18n } from "./hooks/useI18n.ts";
-import { useAntdTheme } from "./theme.ts";
+import { ThemeProvider } from "./theme.tsx";
 import { toast } from "./utils/toast.ts";
 
 interface Props {
@@ -23,7 +21,7 @@ interface Props {
 }
 
 interface ProviderProps extends Props {
-  container: HTMLElement;
+  container?: HTMLElement | undefined;
 }
 
 const AppRouterProvider = () => {
@@ -31,32 +29,18 @@ const AppRouterProvider = () => {
   return <RouterProvider router={router} context={{ queryClient }} />;
 };
 
-export const Providers = ({ container, children, queryClient }: ProviderProps) => {
+export const Providers = ({ children, queryClient }: ProviderProps) => {
   return (
     <StrictMode>
-      <I18nProvider>
-        <ApiProvider queryClient={queryClient}>
-          <AntdProvider container={container}>{children ?? <AppRouterProvider />}</AntdProvider>
-          <ToastRegion />
-        </ApiProvider>
-      </I18nProvider>
+      <ThemeProvider>
+        <I18nProvider>
+          <ApiProvider queryClient={queryClient}>
+            {children ?? <AppRouterProvider />}
+            <ToastRegion />
+          </ApiProvider>
+        </I18nProvider>
+      </ThemeProvider>
     </StrictMode>
-  );
-};
-
-const AntdProvider = ({ container, children }: ProviderProps) => {
-  const { locale } = useI18n();
-  const dynamicTheme = useAntdTheme();
-
-  return (
-    <ConfigProvider
-      getPopupContainer={() => container}
-      locale={antdLocales[locale]}
-      theme={dynamicTheme}
-      button={{ autoInsertSpace: false }}
-    >
-      <App>{children}</App>
-    </ConfigProvider>
   );
 };
 

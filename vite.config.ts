@@ -44,16 +44,20 @@ export default defineConfig(({ mode }) => {
       },
       rules: {
         "react/react-in-jsx-scope": "off",
+        // Phase 4 升級為 error：全面禁止任意樣式破壞與未授權覆寫
         "shadcn/no-restyle": [
-          "warn",
+          "error",
           {
             allow: ["layout"],
-            contracts: [{ pattern: "^Button$", allow: ["layout"] }],
+            contracts: [
+              { pattern: "^Button$", allow: ["layout"] },
+              { pattern: "^CardContent$", allow: ["layout", "spacing"] },
+            ],
           },
         ],
-        "shadcn/no-raw-colors": "warn",
-        "shadcn/no-arbitrary-values": "warn",
-        "shadcn/no-inline-styles": "warn",
+        "shadcn/no-raw-colors": "error",
+        "shadcn/no-arbitrary-values": "error",
+        "shadcn/no-inline-styles": "error",
       },
       overrides: [
         {

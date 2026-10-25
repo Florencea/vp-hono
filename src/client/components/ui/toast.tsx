@@ -26,7 +26,7 @@ export function ToastItem({ toast: item }: ToastItemProps) {
     <RACToast
       toast={item}
       className={cn(
-        "pointer-events-auto relative flex w-full items-start gap-3 overflow-hidden rounded-lg border bg-background p-4 shadow-lg transition-all animate-in fade-in slide-in-from-top-2 duration-200",
+        "pointer-events-auto relative flex w-full items-start gap-3 overflow-hidden rounded-xl border bg-background p-4 shadow-xl transition-all animate-in fade-in slide-in-from-bottom-2 duration-200",
         isError && "border-destructive/40 text-destructive bg-destructive/5",
         isSuccess && "border-success/40 text-foreground bg-success/5",
         isWarning && "border-warning/40 text-foreground bg-warning/5",
@@ -74,7 +74,7 @@ export function ToastRegion({ className, ...props }: ToastRegionProps) {
       {...props}
       queue={toastQueue}
       className={cn(
-        "fixed top-4 right-4 z-50 flex max-h-screen w-full max-w-sm flex-col gap-2 pointer-events-none outline-none",
+        "fixed bottom-4 right-4 z-50 flex max-h-screen w-full max-w-sm flex-col gap-2 pointer-events-none outline-none",
         className,
       )}
     >

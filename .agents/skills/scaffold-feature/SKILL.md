@@ -1,7 +1,7 @@
 ---
 name: scaffold-feature
 description: Step-by-step workflow to scaffold a new full-stack feature slice with schema, routes, handlers, locales, and contract tests.
-compatibility: Vite+, Hono, React 19, Ant Design v6
+compatibility: Vite+, Hono, React 19, React Aria Components, TanStack Form
 ---
 
 # Scaffold Feature Workflow
@@ -31,6 +31,7 @@ This creates:
 1. Customize request/response fields in `<feature>.schema.ts`.
 2. Connect database queries in `<feature>.handlers.ts`.
 3. Add UI presentational components under `src/client/components/<feature>/` and client hook `src/client/hooks/use<Feature>.ts`.
+4. Build form interactions using `@tanstack/react-form` and React Aria Components (`Button`, `TextField`, `Select`, `DataModal`).
 
 ## 3. Verify Newly Scaffolded Slice
 

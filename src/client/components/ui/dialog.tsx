@@ -40,8 +40,8 @@ export function DialogContent({
       isDismissable={isDismissable}
       className={cn(
         "fixed inset-0 z-50 flex min-h-full items-center justify-center p-4 bg-black/60 backdrop-blur-xs",
-        "data-entering:animate-in data-[entering]:fade-in duration-200",
-        "data-exiting:animate-out data-[exiting]:fade-out duration-150",
+        "data-entering:animate-in data-entering:fade-in duration-200",
+        "data-exiting:animate-out data-exiting:fade-out duration-150",
         overlayClassName,
       )}
     >

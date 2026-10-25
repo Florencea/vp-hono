@@ -2,6 +2,7 @@ import { useForm } from "@tanstack/react-form";
 import { createFileRoute } from "@tanstack/react-router";
 import { LoginSearchSchema } from "../../server/routes/auth/auth.schema.ts";
 import { I18nSwitcher } from "../components/I18nSwitcher.tsx";
+import { ThemeToggle } from "../components/ThemeToggle.tsx";
 import { Button } from "../components/ui/button.tsx";
 import { Card } from "../components/ui/card.tsx";
 import { PasswordInput } from "../components/ui/password-input.tsx";
@@ -34,7 +35,16 @@ function Page() {
 
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <Card title={t("auth.login")} extra={<I18nSwitcher />} className="w-full max-w-sm">
+      <Card
+        title={t("auth.login")}
+        extra={
+          <div className="flex items-center gap-1">
+            <ThemeToggle />
+            <I18nSwitcher />
+          </div>
+        }
+        className="w-full max-w-sm"
+      >
         <form
           noValidate
           onSubmit={(e) => {

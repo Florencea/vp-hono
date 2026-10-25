@@ -104,12 +104,12 @@ vpr agent:test:e2e
 
 請在結束當前 Phase 1 對話前，逐一核對以下檢查項目：
 
-- [ ] 6 個新增測試檔案皆已建立且符合標準 ARIA 角色與標籤查詢模式（嚴禁依賴 `.ant-*` 特有類名）。
-- [ ] 認證測試已正確 Mock `window.location.reload`，測試執行期間無瀏覽器重新載入之崩潰現象。
-- [ ] 執行 `vpr agent:test:e2e`，確保所有既有與新增測試 100% 通過（零失敗、零跳過）。
-- [ ] 執行 `git status` 確認本階段未更動任何 `src/client/` 業務代碼與 UI 組件（嚴守 Phase 1 階段邊界）。
-- [ ] 執行 `vpx oxfmt test/client` 確保新增的測試腳本排版格式合規。
-- [ ] 產生英文 Conventional Commit 建議並由使用者在本地終端機完成提交。
+- [x] 6 個新增測試檔案皆已建立且符合標準 ARIA 角色與標籤查詢模式（嚴禁依賴 `.ant-*` 特有類名）。
+- [x] 認證測試已正確 Mock `window.location.reload`，測試執行期間無瀏覽器重新載入之崩潰現象。
+- [x] 執行 `vpr agent:test:e2e`，確保所有既有與新增測試 100% 通過（零失敗、零跳過）。
+- [x] 執行 `git status` 確認本階段未更動任何 `src/client/` 業務代碼與 UI 組件（嚴守 Phase 1 階段邊界）。
+- [x] 執行 `vpx oxfmt test/client` 確保新增的測試腳本排版格式合規。
+- [x] 產生英文 Conventional Commit 建議並由使用者在本地終端機完成提交。
 
 ### 5.2 Phase 2 啟動 Prompt (供使用者複製至全新 Agent 對話)
 

@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from "antd";
+import { Button, type ButtonProps } from "./ui/button.tsx";
 import { useAccess } from "../hooks/useAccess.ts";
 
 export interface PermissionButtonProps extends ButtonProps {

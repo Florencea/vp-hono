@@ -1,4 +1,4 @@
-import { ApartmentOutlined, SafetyCertificateOutlined, TeamOutlined } from "@ant-design/icons";
+import { Network, ShieldCheck, Users } from "lucide-react";
 import { QueryClient } from "@tanstack/react-query";
 import { createRouter, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
@@ -27,19 +27,19 @@ export const MENU_ITEMS: MenuItemConfig[] = [
   {
     label: "Departments",
     key: "/departments",
-    icon: <ApartmentOutlined />,
+    icon: <Network className="h-4 w-4" />,
     permission: "system:dept:read",
   },
   {
     label: "Roles",
     key: "/roles",
-    icon: <SafetyCertificateOutlined />,
+    icon: <ShieldCheck className="h-4 w-4" />,
     permission: "system:role:read",
   },
   {
     label: "Users",
     key: "/user",
-    icon: <TeamOutlined />,
+    icon: <Users className="h-4 w-4" />,
     permission: "system:user:read",
   },
 ];

@@ -20,6 +20,23 @@
   --color-destructive: #ef4444;
   --color-destructive-foreground: #ffffff;
 
+  --color-success: #10b981;
+  --color-success-foreground: #ffffff;
+  --color-warning: #f59e0b;
+  --color-warning-foreground: #ffffff;
+  --color-gold: #f59e0b;
+  --color-gold-foreground: #ffffff;
+  --color-purple: #8b5cf6;
+  --color-purple-foreground: #ffffff;
+  --color-blue: #3b82f6;
+  --color-blue-foreground: #ffffff;
+  --color-cyan: #06b6d4;
+  --color-cyan-foreground: #ffffff;
+  --color-orange: #f97316;
+  --color-orange-foreground: #ffffff;
+  --color-geekblue: #6366f1;
+  --color-geekblue-foreground: #ffffff;
+
   --breakpoint-xs: 480px;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;

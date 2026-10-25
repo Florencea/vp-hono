@@ -2,11 +2,11 @@ import { useForm } from "@tanstack/react-form";
 import type { DepartmentFormValues } from "../../hooks/useDepartments.ts";
 import { useI18n } from "../../hooks/useI18n.ts";
 import type { DepartmentItem } from "../../types/api.ts";
-import { DataModal } from "../common/DataModal.tsx";
-import { FieldItem } from "../ui/form.tsx";
+import { Button } from "../ui/button.tsx";
+import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog.tsx";
 import { NumberField } from "../ui/number-field.tsx";
+import { Select } from "../ui/select.tsx";
 import { FieldError, Input, Label, TextField } from "../ui/textfield.tsx";
-import { TreeSelect } from "../ui/tree-select.tsx";
 
 export interface DepartmentModalProps {
   open: boolean;
@@ -24,15 +24,17 @@ function DepartmentForm({
   parentPresetId,
   departments,
   confirmLoading,
+  onCancel,
   onSubmit,
 }: {
   department: DepartmentItem | null;
   parentPresetId: number | null;
   departments: DepartmentItem[];
   confirmLoading: boolean;
+  onCancel: () => void;
   onSubmit: (values: DepartmentFormValues) => void;
 }) {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
 
   const defaultValues: DepartmentFormValues = {
     name: department?.name ?? "",
@@ -48,19 +50,21 @@ function DepartmentForm({
   });
 
   const getRequiredMessage = (label: string) => {
-    return locale === "zh-TW" ? `請輸入${label}` : `Please enter ${label}`;
+    return t("common.pleaseEnter", { field: label });
   };
 
-  const treeSelectData = [
-    { title: t("dept.root"), value: 0, key: 0 },
+  const parentOptions = [
+    { label: t("dept.root"), value: "0" },
     ...departments
       .filter((d) => d.id !== department?.id)
       .map((d) => ({
-        title: d.name,
-        value: d.id,
-        key: d.id.toString(),
+        label: d.name,
+        value: String(d.id),
       })),
   ];
+
+  const okLabel = t("common.ok");
+  const cancelLabel = t("common.cancel");
 
   return (
     <form
@@ -103,16 +107,14 @@ function DepartmentForm({
 
       <form.Field name="parentId">
         {(field) => (
-          <FieldItem label={t("dept.parent")}>
-            <TreeSelect
-              treeData={treeSelectData}
-              value={field.state.value}
-              onChange={(val) => field.handleChange(typeof val === "number" ? val : 0)}
-              placeholder={t("dept.parent")}
-              allowClear
-              disabled={confirmLoading}
-            />
-          </FieldItem>
+          <Select
+            label={t("dept.parent")}
+            placeholder={t("dept.parent")}
+            options={parentOptions}
+            value={String(field.state.value)}
+            onChange={(val) => field.handleChange(val !== null ? Number(val) : 0)}
+            isDisabled={confirmLoading}
+          />
         )}
       </form.Field>
 
@@ -127,6 +129,15 @@ function DepartmentForm({
           />
         )}
       </form.Field>
+
+      <DialogFooter>
+        <Button variant="outline" type="button" onClick={onCancel} isDisabled={confirmLoading}>
+          {cancelLabel}
+        </Button>
+        <Button type="submit" isDisabled={confirmLoading}>
+          {okLabel}
+        </Button>
+      </DialogFooter>
     </form>
   );
 }
@@ -145,18 +156,10 @@ export function DepartmentModal({
   const isEdit = department !== null;
 
   return (
-    <DataModal
-      open={open}
-      title={isEdit ? t("dept.edit") : t("dept.create")}
-      onCancel={onCancel}
-      onOk={() => {
-        const formEl = document.getElementById("department-form");
-        if (formEl instanceof HTMLFormElement) {
-          formEl.requestSubmit();
-        }
-      }}
-      confirmLoading={confirmLoading}
-    >
+    <DialogContent isOpen={open} onOpenChange={(isOpen) => !isOpen && onCancel()}>
+      <DialogHeader>
+        <DialogTitle>{isEdit ? t("dept.edit") : t("dept.create")}</DialogTitle>
+      </DialogHeader>
       {open && (
         <DepartmentForm
           key={formKey}
@@ -164,9 +167,10 @@ export function DepartmentModal({
           parentPresetId={parentPresetId}
           departments={departments}
           confirmLoading={confirmLoading}
+          onCancel={onCancel}
           onSubmit={onSubmit}
         />
       )}
-    </DataModal>
+    </DialogContent>
   );
 }

@@ -80,13 +80,18 @@
   },
   "knip": {
     "ignore": [
-      "src/client/routeTree.gen.ts"
+      "src/client/routeTree.gen.ts",
+      "src/client/components/ui/**"
     ],
     "ignoreBinaries": [
       "actionlint"
     ],
     "ignoreDependencies": [
-      "@tailwindcss/language-server"
+      "@tailwindcss/language-server",
+      "@internationalized/date",
+      "@tanstack/react-table",
+      "@ant-design/icons",
+      "tw-animate-css"
     ],
     "playwright": true
   }

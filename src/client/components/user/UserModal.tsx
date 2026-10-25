@@ -2,13 +2,13 @@ import { useForm } from "@tanstack/react-form";
 import { useI18n } from "../../hooks/useI18n.ts";
 import type { UserFormValues } from "../../hooks/useUsers.ts";
 import type { DepartmentItem, RoleItem, UserItem } from "../../types/api.ts";
-import { DataModal } from "../common/DataModal.tsx";
-import { FieldItem } from "../ui/form.tsx";
+import { Button } from "../ui/button.tsx";
+import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog.tsx";
+import { MultiSelect } from "../ui/multi-select.tsx";
 import { PasswordInput } from "../ui/password-input.tsx";
 import { Radio, RadioGroup } from "../ui/radio-group.tsx";
 import { Select } from "../ui/select.tsx";
 import { FieldError, Input, Label, TextField } from "../ui/textfield.tsx";
-import { TreeSelect } from "../ui/tree-select.tsx";
 
 export interface UserModalProps {
   open: boolean;
@@ -29,15 +29,17 @@ function UserForm({
   departments,
   roles,
   confirmLoading,
+  onCancel,
   onSubmit,
 }: {
   user: UserItem | null;
   departments: DepartmentItem[];
   roles: RoleItem[];
   confirmLoading: boolean;
+  onCancel: () => void;
   onSubmit: (values: UserFormValues) => void;
 }) {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
   const isEdit = user !== null;
 
   const defaultValues: UserFormValues = {
@@ -59,15 +61,14 @@ function UserForm({
   });
 
   const getRequiredMessage = (label: string) => {
-    return locale === "zh-TW" ? `請輸入${label}` : `Please enter ${label}`;
+    return t("common.pleaseEnter", { field: label });
   };
 
-  const deptTreeData = [
-    { title: t("dept.root"), value: 0, key: 0 },
+  const deptOptions = [
+    { label: t("dept.root"), value: "0" },
     ...departments.map((d) => ({
-      title: d.name,
-      value: d.id,
-      key: d.id.toString(),
+      label: d.name,
+      value: String(d.id),
     })),
   ];
 
@@ -75,6 +76,9 @@ function UserForm({
     label: r.name,
     value: r.id,
   }));
+
+  const okLabel = t("common.ok");
+  const cancelLabel = t("common.cancel");
 
   return (
     <form
@@ -85,7 +89,7 @@ function UserForm({
         e.stopPropagation();
         void form.handleSubmit();
       }}
-      className="flex flex-col gap-4"
+      className="flex flex-col gap-4 max-h-128 overflow-y-auto pr-1"
     >
       <form.Field
         name="account"
@@ -123,9 +127,7 @@ function UserForm({
               return getRequiredMessage(t("user.password"));
             }
             if (value && value.length > 0 && value.length < 6) {
-              return locale === "zh-TW"
-                ? "密碼長度不能小於 6 位"
-                : "Password must be at least 6 characters";
+              return t("errors.user.passwordMinLength");
             }
             return undefined;
           },
@@ -198,40 +200,30 @@ function UserForm({
 
       <form.Field name="departmentId">
         {(field) => (
-          <FieldItem label={t("user.department")}>
-            <TreeSelect
-              treeData={deptTreeData}
-              value={field.state.value ?? undefined}
-              onChange={(val) => {
-                const numeric = typeof val === "number" ? val : Number(val);
-                field.handleChange(numeric > 0 ? numeric : null);
-              }}
-              placeholder={t("user.department")}
-              allowClear
-              disabled={confirmLoading}
-            />
-          </FieldItem>
+          <Select
+            label={t("user.department")}
+            placeholder={t("user.department")}
+            options={deptOptions}
+            value={field.state.value ? String(field.state.value) : "0"}
+            onChange={(val) => {
+              const num = Number(val);
+              field.handleChange(num > 0 ? num : null);
+            }}
+            isDisabled={confirmLoading}
+          />
         )}
       </form.Field>
 
       <form.Field name="roleIds">
         {(field) => (
-          <FieldItem label={t("user.roles")}>
-            <Select
-              mode="multiple"
-              options={roleOptions}
-              value={field.state.value}
-              onChange={(val) => {
-                const ids = Array.isArray(val)
-                  ? val.filter((item): item is number => typeof item === "number")
-                  : [];
-                field.handleChange(ids);
-              }}
-              placeholder={t("user.roles")}
-              allowClear
-              disabled={confirmLoading}
-            />
-          </FieldItem>
+          <MultiSelect
+            label={t("user.roles")}
+            placeholder={t("user.roles")}
+            options={roleOptions}
+            value={field.state.value}
+            onChange={(vals) => field.handleChange(vals)}
+            disabled={confirmLoading}
+          />
         )}
       </form.Field>
 
@@ -253,6 +245,15 @@ function UserForm({
           </RadioGroup>
         )}
       </form.Field>
+
+      <DialogFooter>
+        <Button variant="outline" type="button" onClick={onCancel} isDisabled={confirmLoading}>
+          {cancelLabel}
+        </Button>
+        <Button type="submit" isDisabled={confirmLoading}>
+          {okLabel}
+        </Button>
+      </DialogFooter>
     </form>
   );
 }
@@ -271,18 +272,10 @@ export function UserModal({
   const isEdit = user !== null;
 
   return (
-    <DataModal
-      open={open}
-      title={isEdit ? t("user.edit") : t("user.create")}
-      onCancel={onCancel}
-      onOk={() => {
-        const formEl = document.getElementById("user-form");
-        if (formEl instanceof HTMLFormElement) {
-          formEl.requestSubmit();
-        }
-      }}
-      confirmLoading={confirmLoading}
-    >
+    <DialogContent isOpen={open} onOpenChange={(isOpen) => !isOpen && onCancel()}>
+      <DialogHeader>
+        <DialogTitle>{isEdit ? t("user.edit") : t("user.create")}</DialogTitle>
+      </DialogHeader>
       {open && (
         <UserForm
           key={formKey}
@@ -290,9 +283,10 @@ export function UserModal({
           departments={departments}
           roles={roles}
           confirmLoading={confirmLoading}
+          onCancel={onCancel}
           onSubmit={onSubmit}
         />
       )}
-    </DataModal>
+    </DialogContent>
   );
 }

@@ -15,11 +15,11 @@ export const Route = createFileRoute("/login")({
 });
 
 function Page() {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
   const { login } = useAuth();
 
   const getRequiredMessage = (label: string) => {
-    return locale === "zh-TW" ? `請輸入${label}` : `Please enter ${label}`;
+    return t("common.pleaseEnter", { field: label });
   };
 
   const form = useForm({

@@ -1,10 +1,10 @@
 import { Dialog, DialogTrigger, Popover, type PopoverProps } from "react-aria-components";
 import { AlertCircle } from "lucide-react";
 import type { ReactElement, ReactNode } from "react";
-import React from "react";
+import type React from "react";
 import { useI18n } from "../../hooks/useI18n.ts";
 import { cn } from "../../utils/cn.ts";
-import { Button } from "./button.tsx";
+import { Button, type ButtonVariant } from "./button.tsx";
 
 export interface PopconfirmProps {
   title: ReactNode;
@@ -13,7 +13,7 @@ export interface PopconfirmProps {
   onCancel?: (e?: React.MouseEvent) => void;
   okText?: ReactNode;
   cancelText?: ReactNode;
-  okType?: "primary" | "default" | "danger";
+  okVariant?: ButtonVariant;
   placement?: PopoverProps["placement"];
   children: ReactElement;
   disabled?: boolean;
@@ -26,35 +26,34 @@ export function Popconfirm({
   onCancel,
   okText,
   cancelText,
-  okType = "primary",
+  okVariant = "destructive",
   placement = "top",
   children,
   disabled = false,
 }: PopconfirmProps) {
-  const { locale } = useI18n();
+  const { t } = useI18n();
 
   if (disabled) {
     return children;
   }
 
-  const defaultOkText = locale === "zh-TW" ? "確定" : "OK";
-  const defaultCancelText = locale === "zh-TW" ? "取消" : "Cancel";
+  const resolvedOkText = okText ?? t("common.ok");
+  const resolvedCancelText = cancelText ?? t("common.cancel");
 
   return (
     <DialogTrigger>
       {children}
       <Popover
         placement={placement}
-        className={({ isEntering, isExiting }) =>
-          cn(
-            "z-50 rounded-lg border border-border bg-background p-3 shadow-lg outline-none min-w-45 max-w-xs",
-            isEntering && "animate-in fade-in zoom-in-95 duration-150 ease-out",
-            isExiting && "animate-out fade-out zoom-out-95 duration-100 ease-in",
-          )
-        }
+        offset={6}
+        className={cn(
+          "z-50 rounded-lg border border-border bg-popover p-3 text-popover-foreground shadow-lg outline-hidden min-w-48 max-w-xs",
+          "data-entering:animate-in data-[entering]:fade-in data-entering:zoom-in-95 duration-150",
+          "data-exiting:animate-out data-[exiting]:fade-out data-exiting:zoom-out-95 duration-100",
+        )}
       >
         <div role="tooltip">
-          <Dialog className="outline-none flex flex-col gap-2">
+          <Dialog className="outline-hidden flex flex-col gap-2">
             {({ close }) => (
               <>
                 <div className="flex items-start gap-2">
@@ -73,17 +72,17 @@ export function Popconfirm({
                       close();
                     }}
                   >
-                    {cancelText ?? defaultCancelText}
+                    {resolvedCancelText}
                   </Button>
                   <Button
                     size="sm"
-                    variant={okType === "danger" ? "destructive" : "default"}
+                    variant={okVariant}
                     onClick={(e) => {
                       onConfirm?.(e);
                       close();
                     }}
                   >
-                    {okText ?? defaultOkText}
+                    {resolvedOkText}
                   </Button>
                 </div>
               </>

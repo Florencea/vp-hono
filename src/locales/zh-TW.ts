@@ -10,6 +10,8 @@ export default {
     delete: "刪除",
     cancel: "取消",
     save: "儲存",
+    ok: "確定",
+    pleaseEnter: "請輸入{field}",
     actions: "操作",
     confirmDelete: "確定要刪除此項目嗎？",
     search: "搜尋",
@@ -97,6 +99,7 @@ export default {
       notFound: "找不到該使用者",
       accountExists: "該帳號已存在",
       cannotDeleteAdmin: "最高管理員帳號不可刪除",
+      passwordMinLength: "密碼長度不能小於 6 位",
     },
     common: {
       notFound: "找不到資源",

@@ -3,7 +3,7 @@ import { useAccess } from "../hooks/useAccess.ts";
 
 export interface PermissionButtonProps extends ButtonProps {
   permission: string | string[];
-  permissionMode?: "hide" | "disable";
+  permissionMode?: "hide" | "disable" | undefined;
 }
 
 /**
@@ -13,18 +13,22 @@ export interface PermissionButtonProps extends ButtonProps {
 export function PermissionButton({
   permission,
   permissionMode = "hide",
+  isDisabled,
   disabled,
   ...props
 }: PermissionButtonProps) {
   const { hasPermission } = useAccess();
   const allowed = hasPermission(permission);
+  const shouldDisable = isDisabled ?? disabled;
 
   if (!allowed) {
     if (permissionMode === "disable") {
-      return <Button {...props} disabled />;
+      return <Button {...props} isDisabled />;
     }
     return null;
   }
 
-  return <Button {...props} {...(disabled !== undefined ? { disabled } : {})} />;
+  return (
+    <Button {...props} {...(shouldDisable !== undefined ? { isDisabled: shouldDisable } : {})} />
+  );
 }

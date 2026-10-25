@@ -10,6 +10,8 @@ export default {
     delete: "Delete",
     cancel: "Cancel",
     save: "Save",
+    ok: "OK",
+    pleaseEnter: "Please enter {field}",
     actions: "Actions",
     confirmDelete: "Are you sure you want to delete this item?",
     search: "Search",
@@ -97,6 +99,7 @@ export default {
       notFound: "User not found",
       accountExists: "Account already exists",
       cannotDeleteAdmin: "The super administrator account cannot be deleted",
+      passwordMinLength: "Password must be at least 6 characters",
     },
     common: {
       notFound: "Resource not found",

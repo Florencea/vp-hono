@@ -12,6 +12,8 @@ export interface LocaleSchema {
     delete: string;
     cancel: string;
     save: string;
+    ok: string;
+    pleaseEnter: string;
     actions: string;
     confirmDelete: string;
     search: string;
@@ -99,6 +101,7 @@ export interface LocaleSchema {
       notFound: string;
       accountExists: string;
       cannotDeleteAdmin: string;
+      passwordMinLength: string;
     };
     common: {
       notFound: string;

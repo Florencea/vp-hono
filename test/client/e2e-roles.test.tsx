@@ -176,7 +176,7 @@ test("E2E Role Flow: creates a new role with custom dataScope via drawer", async
   await nameInput.fill("稽核主管");
 
   // Select Data Scope radio
-  const scopeRadio = drawer.getByLabelText(/Department & Children|本部門及以下數據/i);
+  const scopeRadio = drawer.getByText(/Department & Children|本部門及以下數據/i);
   await scopeRadio.click();
 
   // Click Save button in drawer

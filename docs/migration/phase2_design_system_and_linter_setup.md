@@ -284,13 +284,13 @@ vpr agent:verify:gate
 
 請在結束當前 Phase 2 對話前，逐一核對以下檢查項目：
 
-- [ ] 所有相依套件已完成安裝（包含 `class-variance-authority` 與 `@tanstack/react-table`）。
-- [ ] 專案根目錄 `components.json` 已正確建立且符合最新 shadcn 規範（`style: "new-york"`, `baseColor: "neutral"`, 無固定 `$schema`）。
-- [ ] `src/client/global.css` 已擴充 `@theme` 語意 Token（如 `--color-primary`, `--color-background`, `--color-muted` 等）。
-- [ ] `vite.config.ts` 中的 `lint` 區塊已正確配置 `@shadcn/lint` 插件為 `warn` 模式與 `overrides`，專案內無新增 `.oxlintrc.json`，且未破壞原有 linter 行為。
-- [ ] `src/client/components/ui/form.tsx` 與 `src/client/utils/toast.ts` 已建立且無型別錯誤。
-- [ ] 執行 `vpr agent:verify:inner` 零報錯；執行 `vpr agent:verify:gate` 100% 綠燈通過。
-- [ ] 產生英文 Conventional Commit 建議並由使用者在本地終端機完成提交。
+- [x] 所有相依套件已完成安裝（包含 `class-variance-authority` 與 `@tanstack/react-table`）。
+- [x] 專案根目錄 `components.json` 已正確建立且符合最新 shadcn 規範（`style: "new-york"`, `baseColor: "neutral"`, 無固定 `$schema`）。
+- [x] `src/client/global.css` 已擴充 `@theme` 語意 Token（如 `--color-primary`, `--color-background`, `--color-muted` 等）。
+- [x] `vite.config.ts` 中的 `lint` 區塊已正確配置 `@shadcn/lint` 插件為 `warn` 模式與 `overrides`，專案內無新增 `.oxlintrc.json`，且未破壞原有 linter 行為。
+- [x] `src/client/components/ui/form.tsx` 與 `src/client/utils/toast.ts` 已建立且無型別錯誤。
+- [x] 執行 `vpr agent:verify:inner` 零報錯；執行 `vpr agent:verify:gate` 100% 綠燈通過。
+- [x] 產生英文 Conventional Commit 建議並由使用者在本地終端機完成提交。
 
 ### 9.2 Phase 3 啟動 Prompt (供使用者複製至全新 Agent 對話)
 

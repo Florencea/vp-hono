@@ -1,8 +1,6 @@
-import { Space, type TableProps } from "antd";
-import type { ColumnsType } from "antd/es/table";
 import { useI18n } from "../../hooks/useI18n.ts";
 import type { DepartmentItem } from "../../types/api.ts";
-import { DataTable } from "../common/DataTable.tsx";
+import { DataTable, type DataTableColumn } from "../common/DataTable.tsx";
 import { PermissionButton, PermissionGate } from "../PermissionGate.tsx";
 import { Button } from "../ui/button.tsx";
 import { Popconfirm } from "../ui/popconfirm.tsx";
@@ -12,8 +10,9 @@ export interface DepartmentNode extends DepartmentItem {
   children?: DepartmentNode[];
 }
 
-export interface DepartmentTreeTableProps extends Pick<TableProps<DepartmentNode>, "loading"> {
+export interface DepartmentTreeTableProps {
   data: DepartmentNode[];
+  loading?: boolean;
   onAddChild: (parent: DepartmentItem) => void;
   onEdit: (record: DepartmentItem) => void;
   onDelete: (id: number) => void;
@@ -28,7 +27,7 @@ export function DepartmentTreeTable({
 }: DepartmentTreeTableProps) {
   const { t } = useI18n();
 
-  const columns: ColumnsType<DepartmentNode> = [
+  const columns: DataTableColumn<DepartmentNode>[] = [
     {
       title: t("dept.name"),
       dataIndex: "name",
@@ -52,7 +51,7 @@ export function DepartmentTreeTable({
       key: "actions",
       width: 220,
       render: (_, record) => (
-        <Space size="middle">
+        <div className="flex items-center gap-3">
           <PermissionButton
             type="link"
             size="small"
@@ -85,17 +84,12 @@ export function DepartmentTreeTable({
               </Button>
             </Popconfirm>
           </PermissionGate>
-        </Space>
+        </div>
       ),
     },
   ];
 
   return (
-    <DataTable<DepartmentNode>
-      columns={columns}
-      dataSource={data}
-      loading={loading === true}
-      expandable={{ defaultExpandAllRows: true }}
-    />
+    <DataTable<DepartmentNode> columns={columns} dataSource={data} loading={loading === true} />
   );
 }

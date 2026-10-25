@@ -1,8 +1,7 @@
 import { Space, type TableProps, Tag } from "antd";
-import type { ColumnsType } from "antd/es/table";
 import { useI18n } from "../../hooks/useI18n.ts";
 import type { RoleItem } from "../../types/api.ts";
-import { DataTable } from "../common/DataTable.tsx";
+import { DataTable, type DataTableColumn } from "../common/DataTable.tsx";
 import { PermissionButton, PermissionGate } from "../PermissionGate.tsx";
 import { Button } from "../ui/button.tsx";
 import { Popconfirm } from "../ui/popconfirm.tsx";
@@ -24,7 +23,7 @@ const SCOPE_COLORS: Record<string, string> = {
 export function RoleTable({ data, loading, onEdit, onDelete }: RoleTableProps) {
   const { t } = useI18n();
 
-  const columns: ColumnsType<RoleItem> = [
+  const columns: DataTableColumn<RoleItem>[] = [
     {
       title: t("role.code"),
       dataIndex: "code",

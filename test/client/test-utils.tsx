@@ -73,3 +73,27 @@ export async function renderAppAt(initialUrl = "/") {
 
   return Object.assign(page, { router, container });
 }
+
+export async function renderComponent(element: React.ReactNode) {
+  await cleanupApp();
+  const container = getOrCreateRootContainer();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+      mutations: { retry: false },
+    },
+  });
+
+  currentRoot = createRoot(container);
+  await act(async () => {
+    currentRoot?.render(
+      <StrictMode>
+        <Providers container={container} queryClient={queryClient}>
+          {element}
+        </Providers>
+      </StrictMode>,
+    );
+  });
+
+  return Object.assign(page, { container });
+}

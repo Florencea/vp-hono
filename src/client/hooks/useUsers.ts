@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { App } from "antd";
 import { useState } from "react";
 import { api } from "../api.ts";
 import type { RouterInputs, UserItem } from "../types/api.ts";
+import { toast } from "../utils/toast.ts";
 import { useAntdForm } from "./useAntdForm.ts";
 import { useI18n } from "./useI18n.ts";
 
@@ -21,7 +21,6 @@ export type UserFormValues = Pick<
  * Headless Feature Hook encapsulating all User state, queries, RPC mutations, and forms.
  */
 export function useUsers() {
-  const { message } = App.useApp();
   const { t } = useI18n();
   const queryClient = useQueryClient();
 
@@ -73,11 +72,11 @@ export function useUsers() {
       return await res.json();
     },
     onSuccess: () => {
-      void message.success(t("common.success"));
+      toast.success(t("common.success"));
       void queryClient.invalidateQueries({ queryKey: ["users", "list"] });
     },
     onError: (err) => {
-      void message.error(err.message);
+      toast.error(err.message);
     },
   });
 
@@ -130,12 +129,12 @@ export function useUsers() {
       return await res.json();
     },
     onSuccess: () => {
-      void message.success(t("common.success"));
+      toast.success(t("common.success"));
       closeModal();
       void queryClient.invalidateQueries({ queryKey: ["users", "list"] });
     },
     onError: (err) => {
-      void message.error(err.message);
+      toast.error(err.message);
     },
   });
 

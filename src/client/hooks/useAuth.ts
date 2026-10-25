@@ -1,13 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
-import { App } from "antd";
 import { ErrorResSchema } from "../../server/common/schemas.ts";
 import { api } from "../api";
 import type { RouterInputs } from "../constants/routes";
+import { toast } from "../utils/toast.ts";
 import { useAntdForm } from "./useAntdForm";
 import { useI18n } from "./useI18n";
 
 export const useAuth = () => {
-  const { message } = App.useApp();
   const { t } = useI18n();
 
   const login = useMutation({
@@ -24,7 +23,7 @@ export const useAuth = () => {
       window.location.reload();
     },
     onError: (err) => {
-      void message.error(err.message);
+      toast.error(err.message);
     },
   });
 
@@ -42,7 +41,7 @@ export const useAuth = () => {
       window.location.reload();
     },
     onError: (err) => {
-      void message.error(err.message);
+      toast.error(err.message);
     },
   });
 

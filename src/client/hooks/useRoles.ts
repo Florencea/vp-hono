@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { App } from "antd";
 import { useState } from "react";
 import { api } from "../api.ts";
 import type { RoleItem, RouterInputs } from "../types/api.ts";
+import { toast } from "../utils/toast.ts";
 import { useAntdForm } from "./useAntdForm.ts";
 import { useI18n } from "./useI18n.ts";
 
@@ -19,7 +19,6 @@ export type RoleFormValues = Pick<
  * Headless Feature Hook encapsulating all Role state, queries, RPC mutations, and forms.
  */
 export function useRoles() {
-  const { message } = App.useApp();
   const { t } = useI18n();
   const queryClient = useQueryClient();
 
@@ -71,11 +70,11 @@ export function useRoles() {
       return await res.json();
     },
     onSuccess: () => {
-      void message.success(t("common.success"));
+      toast.success(t("common.success"));
       void queryClient.invalidateQueries({ queryKey: ["roles", "list"] });
     },
     onError: (err) => {
-      void message.error(err.message);
+      toast.error(err.message);
     },
   });
 
@@ -118,12 +117,12 @@ export function useRoles() {
       return await res.json();
     },
     onSuccess: () => {
-      void message.success(t("common.success"));
+      toast.success(t("common.success"));
       closeDrawer();
       void queryClient.invalidateQueries({ queryKey: ["roles", "list"] });
     },
     onError: (err) => {
-      void message.error(err.message);
+      toast.error(err.message);
     },
   });
 

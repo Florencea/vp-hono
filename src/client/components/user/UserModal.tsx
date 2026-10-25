@@ -1,8 +1,9 @@
-import { Form, Input, type ModalProps, Radio, Select, TreeSelect } from "antd";
+import { Form, Input, type ModalProps, Radio, TreeSelect } from "antd";
 import { useI18n } from "../../hooks/useI18n.ts";
 import type { useUsers } from "../../hooks/useUsers.ts";
 import type { DepartmentItem, RoleItem, UserItem } from "../../types/api.ts";
 import { DataModal } from "../common/DataModal.tsx";
+import { Select } from "../ui/select.tsx";
 
 export interface UserModalProps extends Pick<ModalProps, "open"> {
   user: UserItem | null;

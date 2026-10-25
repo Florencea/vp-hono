@@ -1,9 +1,11 @@
-import { Button, Popconfirm, Space, type TableProps, Tag } from "antd";
+import { Space, type TableProps, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useI18n } from "../../hooks/useI18n.ts";
 import type { DepartmentItem, RoleItem, UserItem } from "../../types/api.ts";
 import { DataTable } from "../common/DataTable.tsx";
 import { PermissionButton, PermissionGate } from "../PermissionGate.tsx";
+import { Button } from "../ui/button.tsx";
+import { Popconfirm } from "../ui/popconfirm.tsx";
 
 export interface UserTableProps extends Pick<TableProps<UserItem>, "loading"> {
   data: UserItem[];

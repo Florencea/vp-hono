@@ -17,4 +17,6 @@ export const toast = {
     toastQueue.add({ title, description, type: "error" }, { timeout: 5000 }),
   info: (title: string, description?: string) =>
     toastQueue.add({ title, description, type: "info" }, { timeout: 4000 }),
+  warning: (title: string, description?: string) =>
+    toastQueue.add({ title, description, type: "warning" }, { timeout: 4000 }),
 };

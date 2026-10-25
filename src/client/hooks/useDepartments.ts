@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { App } from "antd";
 import { useState } from "react";
 import { api } from "../api.ts";
 import type { DepartmentNode } from "../components/department/DepartmentTreeTable.tsx";
 import type { DepartmentItem, RouterInputs } from "../types/api.ts";
+import { toast } from "../utils/toast.ts";
 import { useAntdForm } from "./useAntdForm.ts";
 import { useI18n } from "./useI18n.ts";
 
@@ -40,7 +40,6 @@ function buildTree(items: DepartmentItem[]): DepartmentNode[] {
  * Headless Feature Hook encapsulating all Department state, queries, RPC mutations, and forms.
  */
 export function useDepartments() {
-  const { message } = App.useApp();
   const { t } = useI18n();
   const queryClient = useQueryClient();
 
@@ -74,11 +73,11 @@ export function useDepartments() {
       return await res.json();
     },
     onSuccess: () => {
-      void message.success(t("common.success"));
+      toast.success(t("common.success"));
       void queryClient.invalidateQueries({ queryKey: ["departments", "list"] });
     },
     onError: (err) => {
-      void message.error(err.message);
+      toast.error(err.message);
     },
   });
 
@@ -116,12 +115,12 @@ export function useDepartments() {
       return await res.json();
     },
     onSuccess: () => {
-      void message.success(t("common.success"));
+      toast.success(t("common.success"));
       closeModal();
       void queryClient.invalidateQueries({ queryKey: ["departments", "list"] });
     },
     onError: (err) => {
-      void message.error(err.message);
+      toast.error(err.message);
     },
   });
 

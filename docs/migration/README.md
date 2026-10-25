@@ -1,11 +1,18 @@
 > [!CAUTION]
-> **跨 Agent 執行嚴格指令：無論如何都必須先閱讀以下最新官方文件，嚴格禁止依賴模型過往訓練知識！**
->
-> 1. **React Aria Components**: https://react-aria.adobe.com/llms.txt
-> 2. **shadcn/ui (React Aria Base)**: https://ui.shadcn.com/llms.txt
-> 3. **@shadcn/lint (Agent-First Linter)**: https://github.com/shadcn-ui/lint
-> 4. **TanStack Form (Type-Safe Forms)**: https://tanstack.com/form/latest
-> 5. **Vite+ (Unified Web Toolchain)**: https://viteplus.dev/llms-full.txt
+> **跨 Agent 執行嚴格指令：無論如何都必須先查閱以下官方最新真相來源 (SSOT)，嚴格禁止依賴模型過往訓練知識！**
+> 在執行任何代碼更動前，接手任務的 Agent 必須依據下表指示執行 `webread` 查閱最新規範，切勿憑模型內部的過期記憶推論 API。
+
+## 0. 官方最新真相來源 (SSOT) 與查閱規範
+
+| 框架 / 工具               | 官方最新真相來源 (SSOT URL)                                                                                                                                                             | 關鍵查閱重點 (Verification Focus)                                                                                                                                                                                         | 查閱指令範例                                                                  |
+| :------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------- |
+| **React Aria Components** | `https://react-aria.adobe.com/llms.txt`<br/>`https://react-aria.adobe.com/customization.md`<br/>`https://react-aria.adobe.com/styling.md`<br/>`https://react-aria.adobe.com/testing.md` | 官方標準 **`render` prop**（取代舊版自訂標籤或脆弱 wrapper）；`composeRenderProps` 樣式合併；Tailwind v4 短修飾字（`selected:`, `pressed:`, `entering:`, `exiting:`）；`hidden="until-found"` 支援；Popover `placement`。 | `webread https://react-aria.adobe.com/customization.md#dom-elements`          |
+| **shadcn/ui**             | `https://ui.shadcn.com/llms.txt`<br/>`https://ui.shadcn.com/docs/components-json`<br/>`https://ui.shadcn.com/docs/tailwind-v4`                                                          | New York 風格（`"style": "new-york"`）；標準 `src/components/ui/` 原子原語目錄分層；CVA (`class-variance-authority`) 與 `cn` 變體管理模式；外觀與行為責任分離。                                                           | `webread https://ui.shadcn.com/docs/components-json`                          |
+| **`@shadcn/lint`**        | `https://github.com/shadcn-ui/lint`<br/>`https://raw.githubusercontent.com/shadcn-ui/lint/main/SETUP.md`<br/>`https://raw.githubusercontent.com/shadcn-ui/lint/main/docs/rules.md`      | `no-restyle` 邊界：`src/components/ui/**` 豁免（允許原子組件自主樣式定義）；外部業務組件僅傳遞佈局類別（`allow: ["layout"]`）或使用 variant/size，禁止覆蓋組件內部 appearance。                                           | `webread https://raw.githubusercontent.com/shadcn-ui/lint/main/docs/rules.md` |
+| **Vite+**                 | `https://viteplus.dev/llms-full.txt`<br/>`https://viteplus.dev/guide/lint.md`<br/>`https://viteplus.dev/guide/test.md`                                                                  | 原生 `vp` / `vpx` / `vpr` 工具鏈；單測試執行指令（`vp test run <spec> --reporter=tap-flat --no-color`）；`vite.config.ts` SSOT 零額外配置（**嚴禁建立 `.oxlintrc.json`**）；毫秒級 Vite Task 快取重放。                   | `webread https://viteplus.dev/guide/test.md`                                  |
+| **TanStack Form**         | `https://tanstack.com/form/latest`                                                                                                                                                      | 端到端型別安全表單綁定；Zod Validator 適配；欄位狀態與錯誤提取 (`field.state.meta.errors`)；與 RAC 輸入組件的受控與無障礙橋接。                                                                                           | `webread https://tanstack.com/form/latest`                                    |
+
+---
 
 # 前端現代化遷移指引與跨 Agent 協作協議
 
@@ -18,13 +25,18 @@
 
 由於本遷移專案工作量較大、分為多個階段執行，為了避免長對話中的上下文漂移（Context Drift），每個階段應由獨立的 Agent 對話負責：
 
-1. **強制閱讀最新文件**：接手任何階段的 Agent，在開始執行任何代碼更動前，**必須使用 `webread` 閱讀上方 5 大官方最新文件**，切勿憑模型內部的過期記憶推論 API。特別注意 Vite+ 工具鏈規範，所有靜態分析與 Linter 設定必須嚴格維持在 `vite.config.ts` 集中式管理，禁止擅自建立 `.oxlintrc.json` 等多餘設定檔。
+1. **強制查閱最新 SSOT 文件與驗證重點**：接手任何階段的 Agent，在開始執行任何代碼更動前，**必須使用 `webread` 查閱上方對照表中的官方最新文件與重點章節**，切勿憑過期記憶推論 API。特別注意 Vite+ 工具鏈規範，所有靜態分析與 Linter 設定必須嚴格維持在 `vite.config.ts` 集中式管理，禁止擅自建立 `.oxlintrc.json` 等多餘設定檔。
 2. **遵守階段邊界**：每個 Agent 僅專注於當前階段的目標，不可跨階段執行（例如 Phase 1 Agent 不得安裝套件或更動 UI 組件）。
-3. **門禁不變性**：每個階段在宣告完成前，必須在終端機執行對應的驗證指令，確保所有單元與 E2E 測試 100% 通過：
-   ```bash
-   vpr agent:verify:inner
-   vpr agent:verify:gate
-   ```
+3. **門禁不變性與高效除錯**：
+   - 開發過程針對特定功能或組件測試，請善用 Vite+ 單測試指令進行極速反饋：
+     ```bash
+     vp test run <spec-path> --reporter=tap-flat --no-color
+     ```
+   - 每個階段在宣告完成前，必須在終端機執行對應的驗證指令，確保所有單元與 E2E 測試 100% 通過：
+     ```bash
+     vpr agent:verify:inner
+     vpr agent:verify:gate
+     ```
 4. **Git 協議**：依照本專案 `AGENTS.md` 規範，AI Agent **嚴禁直接執行 `git commit`**，請使用 `git add <files>` 並輸出推薦的英文 Conventional Commit 訊息供使用者本地執行。
 5. **跨階段移交與啟動協議**：每個階段（與 Phase 3 的每個 Batch）手冊末尾均已附上**移交前確認事項 (Pre-flight Checklist)** 與**下一階段/批次啟動 Prompt (Next Phase/Batch Activation Prompt)**。當前階段 Agent 完成任務並核對清單後，使用者即可開啟全新對話視窗並直接複製該 Prompt，確保零上下文漂移。
 

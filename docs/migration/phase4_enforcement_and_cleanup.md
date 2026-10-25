@@ -1,11 +1,18 @@
 > [!CAUTION]
-> **跨 Agent 執行嚴格指令：無論如何都必須先閱讀以下最新官方文件，嚴格禁止依賴模型過往訓練知識！**
->
-> 1. **React Aria Components**: https://react-aria.adobe.com/llms.txt
-> 2. **shadcn/ui (React Aria Base)**: https://ui.shadcn.com/llms.txt
-> 3. **@shadcn/lint (Agent-First Linter)**: https://github.com/shadcn-ui/lint
-> 4. **TanStack Form (Type-Safe Forms)**: https://tanstack.com/form/latest
-> 5. **Vite+ (Unified Web Toolchain)**: https://viteplus.dev/llms-full.txt
+> **跨 Agent 執行嚴格指令：無論如何都必須先查閱以下官方最新真相來源 (SSOT)，嚴格禁止依賴模型過往訓練知識！**
+> 在執行任何代碼更動前，接手任務的 Agent 必須依據下表指示執行 `webread` 查閱最新規範，切勿憑模型內部的過期記憶推論 API。
+
+## 0. 官方最新真相來源 (SSOT) 與查閱規範
+
+| 框架 / 工具               | 官方最新真相來源 (SSOT URL)                                                                                                                                                             | 關鍵查閱重點 (Verification Focus)                                                                                                                                                                                         | 查閱指令範例                                                                  |
+| :------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------- |
+| **React Aria Components** | `https://react-aria.adobe.com/llms.txt`<br/>`https://react-aria.adobe.com/customization.md`<br/>`https://react-aria.adobe.com/styling.md`<br/>`https://react-aria.adobe.com/testing.md` | 官方標準 **`render` prop**（取代舊版自訂標籤或脆弱 wrapper）；`composeRenderProps` 樣式合併；Tailwind v4 短修飾字（`selected:`, `pressed:`, `entering:`, `exiting:`）；`hidden="until-found"` 支援；Popover `placement`。 | `webread https://react-aria.adobe.com/customization.md#dom-elements`          |
+| **shadcn/ui**             | `https://ui.shadcn.com/llms.txt`<br/>`https://ui.shadcn.com/docs/components-json`<br/>`https://ui.shadcn.com/docs/tailwind-v4`                                                          | New York 風格（`"style": "new-york"`）；標準 `src/components/ui/` 原子原語目錄分層；CVA (`class-variance-authority`) 與 `cn` 變體管理模式；外觀與行為責任分離。                                                           | `webread https://ui.shadcn.com/docs/components-json`                          |
+| **`@shadcn/lint`**        | `https://github.com/shadcn-ui/lint`<br/>`https://raw.githubusercontent.com/shadcn-ui/lint/main/SETUP.md`<br/>`https://raw.githubusercontent.com/shadcn-ui/lint/main/docs/rules.md`      | `no-restyle` 邊界：`src/components/ui/**` 豁免（允許原子組件自主樣式定義）；外部業務組件僅傳遞佈局類別（`allow: ["layout"]`）或使用 variant/size，禁止覆蓋組件內部 appearance。                                           | `webread https://raw.githubusercontent.com/shadcn-ui/lint/main/docs/rules.md` |
+| **Vite+**                 | `https://viteplus.dev/llms-full.txt`<br/>`https://viteplus.dev/guide/lint.md`<br/>`https://viteplus.dev/guide/test.md`                                                                  | 原生 `vp` / `vpx` / `vpr` 工具鏈；單測試執行指令（`vp test run <spec> --reporter=tap-flat --no-color`）；`vite.config.ts` SSOT 零額外配置（**嚴禁建立 `.oxlintrc.json`**）；毫秒級 Vite Task 快取重放。                   | `webread https://viteplus.dev/guide/test.md`                                  |
+| **TanStack Form**         | `https://tanstack.com/form/latest`                                                                                                                                                      | 端到端型別安全表單綁定；Zod Validator 適配；欄位狀態與錯誤提取 (`field.state.meta.errors`)；與 RAC 輸入組件的受控與無障礙橋接。                                                                                           | `webread https://tanstack.com/form/latest`                                    |
+
+---
 
 # Phase 4 執行手冊：嚴格守門、清理與文檔收尾
 
@@ -17,7 +24,13 @@
 
 ## 2. 升級 `vite.config.ts` 中的 `@shadcn/lint` 規則為 `error`
 
-依據 Vite+ 規範（SSOT 集中於 `vite.config.ts`），修改專案根目錄 `vite.config.ts` 的 `lint` 區塊，將所有 `@shadcn/lint` 設計系統規則由 `warn` 正式提升為強制報錯 (`error`)，構築無法逾越的防線：
+依據 Vite+ 規範（SSOT 集中於 `vite.config.ts`，嚴禁新增 `.oxlintrc.json`），修改專案根目錄 `vite.config.ts` 的 `lint` 區塊，將所有 `@shadcn/lint` 設計系統規則由 `warn` 正式提升為強制報錯 (`error`)，構築無法逾越的防線：
+
+> [!IMPORTANT]
+> **`no-restyle` 邊界檢驗原則**（詳見 [rules.md](https://raw.githubusercontent.com/shadcn-ui/lint/main/docs/rules.md)）：
+>
+> - 僅 `src/client/components/ui/**` 目錄具備 appearance 樣式定義權（透過 overrides 豁免）。
+> - 外部業務組件僅允許傳遞佈局類別（`allow: ["layout"]`）或使用 variant/size。若提升為 `error` 後出現違規報錯，必須將外觀樣式收攏至組件 variant，或在業務頁面中移除違規 class。
 
 ```ts
 // vite.config.ts
@@ -144,6 +157,9 @@ vp remove antd @ant-design/icons
 在交付給使用者前，Agent 必須執行完整的門禁驗收指令：
 
 ```bash
+# 0. 內迴圈針對 canary 測試極速驗證 (毫秒級確認 RAC Button 適配)
+vp test run test/client/canary.test.tsx --reporter=tap-flat --no-color
+
 # 1. 驗證所有型別與 Linter (此時 @shadcn/lint 為 error，必須 0 報錯)
 vpr agent:verify:inner
 

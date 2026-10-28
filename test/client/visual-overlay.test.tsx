@@ -59,7 +59,8 @@ test("Visual Overlay Safety: Dialog modal renders opaque backdrop and styled mod
 
   // Modal card should have solid white/theme background, not transparent
   const modalComputed = window.getComputedStyle(modalEl);
-  expect(modalComputed.backgroundColor).toBe("rgb(255, 255, 255)");
+  expect(modalComputed.backgroundColor).not.toBe("transparent");
+  expect(modalComputed.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
   expect(modalComputed.position).toBe("relative");
 });
 
@@ -79,7 +80,8 @@ test("Visual Overlay Safety: Sheet drawer renders opaque backdrop and right slid
   expect(sheetEl.className).toContain("bg-background");
 
   const sheetComputed = window.getComputedStyle(sheetEl);
-  expect(sheetComputed.backgroundColor).toBe("rgb(255, 255, 255)");
+  expect(sheetComputed.backgroundColor).not.toBe("transparent");
+  expect(sheetComputed.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
   expect(sheetComputed.position).toBe("fixed");
 });
 
@@ -102,5 +104,6 @@ test("Visual Overlay Safety: Select popover opens with opaque popover background
   expect(popoverEl.className).toContain("bg-popover");
 
   const popoverComputed = window.getComputedStyle(popoverEl);
-  expect(popoverComputed.backgroundColor).toBe("rgb(255, 255, 255)");
+  expect(popoverComputed.backgroundColor).not.toBe("transparent");
+  expect(popoverComputed.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
 });

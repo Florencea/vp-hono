@@ -22,12 +22,6 @@ export async function cleanupApp(): Promise<void> {
   if (rootElement !== null) {
     rootElement.innerHTML = "";
   }
-  const portals = document.querySelectorAll(
-    "[data-react-aria-top-layer], [data-rac][role='region']",
-  );
-  for (const el of portals) {
-    el.remove();
-  }
 }
 
 function getOrCreateRootContainer(): HTMLElement {

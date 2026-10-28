@@ -143,7 +143,7 @@ test("E2E Department Flow: creates a new top-level department via modal", async 
   await nameInput.fill("行銷企劃部");
 
   // Click OK in modal
-  const submitBtn = modal.getByRole("button", { name: /OK|確 定/i });
+  const submitBtn = modal.getByRole("button", { name: /OK|確定|確 定/i });
   await submitBtn.click();
 
   // Verify RPC wire request
@@ -170,7 +170,7 @@ test("E2E Department Flow: edits existing department", async () => {
   const nameInput = screen.getByLabelText(/Department Name|部門名稱/i);
   await nameInput.fill("總部辦公室");
 
-  const submitBtn = modal.getByRole("button", { name: /OK|確 定/i });
+  const submitBtn = modal.getByRole("button", { name: /OK|確定|確 定/i });
   await submitBtn.click();
 
   expect(tracker.getDispatched().method).toBe("PUT");
@@ -214,7 +214,7 @@ test("E2E Department Flow: modal refreshes form state on open, edit, and cancel"
   await nameInput.fill("臨時測試部門");
 
   // Click Cancel button
-  const cancelBtn = modal.getByRole("button", { name: /Cancel|取 消/i });
+  const cancelBtn = modal.getByRole("button", { name: /Cancel|取消|取 消/i });
   await cancelBtn.click();
   await expect.element(screen.getByRole("dialog")).not.toBeInTheDocument();
 
@@ -226,7 +226,7 @@ test("E2E Department Flow: modal refreshes form state on open, edit, and cancel"
   await expect.element(refreshedInput).toHaveValue("");
 
   // Close modal
-  await reOpenedModal.getByRole("button", { name: /Cancel|取 消/i }).click();
+  await reOpenedModal.getByRole("button", { name: /Cancel|取消|取 消/i }).click();
   await expect.element(screen.getByRole("dialog")).not.toBeInTheDocument();
 
   // 3. Open Edit modal for existing department, change name, then cancel
@@ -239,7 +239,7 @@ test("E2E Department Flow: modal refreshes form state on open, edit, and cancel"
   await expect.element(editNameInput).toHaveValue("總部");
   await editNameInput.fill("修改但不保存");
 
-  await editModal.getByRole("button", { name: /Cancel|取 消/i }).click();
+  await editModal.getByRole("button", { name: /Cancel|取消|取 消/i }).click();
   await expect.element(screen.getByRole("dialog")).not.toBeInTheDocument();
 
   // 4. Re-open Edit modal for same department -> must be refreshed to original "總部"!

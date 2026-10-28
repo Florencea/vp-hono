@@ -96,18 +96,18 @@ test("Sidebar Navigation RBAC: non-admin user only sees authorized menu items", 
 
   // Departments menu item should be in the DOM
   const deptMenu = screen.getByRole("menuitem", {
-    name: /Departments|部門管理/i,
+    name: /Departments|組織架構|部門管理/i,
   });
   await expect.element(deptMenu).toBeInTheDocument();
 
   // Roles and Users menu items should NOT exist in the DOM
   const roleMenu = screen.getByRole("menuitem", {
-    name: /Roles|角色權限/i,
+    name: /Roles|角色與權限|角色權限/i,
   });
   await expect.element(roleMenu).not.toBeInTheDocument();
 
   const userMenu = screen.getByRole("menuitem", {
-    name: /Users|人員管理/i,
+    name: /Users|使用者管理|人員管理/i,
   });
   await expect.element(userMenu).not.toBeInTheDocument();
 
@@ -126,17 +126,17 @@ test("Sidebar Navigation RBAC: super_admin sees all administration menu items", 
   const screen = await renderAppAt("/");
 
   const deptMenu = screen.getByRole("menuitem", {
-    name: /Departments|部門管理/i,
+    name: /Departments|組織架構|部門管理/i,
   });
   await expect.element(deptMenu).toBeInTheDocument();
 
   const roleMenu = screen.getByRole("menuitem", {
-    name: /Roles|角色權限/i,
+    name: /Roles|角色與權限|角色權限/i,
   });
   await expect.element(roleMenu).toBeInTheDocument();
 
   const userMenu = screen.getByRole("menuitem", {
-    name: /Users|人員管理/i,
+    name: /Users|使用者管理|人員管理/i,
   });
   await expect.element(userMenu).toBeInTheDocument();
 
@@ -174,7 +174,7 @@ test("PermissionGate: hides action buttons when user lacks specific write permis
 
   // Scoped within main content
   const main = screen.getByRole("main");
-  const cardTitle = main.getByText(/Roles & Permissions|角色權限/i);
+  const cardTitle = main.getByText(/Roles & Permissions|角色與權限|角色權限/i);
   await expect.element(cardTitle).toBeInTheDocument();
 
   // "Create Role" button should be completely hidden by PermissionGate

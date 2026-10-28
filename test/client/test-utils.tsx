@@ -6,10 +6,12 @@ import { createRoot, type Root } from "react-dom/client";
 import { page } from "vite-plus/test/browser";
 import { Providers } from "../../src/client/providers";
 import { routeTree } from "../../src/client/routeTree.gen";
+import { toastQueue } from "../../src/client/utils/toast";
 
 let currentRoot: Root | null = null;
 
 export async function cleanupApp(): Promise<void> {
+  toastQueue.clear();
   if (currentRoot !== null) {
     await act(async () => {
       currentRoot?.unmount();
@@ -19,6 +21,12 @@ export async function cleanupApp(): Promise<void> {
   const rootElement = document.getElementById("root");
   if (rootElement !== null) {
     rootElement.innerHTML = "";
+  }
+  const portals = document.querySelectorAll(
+    "[data-react-aria-top-layer], [data-rac][role='region']",
+  );
+  for (const el of portals) {
+    el.remove();
   }
 }
 

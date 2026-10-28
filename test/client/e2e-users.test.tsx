@@ -228,7 +228,7 @@ test("E2E User Flow: onboards a new employee via modal", async () => {
   const screen = await renderAppAt("/user");
 
   const createBtn = screen.getByRole("button", {
-    name: /Create User|新增人員/i,
+    name: /Create User|新增(使用者|人員)/i,
   });
   await createBtn.click();
 
@@ -251,7 +251,7 @@ test("E2E User Flow: onboards a new employee via modal", async () => {
   const titleInput = screen.getByLabelText(/^Title$|^職稱$/i);
   await titleInput.fill("高級架構師");
 
-  const submitBtn = modal.getByRole("button", { name: /OK|確 定/i });
+  const submitBtn = modal.getByRole("button", { name: /OK|確定|確 定/i });
   await submitBtn.click();
 
   expect(tracker.getDispatched().method).toBe("POST");
@@ -285,7 +285,7 @@ test("E2E User Flow: edits existing user job title and profile", async () => {
   const titleInput = screen.getByLabelText(/^Title$|^職稱$/i);
   await titleInput.fill("技術總監");
 
-  const submitBtn = modal.getByRole("button", { name: /OK|確 定/i });
+  const submitBtn = modal.getByRole("button", { name: /OK|確定|確 定/i });
   await submitBtn.click();
 
   expect(tracker.getDispatched().method).toBe("PUT");
@@ -324,7 +324,7 @@ test("E2E User Flow: modal refreshes form state on open, edit, and cancel", asyn
 
   // 1. Open Create modal, fill account and name, then cancel
   const createBtn = screen.getByRole("button", {
-    name: /Create User|新增人員/i,
+    name: /Create User|新增(使用者|人員)/i,
   });
   await createBtn.click();
 
@@ -338,7 +338,7 @@ test("E2E User Flow: modal refreshes form state on open, edit, and cancel", asyn
   await nameInput.fill("暫存姓名");
 
   // Click Cancel button
-  const cancelBtn = modal.getByRole("button", { name: /Cancel|取 消/i });
+  const cancelBtn = modal.getByRole("button", { name: /Cancel|取消|取 消/i });
   await cancelBtn.click();
   await expect.element(screen.getByRole("dialog")).not.toBeInTheDocument();
 
@@ -352,7 +352,7 @@ test("E2E User Flow: modal refreshes form state on open, edit, and cancel", asyn
   await expect.element(refreshedNameInput).toHaveValue("");
 
   // Close modal
-  await reOpenedModal.getByRole("button", { name: /Cancel|取 消/i }).click();
+  await reOpenedModal.getByRole("button", { name: /Cancel|取消|取 消/i }).click();
   await expect.element(screen.getByRole("dialog")).not.toBeInTheDocument();
 
   // 3. Open Edit modal for user 2 (emp_alice), change title, then cancel
@@ -367,7 +367,7 @@ test("E2E User Flow: modal refreshes form state on open, edit, and cancel", asyn
   await expect.element(editTitleInput).toHaveValue("工程師");
   await editTitleInput.fill("修改但不保存");
 
-  await editModal.getByRole("button", { name: /Cancel|取 消/i }).click();
+  await editModal.getByRole("button", { name: /Cancel|取消|取 消/i }).click();
   await expect.element(screen.getByRole("dialog")).not.toBeInTheDocument();
 
   // 4. Re-open Edit modal for same user -> must be refreshed to original "工程師"!

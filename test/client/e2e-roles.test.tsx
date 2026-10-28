@@ -169,14 +169,14 @@ test("E2E Role Flow: creates a new role with custom dataScope via drawer", async
   await expect.element(drawer).toBeVisible();
 
   // Fill role code and name
-  const codeInput = screen.getByLabelText(/Role Code|角色代碼/i);
+  const codeInput = screen.getByLabelText(/Role Code|角色標識|角色代碼/i);
   await codeInput.fill("auditor");
 
   const nameInput = screen.getByLabelText(/Role Name|角色名稱/i);
   await nameInput.fill("稽核主管");
 
   // Select Data Scope radio
-  const scopeRadio = drawer.getByText(/Department & Children|本部門及以下數據/i);
+  const scopeRadio = drawer.getByText(/Department & Children|本部門及(子部門|以下數據)/i);
   await scopeRadio.click();
 
   // Click Save button in drawer
@@ -267,7 +267,7 @@ test("E2E Role Flow: drawer refreshes form state on open, edit, and cancel", asy
   await nameInput.fill("臨時角色");
 
   // Click Cancel button in drawer
-  const cancelBtn = drawer.getByRole("button", { name: /Cancel|取 消/i });
+  const cancelBtn = drawer.getByRole("button", { name: /Cancel|取消|取 消/i });
   await cancelBtn.click();
   await expect.element(screen.getByRole("dialog")).not.toBeInTheDocument();
 
@@ -281,7 +281,7 @@ test("E2E Role Flow: drawer refreshes form state on open, edit, and cancel", asy
   await expect.element(refreshedNameInput).toHaveValue("");
 
   // Close drawer
-  await reOpenedDrawer.getByRole("button", { name: /Cancel|取 消/i }).click();
+  await reOpenedDrawer.getByRole("button", { name: /Cancel|取消|取 消/i }).click();
   await expect.element(screen.getByRole("dialog")).not.toBeInTheDocument();
 
   // 3. Open Edit drawer for role 1, change name, then cancel
@@ -294,7 +294,7 @@ test("E2E Role Flow: drawer refreshes form state on open, edit, and cancel", asy
   await expect.element(editRoleNameInput).toHaveValue("超級管理員");
   await editRoleNameInput.fill("修改但不保存");
 
-  await editDrawer.getByRole("button", { name: /Cancel|取 消/i }).click();
+  await editDrawer.getByRole("button", { name: /Cancel|取消|取 消/i }).click();
   await expect.element(screen.getByRole("dialog")).not.toBeInTheDocument();
 
   // 4. Re-open Edit drawer -> must be refreshed to original "超級管理員"!

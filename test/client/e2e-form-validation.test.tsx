@@ -149,7 +149,7 @@ test("Form Validation: RoleDrawer blocks submission with empty required fields a
   await saveBtn.click();
 
   // Verify validation feedback is visible for role code
-  const codeError = screen.getByText(/please enter role code|請輸入角色代碼/i);
+  const codeError = screen.getByText(/please enter role code|請輸入角色(標識|代碼)/i);
   await expect.element(codeError).toBeVisible();
 
   // Verify no POST request was sent to /api/roles

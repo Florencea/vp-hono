@@ -14,38 +14,38 @@ allowBuilds:
   workerd: false
 minimumReleaseAgeExclude:
   - hono@4.13.13
-  - "@oxc-transform-react/binding-android-arm-eabi@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-android-arm64@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-darwin-arm64@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-darwin-x64@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-freebsd-x64@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-linux-arm-gnueabihf@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-linux-arm-musleabihf@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-linux-arm64-gnu@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-linux-arm64-musl@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-linux-ppc64-gnu@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-linux-riscv64-gnu@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-linux-riscv64-musl@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-linux-s390x-gnu@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-linux-x64-gnu@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-linux-x64-musl@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-openharmony-arm64@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-win32-arm64-msvc@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-win32-ia32-msvc@0.153.0 || 0.154.0"
-  - "@oxc-transform-react/binding-win32-x64-msvc@0.153.0 || 0.154.0"
+  - "@oxc-transform-react/binding-android-arm-eabi@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-android-arm64@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-darwin-arm64@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-darwin-x64@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-freebsd-x64@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-linux-arm-gnueabihf@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-linux-arm-musleabihf@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-linux-arm64-gnu@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-linux-arm64-musl@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-linux-ppc64-gnu@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-linux-riscv64-gnu@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-linux-riscv64-musl@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-linux-s390x-gnu@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-linux-x64-gnu@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-linux-x64-musl@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-openharmony-arm64@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-win32-arm64-msvc@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-win32-ia32-msvc@0.153.0 || 0.154.0 || 0.156.0"
+  - "@oxc-transform-react/binding-win32-x64-msvc@0.153.0 || 0.154.0 || 0.156.0"
   - "@scalar/client-side-rendering@0.4.9 || 0.4.10 || 0.4.11 || 0.4.12"
   - "@scalar/helpers@0.16.1 || 0.16.2 || 0.16.3 || 0.16.4"
   - "@scalar/hono-api-reference@0.12.10 || 0.12.11 || 0.12.12 || 0.12.13"
   - "@scalar/schemas@0.13.0 || 0.13.1 || 0.13.2 || 0.14.0"
   - "@scalar/types@0.23.0 || 0.23.1 || 0.23.2 || 0.24.0"
   - "@vitejs/plugin-react@6.1.2"
-  - oxc-transform-react@0.153.0 || 0.154.0
+  - oxc-transform-react@0.153.0 || 0.154.0 || 0.156.0
   - "@hono/node-server@2.1.4 || 2.1.5"
   - playwright-core@1.64.0 || 1.64.1
   - playwright@1.64.0 || 1.64.1
   - "@cloudflare/vite-plugin@1.63.1 || 1.63.2 || 1.64.0"
-  - miniflare@5.20261006.1-alpha || 5.20261006.2-beta || 5.20261012.0-beta || 5.20261012.1-beta || 5.20261019.1-beta || 5.20261019.2-beta || 5.20261023.0-beta
-  - wrangler@4.149.0 || 4.150.0 || 4.151.0 || 4.151.1 || 4.151.3 || 4.152.0 || 4.153.0
+  - miniflare@5.20261006.1-alpha || 5.20261006.2-beta || 5.20261012.0-beta || 5.20261012.1-beta || 5.20261019.1-beta || 5.20261019.2-beta || 5.20261023.0-beta || 5.20261023.1-beta
+  - wrangler@4.149.0 || 4.150.0 || 4.151.0 || 4.151.1 || 4.151.3 || 4.152.0 || 4.153.0 || 4.154.0
   - "@tanstack/history@1.162.5"
   - "@tanstack/react-router@1.170.42 || 1.170.44 || 1.170.46"
   - "@tanstack/router-core@1.171.35 || 1.171.37 || 1.171.39"
@@ -83,6 +83,7 @@ minimumReleaseAgeExclude:
   - vscode-jsonrpc@10.0.0
   - vscode-languageserver-protocol@3.18.5
   - vscode-languageserver-types@3.18.5
+  - lucide-react@1.62.0
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@1.4.0
   vitest: 5.0.5

@@ -1,26 +1,20 @@
 ---
 name: ui-component
-description: Workflow for creating or updating accessible UI primitives and compound components using React Aria Components, Tailwind CSS v4, and @shadcn/lint standards.
+description: Use when authoring new accessible UI primitives under src/client/components/ui/ or building compound components with React Aria Components.
 compatibility: Vite+, React 19, React Aria Components, Tailwind CSS v4, @shadcn/lint
 ---
 
 # UI Component Development Workflow
 
-Guidelines and workflow for authoring or updating UI primitives under `src/client/components/ui/` and compound business components.
+Runbook for authoring accessible UI primitives and compound components.
 
-## 1. Design Token & Architecture Rules
+## 1. Check Existing Primitives
 
-- **Token SSOT**: Only use Tailwind CSS v4 `@theme` design tokens defined in `src/client/global.css` (e.g., `bg-background`, `text-foreground`, `border-border`, `text-muted-foreground`, `bg-primary`).
-- **Strict Linting**:
-  - `@shadcn/lint` enforces zero arbitrary values (`shadcn/no-arbitrary-values`) and zero raw colors (`shadcn/no-raw-colors`).
-  - No inline styles (`shadcn/no-inline-styles`).
-  - External callers may only pass layout utilities (`margin`, `display`, `flex`, `grid`, etc.).
-- **Canonical Classes**: Always use canonical Tailwind CSS v4 syntax. Format via `vpr lint:tailwind:fix`.
-- **Accessibility**: Use React Aria Components (RAC) hooks and components to ensure keyboard navigation, ARIA roles, and screen reader compatibility.
+Before creating a new primitive, check `src/client/components/ui/` to reuse existing components (`Button`, `TextField`, `Select`, `DialogContent`, `SheetContent`, `Popconfirm`, `Table`, etc.).
 
 ## 2. Primitive Component Authoring Pattern
 
-For atomic primitives under `src/client/components/ui/`, use `class-variance-authority` (CVA) for variants and size options:
+Author atomic primitives using `class-variance-authority` (CVA) and React Aria Components (RAC):
 
 ```tsx
 import { cva, type VariantProps } from "class-variance-authority";
@@ -55,16 +49,16 @@ export function Component({ className, variant, size, ...props }: ComponentProps
 }
 ```
 
-## 3. Verification & Diagnostic Commands
+## 3. Format & Verify
 
-After authoring or editing UI components, run the inner verification loop:
+Execute the inner verification and formatting loop:
 
 ```bash
-# 1. Type check, Oxlint, and Tailwind canonical class check
-vpr agent:verify:inner
-
-# 2. Automatically fix Tailwind class ordering / canonical forms
+# 1. Automatically fix Tailwind class ordering / canonical forms
 vpr lint:tailwind:fix
+
+# 2. Type check, Oxlint, and Tailwind canonical class check
+vpr agent:verify:inner
 
 # 3. Client E2E Chromium tests
 vpr agent:test:e2e

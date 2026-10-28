@@ -1,14 +1,14 @@
 ---
 name: scaffold-feature
-description: Step-by-step workflow to scaffold a new full-stack feature slice with schema, routes, handlers, locales, and contract tests.
+description: Use when scaffolding a new full-stack feature slice, bootstrapping OpenAPI routes and handlers, or creating end-to-end domain modules.
 compatibility: Vite+, Hono, React 19, React Aria Components, TanStack Form
 ---
 
 # Scaffold Feature Workflow
 
-This skill outlines the procedure to bootstrap a new end-to-end type-safe feature slice.
+Step-by-step procedure to generate and implement an end-to-end type-safe feature slice.
 
-## 1. Run Scaffolding Command
+## 1. Run Generator
 
 Execute the scaffolding script:
 
@@ -16,26 +16,20 @@ Execute the scaffolding script:
 vpr scaffold:feature <feature-name>
 ```
 
-This creates:
+This automatically generates:
 
-- Schema: `src/server/routes/<feature>/<feature>.schema.ts`
-- Route Spec: `src/server/routes/<feature>/<feature>.routes.ts`
-- Handlers: `src/server/routes/<feature>/<feature>.handlers.ts`
-- Sub-Router: `src/server/routes/<feature>/index.ts`
-- Contract Test: `test/server/<feature>-contract.test.ts`
-- Auto-mounts the sub-router in `src/server/router.ts`
-- Generates localized message keys in `src/locales/schema.ts`, `en-US.ts`, and `zh-TW.ts`
+- Backend: `src/server/routes/<feature>/` (schema, routes, handlers, index)
+- Sub-router mount: `src/server/router.ts`
+- Translations: Keys appended to `src/locales/schema.ts`, `en-US.ts`, `zh-TW.ts`
+- Contract test: `test/server/<feature>-contract.test.ts`
 
 ## 2. Implement Business Logic
 
-1. Customize request/response fields in `<feature>.schema.ts`.
-2. Connect database queries and RBAC permissions in `<feature>.handlers.ts`.
-3. Add UI presentational components under `src/client/components/<feature>/` and client hook `src/client/hooks/use<Feature>.ts`.
-4. Build form interactions using `@tanstack/react-form` and React Aria Components (`Button`, `TextField`, `Select`, `DialogContent`, `SheetContent`, `Popconfirm`, `Table`).
+1. **Schema & RBAC**: Define request/response fields in `<feature>.schema.ts` and attach security guards (`requirePermission`, `authenticatedRoute`, or `publicRoute`).
+2. **Handlers & Scope**: Implement database queries in `<feature>.handlers.ts` using `getDataScopeFilter(c, ...)`.
+3. **Frontend Wiring**: Create client route under `src/client/routes/` and build UI forms using `@tanstack/react-form` + React Aria Components.
 
-## 3. Verify Newly Scaffolded Slice
-
-Run verification gates:
+## 3. Verify Implementation
 
 ```bash
 # 1. Typecheck and unit contract tests

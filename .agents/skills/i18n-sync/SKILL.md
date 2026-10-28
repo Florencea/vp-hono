@@ -1,19 +1,16 @@
 ---
 name: i18n-sync
-description: Workflow for adding, modifying, and verifying isomorphic localized translation keys across schema, en-US, and zh-TW.
+description: Use when adding or modifying localization strings, synchronizing en-US and zh-TW dictionaries, or resolving i18n contract test drift.
 compatibility: Vite+, TypeScript, i18n
 ---
 
 # Internationalization (i18n) Synchronization Workflow
 
-Guidelines and workflow for maintaining zero key drift and strict schema parity across application translations.
+Runbook for adding or modifying translation keys with zero key drift.
 
-## 1. Schema-First Translation Definition
+## 1. Define Schema Keys
 
-All translations are strictly typed and originate in `src/locales/schema.ts`:
-
-1. Open `src/locales/schema.ts`.
-2. Add your new nested translation keys under `localeSchema`:
+Add nested translation keys in `src/locales/schema.ts` under `localeSchema`:
 
 ```typescript
 export const localeSchema = {
@@ -21,19 +18,18 @@ export const localeSchema = {
   myFeature: {
     title: "",
     description: "",
-    submitSuccess: "",
   },
 };
 ```
 
-## 2. Sync Language Dictionaries
+## 2. Populate Language Dictionaries
 
-Update both language files with non-empty values matching the schema keys:
+Fill corresponding translated strings into both dictionaries:
 
 - **English**: `src/locales/en-US.ts`
 - **Traditional Chinese**: `src/locales/zh-TW.ts`
 
-Ensure each file ends with `satisfies LocaleSchema`:
+Both files must satisfy `LocaleSchema`:
 
 ```typescript
 export const enUS = {
@@ -41,12 +37,10 @@ export const enUS = {
 } satisfies LocaleSchema;
 ```
 
-## 3. Verify Translation Parity Contract
+## 3. Verify Translation Parity
 
-Run the i18n contract test suite to assert zero key drift and parameter interpolation accuracy:
+Run the canary contract test to ensure zero key drift:
 
 ```bash
 vpr agent:test:unit test/canary/i18n-contract.test.ts
 ```
-
-All dictionary keys are checked recursively, and both server (`t(c, key)`) and client (`useI18n()`) APIs are verified.

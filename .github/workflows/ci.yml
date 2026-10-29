@@ -9,6 +9,10 @@ on:
       - main
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 permissions:
   contents: read
 
@@ -25,6 +29,7 @@ jobs:
   gatekeeper:
     name: Gatekeeper (Linux / Authoritative Node)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/ms-playwright
     steps:
@@ -44,10 +49,10 @@ jobs:
         uses: actions/cache@v6
         with:
           path: node_modules/.vite/task-cache
-          key: ${{ runner.os }}-vite-task-cache-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
+          key: ${{ runner.os }}-${{ runner.arch }}-vite-task-cache-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-vite-task-cache-${{ hashFiles('pnpm-lock.yaml') }}-
-            ${{ runner.os }}-vite-task-cache-
+            ${{ runner.os }}-${{ runner.arch }}-vite-task-cache-${{ hashFiles('pnpm-lock.yaml') }}-
+            ${{ runner.os }}-${{ runner.arch }}-vite-task-cache-
 
       - name: Get Playwright version
         id: playwright-version
@@ -95,6 +100,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: e2e-artifacts-${{ runner.os }}-${{ runner.arch }}
+          retention-days: 7
           path: |
             test-results/
             playwright-report/
@@ -105,6 +111,7 @@ jobs:
     name: Platform Compatibility (${{ matrix.os }})
     needs: [gatekeeper]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -128,10 +135,10 @@ jobs:
         uses: actions/cache@v6
         with:
           path: node_modules/.vite/task-cache
-          key: ${{ runner.os }}-vite-task-cache-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
+          key: ${{ runner.os }}-${{ runner.arch }}-vite-task-cache-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-vite-task-cache-${{ hashFiles('pnpm-lock.yaml') }}-
-            ${{ runner.os }}-vite-task-cache-
+            ${{ runner.os }}-${{ runner.arch }}-vite-task-cache-${{ hashFiles('pnpm-lock.yaml') }}-
+            ${{ runner.os }}-${{ runner.arch }}-vite-task-cache-
 
       - name: Initialize database
         run: vp run db:seed

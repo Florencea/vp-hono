@@ -20,6 +20,14 @@ Standards for maintaining and updating GitHub Actions workflows.
 
 ## 3. GitHub Actions Runner Best Practices & Invariants
 
+- **Major Floating Tags Invariant**:
+  - Always reference GitHub Actions using their authoritative Major floating tag (e.g. `voidzero-dev/setup-vp@v1`, `actions/checkout@v7`, `actions/cache@v6`, `actions/upload-artifact@v7`).
+  - Strictly avoid locking actions to granular minor or patch releases (e.g. never use `@v1.21.2`). Major floating tags guarantee immediate inheritance of security fixes, runtime improvements, and non-breaking bug fixes without manual version drift.
+  - Authoritative Action Baselines:
+    - `actions/checkout@v7`
+    - `voidzero-dev/setup-vp@v1`
+    - `actions/cache@v6`
+    - `actions/upload-artifact@v7`
 - **Concurrency Policy**: Workflows triggered by `push` and `pull_request` must declare top-level `concurrency` with `cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}` to prevent redundant CI runs and runner starvation.
 - **Timeout Protection**: Every runner job must declare an explicit `timeout-minutes` (standard: `15`) to prevent stalled tests or deadlocked processes from consuming the 360-minute default limit.
 - **Architecture-Aware Caching**: Cache keys for toolchain tasks (e.g. Vite Task Cache) must incorporate `${{ runner.os }}-${{ runner.arch }}` to ensure complete cache isolation between x64 and ARM64 runners.

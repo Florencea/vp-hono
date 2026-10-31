@@ -52,8 +52,8 @@ importers:
         specifier: 9.3.1
         version: 9.3.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       bcrypt-ts:
-        specifier: 9.0.2
-        version: 9.0.2
+        specifier: 9.0.3
+        version: 9.0.3
       class-variance-authority:
         specifier: 0.7.1
         version: 0.7.1
@@ -70,8 +70,8 @@ importers:
         specifier: 4.13.14
         version: 4.13.14
       lucide-react:
-        specifier: 1.65.0
-        version: 1.65.0(@types/react@19.3.0)(react@19.3.1)
+        specifier: 1.66.0
+        version: 1.66.0(@types/react@19.3.0)(react@19.3.1)
       react:
         specifier: 19.3.1
         version: 19.3.1
@@ -125,8 +125,8 @@ importers:
         specifier: 1.0.0-rc.5-ab785fc
         version: 1.0.0-rc.5-ab785fc
       knip:
-        specifier: 6.44.0
-        version: 6.44.0
+        specifier: 6.44.1
+        version: 6.44.1
       oxc-transform-react:
         specifier: 0.156.0
         version: 0.156.0
@@ -2367,8 +2367,8 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
-  bcrypt-ts@9.0.2:
-    resolution: {integrity: sha512-esaMayGbxzD3bOpy7f00pa5wA15wqhP15RbDYGzh/xGbZRNr05G9HdNiqK4ywzrVdzO8rv+Z4l6m01/9pv1FRA==}
+  bcrypt-ts@9.0.3:
+    resolution: {integrity: sha512-7N21c3DP+jqYUlxhrx5b4GMzZaLw5kmokizcXny2PIDRxETkll7HNDo36mI2xClsxYdpX+eP77pEDPXYDNNQLw==}
     engines: {node: '>=22'}
 
   blake3-wasm@2.1.5:
@@ -2709,8 +2709,8 @@ packages:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
 
-  knip@6.44.0:
-    resolution: {integrity: sha512-mT0fl71Mqrko91azUO2Jw/uhYKwldORKT4liRq6yV0ZAtt6G2eYusdnvx8eBSQJDjvhRGKkpKUUx+vUG6syV4w==}
+  knip@6.44.1:
+    resolution: {integrity: sha512-Hbd8nvkIsNgFfXgC7Jsb5LHv7jj6VwA3tmfHd53XPX2z9Vc9RnAZqV0BIiP4OrtYqKwCoLseFHQZerb1bNlbSw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
@@ -2870,8 +2870,8 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  lucide-react@1.65.0:
-    resolution: {integrity: sha512-roSdtzudEY39i2hn5LLjA8toYfhF2z4S10WSqZF4ubXpHlOmNTvaxMxZLdJfQDi6pEifQWX+cRmYihKSsvAxfA==}
+  lucide-react@1.66.0:
+    resolution: {integrity: sha512-8zjbi/Us+ETXqfBwmXF/FHrWGIqOdE6zT1yUdRJLQVoptomSkB0zdFWVIM667t9K8djWDaXdkBkqi2qVTuDNiw==}
     peerDependencies:
       '@types/react': '*'
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -4966,7 +4966,7 @@ snapshots:
 
   baseline-browser-mapping@2.11.27: {}
 
-  bcrypt-ts@9.0.2: {}
+  bcrypt-ts@9.0.3: {}
 
   blake3-wasm@2.1.5: {}
 
@@ -5158,7 +5158,7 @@ snapshots:
 
   kleur@4.1.5: {}
 
-  knip@6.44.0:
+  knip@6.44.1:
     dependencies:
       formatly: 0.11.4
       get-tsconfig: 4.14.3
@@ -5290,7 +5290,7 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  lucide-react@1.65.0(@types/react@19.3.0)(react@19.3.1):
+  lucide-react@1.66.0(@types/react@19.3.0)(react@19.3.1):
     dependencies:
       react: 19.3.1
     optionalDependencies:

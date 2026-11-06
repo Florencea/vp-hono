@@ -83,7 +83,7 @@ minimumReleaseAgeExclude:
   - vscode-jsonrpc@10.0.0
   - vscode-languageserver-protocol@3.18.5
   - vscode-languageserver-types@3.18.5
-  - lucide-react@1.62.0 || 1.65.0 || 1.66.0 || 1.67.0 || 1.68.0 || 1.69.0
+  - lucide-react@1.62.0 || 1.65.0 || 1.66.0 || 1.67.0 || 1.68.0 || 1.69.0 || 1.70.0
   - bcrypt-ts@9.0.3
   - "@cloudflare/workerd-darwin-64@1.20261101.1 || 1.20261102.1 || 1.20261103.1"
   - "@cloudflare/workerd-darwin-arm64@1.20261101.1 || 1.20261102.1 || 1.20261103.1"
@@ -92,22 +92,22 @@ minimumReleaseAgeExclude:
   - "@cloudflare/workerd-windows-64@1.20261101.1 || 1.20261102.1 || 1.20261103.1"
   - workerd@1.20261101.1 || 1.20261102.1 || 1.20261103.1
   - "@shadcn/lint@0.2.5"
-  - "@tailwindcss/node@4.3.4"
-  - "@tailwindcss/oxide-android-arm64@4.3.4"
-  - "@tailwindcss/oxide-darwin-arm64@4.3.4"
-  - "@tailwindcss/oxide-darwin-x64@4.3.4"
-  - "@tailwindcss/oxide-freebsd-x64@4.3.4"
-  - "@tailwindcss/oxide-linux-arm-gnueabihf@4.3.4"
-  - "@tailwindcss/oxide-linux-arm64-gnu@4.3.4"
-  - "@tailwindcss/oxide-linux-arm64-musl@4.3.4"
-  - "@tailwindcss/oxide-linux-x64-gnu@4.3.4"
-  - "@tailwindcss/oxide-linux-x64-musl@4.3.4"
-  - "@tailwindcss/oxide-wasm32-wasi@4.3.4"
-  - "@tailwindcss/oxide-win32-arm64-msvc@4.3.4"
-  - "@tailwindcss/oxide-win32-x64-msvc@4.3.4"
-  - "@tailwindcss/oxide@4.3.4"
-  - "@tailwindcss/vite@4.3.4"
-  - tailwindcss@4.3.4
+  - "@tailwindcss/node@4.3.4 || 4.3.5"
+  - "@tailwindcss/oxide-android-arm64@4.3.4 || 4.3.5"
+  - "@tailwindcss/oxide-darwin-arm64@4.3.4 || 4.3.5"
+  - "@tailwindcss/oxide-darwin-x64@4.3.4 || 4.3.5"
+  - "@tailwindcss/oxide-freebsd-x64@4.3.4 || 4.3.5"
+  - "@tailwindcss/oxide-linux-arm-gnueabihf@4.3.4 || 4.3.5"
+  - "@tailwindcss/oxide-linux-arm64-gnu@4.3.4 || 4.3.5"
+  - "@tailwindcss/oxide-linux-arm64-musl@4.3.4 || 4.3.5"
+  - "@tailwindcss/oxide-linux-x64-gnu@4.3.4 || 4.3.5"
+  - "@tailwindcss/oxide-linux-x64-musl@4.3.4 || 4.3.5"
+  - "@tailwindcss/oxide-wasm32-wasi@4.3.4 || 4.3.5"
+  - "@tailwindcss/oxide-win32-arm64-msvc@4.3.4 || 4.3.5"
+  - "@tailwindcss/oxide-win32-x64-msvc@4.3.4 || 4.3.5"
+  - "@tailwindcss/oxide@4.3.4 || 4.3.5"
+  - "@tailwindcss/vite@4.3.4 || 4.3.5"
+  - tailwindcss@4.3.4 || 4.3.5
   - "@oxfmt/binding-android-arm-eabi@0.76.0"
   - "@oxfmt/binding-android-arm64@0.76.0"
   - "@oxfmt/binding-darwin-arm64@0.76.0"

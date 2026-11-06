@@ -1,1 +1,17 @@
-pnpm-*
+# pnpm
+/drizzle
+/drizzle-generate
+/drizzle-hints
+/drizzle-migrations
+/drizzle-output-modes
+/drizzle-pull
+/drizzle-push
+/drizzle-responses-and-errors
+/getting-started
+/migrate-from-react-router
+/migrate-v8-to-v9
+/react-router
+/router-plugin
+/router-query
+/table-state
+# pnpm end

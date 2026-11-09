@@ -14,38 +14,38 @@ allowBuilds:
   workerd: false
 minimumReleaseAgeExclude:
   - hono@4.13.13 || 4.13.16
-  - "@oxc-transform-react/binding-android-arm-eabi@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-android-arm64@0.153.0 || 0.154.0 || 0.156.0"
-  - "@oxc-transform-react/binding-darwin-arm64@0.153.0 || 0.154.0 || 0.156.0"
-  - "@oxc-transform-react/binding-darwin-x64@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-freebsd-x64@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-linux-arm-gnueabihf@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-linux-arm-musleabihf@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-linux-arm64-gnu@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-linux-arm64-musl@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-linux-ppc64-gnu@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-linux-riscv64-gnu@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-linux-riscv64-musl@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-linux-s390x-gnu@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-linux-x64-gnu@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-linux-x64-musl@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-openharmony-arm64@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-win32-arm64-msvc@0.153.0 || 0.154.0 || 0.156.0"
-  - "@oxc-transform-react/binding-win32-ia32-msvc@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
-  - "@oxc-transform-react/binding-win32-x64-msvc@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0"
+  - "@oxc-transform-react/binding-android-arm-eabi@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-android-arm64@0.153.0 || 0.154.0 || 0.156.0 || 0.158.0"
+  - "@oxc-transform-react/binding-darwin-arm64@0.153.0 || 0.154.0 || 0.156.0 || 0.158.0"
+  - "@oxc-transform-react/binding-darwin-x64@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-freebsd-x64@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-linux-arm-gnueabihf@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-linux-arm-musleabihf@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-linux-arm64-gnu@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-linux-arm64-musl@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-linux-ppc64-gnu@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-linux-riscv64-gnu@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-linux-riscv64-musl@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-linux-s390x-gnu@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-linux-x64-gnu@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-linux-x64-musl@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-openharmony-arm64@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-win32-arm64-msvc@0.153.0 || 0.154.0 || 0.156.0 || 0.158.0"
+  - "@oxc-transform-react/binding-win32-ia32-msvc@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
+  - "@oxc-transform-react/binding-win32-x64-msvc@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0"
   - "@scalar/client-side-rendering@0.4.9 || 0.4.10 || 0.4.11 || 0.4.12 || 0.4.16 || 0.4.17"
   - "@scalar/helpers@0.16.1 || 0.16.2 || 0.16.3 || 0.16.4 || 0.17.0"
   - "@scalar/hono-api-reference@0.12.10 || 0.12.11 || 0.12.12 || 0.12.13 || 0.12.17 || 0.12.18"
   - "@scalar/schemas@0.13.0 || 0.13.1 || 0.13.2 || 0.14.0 || 0.16.0 || 0.16.1"
   - "@scalar/types@0.23.0 || 0.23.1 || 0.23.2 || 0.24.0 || 0.26.0 || 0.27.0"
-  - "@vitejs/plugin-react@6.1.2 || 6.2.1"
-  - oxc-transform-react@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0
+  - "@vitejs/plugin-react@6.1.2 || 6.2.1 || 6.3.0"
+  - oxc-transform-react@0.153.0 || 0.154.0 || 0.156.0 || 0.157.0 || 0.158.0
   - "@hono/node-server@2.1.4 || 2.1.5 || 2.1.6"
   - playwright-core@1.64.0 || 1.64.1 || 1.65.0
   - playwright@1.64.0 || 1.64.1 || 1.65.0
-  - "@cloudflare/vite-plugin@1.63.1 || 1.63.2 || 1.64.0"
-  - miniflare@5.20261006.1-alpha || 5.20261006.2-beta || 5.20261012.0-beta || 5.20261012.1-beta || 5.20261019.1-beta || 5.20261019.2-beta || 5.20261023.0-beta || 5.20261023.1-beta || 5.20261023.3-beta || 5.20261101.0-beta || 5.20261102.0-beta || 5.20261103.0-beta || 5.20261104.0-beta
-  - wrangler@4.149.0 || 4.150.0 || 4.151.0 || 4.151.1 || 4.151.3 || 4.152.0 || 4.153.0 || 4.154.0 || 4.156.0 || 4.156.1 || 4.156.2 || 4.157.0 || 4.158.0
+  - "@cloudflare/vite-plugin@1.63.1 || 1.63.2 || 1.64.0 || 1.68.0"
+  - miniflare@5.20261006.1-alpha || 5.20261006.2-beta || 5.20261012.0-beta || 5.20261012.1-beta || 5.20261019.1-beta || 5.20261019.2-beta || 5.20261023.0-beta || 5.20261023.1-beta || 5.20261023.3-beta || 5.20261101.0-beta || 5.20261102.0-beta || 5.20261103.0-beta || 5.20261104.0-beta || 5.20261109.0-beta
+  - wrangler@4.149.0 || 4.150.0 || 4.151.0 || 4.151.1 || 4.151.3 || 4.152.0 || 4.153.0 || 4.154.0 || 4.156.0 || 4.156.1 || 4.156.2 || 4.157.0 || 4.158.0 || 4.159.0
   - "@tanstack/history@1.162.5"
   - "@tanstack/react-router@1.170.42 || 1.170.44 || 1.170.46"
   - "@tanstack/router-core@1.171.35 || 1.171.37 || 1.171.39"
@@ -67,16 +67,16 @@ minimumReleaseAgeExclude:
   - "@vitest/spy@5.0.5"
   - "@vitest/ui@5.0.5"
   - "@vitest/utils@5.0.5"
-  - "@voidzero-dev/vite-plus-core@1.3.0 || 1.4.0 || 1.5.0"
-  - "@voidzero-dev/vite-plus-darwin-arm64@1.3.0 || 1.4.0 || 1.5.0"
-  - "@voidzero-dev/vite-plus-darwin-x64@1.3.0 || 1.4.0 || 1.5.0"
-  - "@voidzero-dev/vite-plus-linux-arm64-gnu@1.3.0 || 1.4.0 || 1.5.0"
-  - "@voidzero-dev/vite-plus-linux-arm64-musl@1.3.0 || 1.4.0 || 1.5.0"
-  - "@voidzero-dev/vite-plus-linux-x64-gnu@1.3.0 || 1.4.0 || 1.5.0"
-  - "@voidzero-dev/vite-plus-linux-x64-musl@1.3.0 || 1.4.0 || 1.5.0"
-  - "@voidzero-dev/vite-plus-win32-arm64-msvc@1.3.0 || 1.4.0 || 1.5.0"
-  - "@voidzero-dev/vite-plus-win32-x64-msvc@1.3.0 || 1.4.0 || 1.5.0"
-  - vite-plus@1.3.0 || 1.4.0 || 1.5.0
+  - "@voidzero-dev/vite-plus-core@1.3.0 || 1.4.0 || 1.5.0 || 1.5.1"
+  - "@voidzero-dev/vite-plus-darwin-arm64@1.3.0 || 1.4.0 || 1.5.0 || 1.5.1"
+  - "@voidzero-dev/vite-plus-darwin-x64@1.3.0 || 1.4.0 || 1.5.0 || 1.5.1"
+  - "@voidzero-dev/vite-plus-linux-arm64-gnu@1.3.0 || 1.4.0 || 1.5.0 || 1.5.1"
+  - "@voidzero-dev/vite-plus-linux-arm64-musl@1.3.0 || 1.4.0 || 1.5.0 || 1.5.1"
+  - "@voidzero-dev/vite-plus-linux-x64-gnu@1.3.0 || 1.4.0 || 1.5.0 || 1.5.1"
+  - "@voidzero-dev/vite-plus-linux-x64-musl@1.3.0 || 1.4.0 || 1.5.0 || 1.5.1"
+  - "@voidzero-dev/vite-plus-win32-arm64-msvc@1.3.0 || 1.4.0 || 1.5.0 || 1.5.1"
+  - "@voidzero-dev/vite-plus-win32-x64-msvc@1.3.0 || 1.4.0 || 1.5.0 || 1.5.1"
+  - vite-plus@1.3.0 || 1.4.0 || 1.5.0 || 1.5.1
   - vitest@5.0.5
   - antd@6.6.7
   - knip@6.42.1 || 6.44.0 || 6.44.1
@@ -85,12 +85,12 @@ minimumReleaseAgeExclude:
   - vscode-languageserver-types@3.18.5
   - lucide-react@1.62.0 || 1.65.0 || 1.66.0 || 1.67.0 || 1.68.0 || 1.69.0 || 1.70.0
   - bcrypt-ts@9.0.3
-  - "@cloudflare/workerd-darwin-64@1.20261101.1 || 1.20261102.1 || 1.20261103.1"
-  - "@cloudflare/workerd-darwin-arm64@1.20261101.1 || 1.20261102.1 || 1.20261103.1"
-  - "@cloudflare/workerd-linux-64@1.20261101.1 || 1.20261102.1 || 1.20261103.1"
-  - "@cloudflare/workerd-linux-arm64@1.20261101.1 || 1.20261102.1 || 1.20261103.1"
-  - "@cloudflare/workerd-windows-64@1.20261101.1 || 1.20261102.1 || 1.20261103.1"
-  - workerd@1.20261101.1 || 1.20261102.1 || 1.20261103.1
+  - "@cloudflare/workerd-darwin-64@1.20261101.1 || 1.20261102.1 || 1.20261103.1 || 1.20261109.1"
+  - "@cloudflare/workerd-darwin-arm64@1.20261101.1 || 1.20261102.1 || 1.20261103.1 || 1.20261109.1"
+  - "@cloudflare/workerd-linux-64@1.20261101.1 || 1.20261102.1 || 1.20261103.1 || 1.20261109.1"
+  - "@cloudflare/workerd-linux-arm64@1.20261101.1 || 1.20261102.1 || 1.20261103.1 || 1.20261109.1"
+  - "@cloudflare/workerd-windows-64@1.20261101.1 || 1.20261102.1 || 1.20261103.1 || 1.20261109.1"
+  - workerd@1.20261101.1 || 1.20261102.1 || 1.20261103.1 || 1.20261109.1
   - "@shadcn/lint@0.2.5"
   - "@tailwindcss/node@4.3.4 || 4.3.5"
   - "@tailwindcss/oxide-android-arm64@4.3.4 || 4.3.5"
@@ -150,9 +150,9 @@ minimumReleaseAgeExclude:
   - oxfmt@0.76.0
   - oxlint@1.91.0
 catalog:
-  vite: npm:@voidzero-dev/vite-plus-core@1.5.0
+  vite: npm:@voidzero-dev/vite-plus-core@1.5.1
   vitest: 5.1.0
-  vite-plus: 1.5.0
+  vite-plus: 1.5.1
   "@vitest/browser-playwright": 5.1.0
 permissions:
   "@tanstack/react-router":

@@ -31,7 +31,7 @@
     "@hono/zod-openapi": "1.6.3",
     "@internationalized/date": "3.12.4",
     "@libsql/client": "0.18.0",
-    "@scalar/hono-api-reference": "0.12.18",
+    "@scalar/hono-api-reference": "0.12.19",
     "@tanstack/react-form": "1.33.5",
     "@tanstack/react-query": "5.107.1",
     "@tanstack/react-router": "1.170.46",
@@ -42,7 +42,7 @@
     "dayjs": "1.11.23",
     "drizzle-orm": "1.0.0-rc.5-ab785fc",
     "hono": "4.13.17",
-    "lucide-react": "1.70.0",
+    "lucide-react": "1.71.0",
     "react": "19.3.1",
     "react-aria-components": "1.22.1",
     "react-dom": "19.3.1",
@@ -62,7 +62,7 @@
     "@vitejs/plugin-react": "6.3.0",
     "@vitest/browser-playwright": "catalog:",
     "drizzle-kit": "1.0.0-rc.5-ab785fc",
-    "knip": "6.44.2",
+    "knip": "6.45.0",
     "oxc-transform-react": "0.158.0",
     "playwright": "1.65.0",
     "tailwindcss": "4.3.5",
@@ -71,7 +71,7 @@
     "vite-plus": "catalog:",
     "vitest": "catalog:",
     "vscode-languageserver-protocol": "3.18.5",
-    "wrangler": "4.159.0"
+    "wrangler": "4.160.0"
   },
   "engines": {
     "node": "26.13.0"

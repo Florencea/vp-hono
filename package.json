@@ -4,10 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "agent:lint:ci": "actionlint",
+    "agent:lint:tailwind": "node scripts/lint-tailwind.ts",
+    "agent:lint:tailwind:fix": "node scripts/lint-tailwind.ts --fix",
     "agent:test:e2e": "vp test run --project client --reporter=tap-flat --no-color",
     "agent:test:unit": "vp test run --project server --reporter=tap-flat --no-color",
     "agent:verify:gate": "vpr agent:verify:unit && vp build && vpr agent:test:e2e",
-    "agent:verify:inner": "vpr typecheck && vp lint && vpr lint:tailwind",
+    "agent:verify:inner": "vpr typecheck && vp lint && vpr agent:lint:tailwind",
     "agent:verify:unit": "vpr agent:verify:inner && vpr agent:test:unit",
     "check:deadcode": "knip",
     "check:fast": "vpr typecheck && vp lint && vpr agent:test:unit",
@@ -24,7 +27,7 @@
     "start": "vp node dist/server/app.js",
     "test:setup": "playwright install chromium",
     "typecheck": "tsc -b --pretty false",
-    "verify": "vp check && vpr lint:tailwind && vpr check:deadcode && vp test run && vp build"
+    "verify": "vp check && vpr agent:lint:tailwind && vpr check:deadcode && vp test run && vp build"
   },
   "dependencies": {
     "@hono/node-server": "2.1.6",

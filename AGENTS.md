@@ -61,8 +61,8 @@ Prioritize `vpr agent:*` commands matching Antigravity's whitelist:
 - **Unit Tests**: `vpr agent:test:unit` (in-memory server tests)
 - **E2E Tests**: `vpr agent:test:e2e` (Chromium browser tests)
 - **Type Check**: `vpr typecheck`
-- **CI Lint**: `vpr lint:ci` (`actionlint` 0 errors/warnings)
-- **Tailwind Lint**: `vpr lint:tailwind`, `vpr lint:tailwind:fix`
+- **CI Lint**: `vpr agent:lint:ci` (or `vpr lint:ci`, `actionlint` 0 errors/warnings)
+- **Tailwind Lint**: `vpr agent:lint:tailwind`, `vpr agent:lint:tailwind:fix` (or `vpr lint:tailwind`)
 - **Build**: `vp build` (Client + Server + Worker)
 
 ---

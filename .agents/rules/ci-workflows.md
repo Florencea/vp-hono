@@ -11,25 +11,38 @@ Standards for maintaining and updating GitHub Actions workflows.
 ## 1. Shift-Left Local Verification
 
 - **Strict Requirement**: Whenever `.github/workflows/` files are added or modified, running `actionlint` locally with **0 errors and 0 warnings** is mandatory before staging (`git add`).
-- **Execution Script**: Execute via `vpr lint:ci` (or `actionlint` directly).
+- **Execution Script**: Execute via `vpr agent:lint:ci` (or `vpr lint:ci` / `actionlint` directly).
 
 ## 2. Guardrail Boundaries
 
 - **Offline-Only Tool**: `actionlint` is strictly an offline / local shift-left verification guardrail.
 - **Remote Workflow Invariant**: Never embed `actionlint` steps into remote GitHub Actions workflow files (`.github/workflows/*.yml`).
 
-## 3. GitHub Actions Runner Best Practices & Invariants
+## 3. Centralized Workflows (`Florencea/vp-actions`)
+
+- **Centralized Pipeline**: Standard Web and Fullstack applications consume the centralized Reusable Workflow from `Florencea/vp-actions/.github/workflows/vp-web-ci.yml@v1`.
+- **Custom Inputs**:
+  - `pre-test-command`: Pass repository-specific preparation hooks (e.g. `vp run db:seed`).
+  - `enable-platform-compat`: Set to `true` when cross-platform matrix testing (Linux, macOS, Windows) is required.
+- **Specialized Workflows**: Applications with custom display or packaging needs consume modular Composite Actions:
+  - `Florencea/vp-actions/actions/setup-vp-env@v1`: Node.js engine, Vite+, dependency installation, and Vite Task Cache.
+  - `Florencea/vp-actions/actions/setup-playwright@v1`: Playwright browser cache, Chromium binary installation, and Linux system dependencies.
+
+## 4. GitHub Actions Runner Best Practices & Invariants
 
 - **Major Floating Tags Invariant**:
-  - Always reference GitHub Actions using their authoritative Major floating tag (e.g. `voidzero-dev/setup-vp@v1`, `actions/checkout@v7`, `actions/cache@v6`, `actions/upload-artifact@v7`).
-  - Strictly avoid locking actions to granular minor or patch releases (e.g. never use `@v1.21.2`). Major floating tags guarantee immediate inheritance of security fixes, runtime improvements, and non-breaking bug fixes without manual version drift.
+  - Always reference GitHub Actions and reusable workflows using their authoritative Major floating tag.
+  - Strictly avoid locking actions to granular minor or patch releases (e.g. never use `@v1.21.2` or `@v4`). Major floating tags guarantee immediate inheritance of security fixes, runtime improvements, and non-breaking bug fixes without manual version drift.
   - Authoritative Action Baselines:
+    - `Florencea/vp-actions/.github/workflows/vp-web-ci.yml@v1`
+    - `Florencea/vp-actions/actions/setup-vp-env@v1`
+    - `Florencea/vp-actions/actions/setup-playwright@v1`
     - `actions/checkout@v7`
     - `voidzero-dev/setup-vp@v1`
     - `actions/cache@v6`
     - `actions/upload-artifact@v7`
 - **Concurrency Policy**: Workflows triggered by `push` and `pull_request` must declare top-level `concurrency` with `cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}` to prevent redundant CI runs and runner starvation.
-- **Timeout Protection**: Every runner job must declare an explicit `timeout-minutes` (standard: `15`) to prevent stalled tests or deadlocked processes from consuming the 360-minute default limit.
+- **Timeout Protection**: Every runner job must declare an explicit `timeout-minutes` (standard: `15`) to prevent stalled tests or deadlocked processes from consuming the default limit.
 - **Architecture-Aware Caching**: Cache keys for toolchain tasks (e.g. Vite Task Cache) must incorporate `${{ runner.os }}-${{ runner.arch }}` to ensure complete cache isolation between x64 and ARM64 runners.
 - **Artifact Retention**: Failure diagnostic uploads via `actions/upload-artifact` must specify `retention-days: 7` to avoid unnecessary storage usage.
 - **Node.js Runtime Invariant**:

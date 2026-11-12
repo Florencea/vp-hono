@@ -30,11 +30,11 @@
     "verify": "vp check && vpr agent:lint:tailwind && vpr check:deadcode && vp test run && vp build"
   },
   "dependencies": {
-    "@hono/node-server": "2.1.7",
+    "@hono/node-server": "2.1.8",
     "@hono/zod-openapi": "1.6.3",
     "@internationalized/date": "3.12.4",
     "@libsql/client": "0.18.0",
-    "@scalar/hono-api-reference": "0.12.19",
+    "@scalar/hono-api-reference": "0.12.20",
     "@tanstack/react-form": "1.33.5",
     "@tanstack/react-query": "5.107.1",
     "@tanstack/react-router": "1.170.46",
@@ -53,7 +53,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.69.0",
+    "@cloudflare/vite-plugin": "1.69.1",
     "@shadcn/lint": "0.2.5",
     "@tailwindcss/language-server": "0.16.0",
     "@tailwindcss/vite": "4.3.5",
@@ -74,7 +74,7 @@
     "vite-plus": "catalog:",
     "vitest": "catalog:",
     "vscode-languageserver-protocol": "3.18.5",
-    "wrangler": "4.160.1"
+    "wrangler": "4.161.0"
   },
   "engines": {
     "node": "26.13.0"

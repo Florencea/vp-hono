@@ -77,7 +77,7 @@
     "wrangler": "4.162.0"
   },
   "engines": {
-    "node": "26.13.0"
+    "node": "26.13.1"
   },
   "knip": {
     "ignore": [

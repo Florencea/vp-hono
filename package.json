@@ -79,6 +79,7 @@
   "engines": {
     "node": "26.13.1"
   },
+  "packageManager": "pnpm@12.21.0",
   "knip": {
     "ignore": [
       "src/client/routeTree.gen.ts",
@@ -93,6 +94,5 @@
       "@tanstack/react-table"
     ],
     "playwright": true
-  },
-  "packageManager": "pnpm@12.21.0"
+  }
 }

@@ -18,6 +18,6 @@ permissions:
 
 jobs:
   ci:
-    uses: Florencea/vp-actions/.github/workflows/vp-web-ci.yml@v3.0.0
+    uses: Florencea/vp-actions/.github/workflows/vp-web-ci.yml@v3.1.0
     with:
       pre-test-command: vp run db:seed

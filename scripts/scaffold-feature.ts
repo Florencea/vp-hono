@@ -21,7 +21,7 @@ function toKebabCase(str: string): string {
 const rawName = process.argv[2]?.trim();
 if (!rawName) {
   console.error("Error: Please specify a feature name.");
-  console.error("Usage: vpr scaffold:feature <feature-name>");
+  console.error("Usage: npm run scaffold:feature -- <feature-name>");
   process.exit(1);
 }
 
@@ -346,4 +346,4 @@ console.info(`  - Sub-Router:    src/server/routes/${kebabName}/index.ts`);
 console.info(`  - Contract Test: test/server/${kebabName}-contract.test.ts`);
 console.info(`  - Mounted in:    src/server/router.ts`);
 console.info(`  - Localized in:  src/locales/schema.ts, en-US.ts, zh-TW.ts`);
-console.info(`Run "vpr check:fast" to verify the newly scaffolded feature.`);
+console.info(`Run "npm run check:fast" to verify the newly scaffolded feature.`);

@@ -13,7 +13,7 @@ Step-by-step procedure to generate and implement an end-to-end type-safe feature
 Execute the scaffolding script:
 
 ```bash
-vpr scaffold:feature <feature-name>
+npm run scaffold:feature -- <feature-name>
 ```
 
 This automatically generates:
@@ -33,8 +33,8 @@ This automatically generates:
 
 ```bash
 # 1. Typecheck and unit contract tests
-vpr agent:verify:unit
+npm run agent:verify:unit
 
 # 2. Comprehensive verification gate
-vpr agent:verify:gate
+npm run agent:verify:gate
 ```

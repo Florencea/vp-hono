@@ -11,7 +11,7 @@ Guidelines for database schema management, migrations, and test isolation.
 ## 1. Single Source of Truth (SSOT)
 
 - **Schema Definition**: `src/server/database/schema.ts` is the single source of truth for all database tables and relations.
-- **Code-First Workflow**: Push schema changes via `vpr db:push` (`drizzle-kit push`). Migration SQL snapshots under `drizzle/` are gitignored.
+- **Code-First Workflow**: Push schema changes via `npm run db:push` (`drizzle-kit push`). Migration SQL snapshots under `drizzle/` are gitignored.
 
 ## 2. Dynamic Schema Sync & Seeding
 

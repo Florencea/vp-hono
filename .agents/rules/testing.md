@@ -10,7 +10,7 @@ Guidelines for automated testing across the dual-track testing architecture.
 
 ## 1. Dual-Track Testing Architecture
 
-- **Client Tests (`vpr agent:test:e2e`)**:
+- **Client Tests (`npm run agent:test:e2e`)**:
   - Run inside headless Chromium via Vitest (`vite-plus/test/browser-playwright`).
   - Use `renderAppAt(initialUrl)` from `test/client/test-utils.tsx` to mount routes with complete `<Providers>` and router context.
   - Assert both presence and visibility:
@@ -18,7 +18,7 @@ Guidelines for automated testing across the dual-track testing architecture.
     - `await expect.element(el).toBeVisible()`
   - Prefer accessible queries (`screen.getByRole`, `screen.getByLabelText`) or `data-testid`. Never query volatile CSS classes.
   - **Testing React Aria Overlays**: Popconfirm, Dialog, and Sheet mount popovers and modal overlays. Query confirmation buttons inside `role="tooltip"` or `role="dialog"` rather than relying on positional selectors.
-- **Server Tests (`vpr agent:test:unit`)**:
+- **Server Tests (`npm run agent:test:unit`)**:
   - Run in Node.js environment.
   - Leverage Hono's native in-memory `app.request()` for fast, deterministic HTTP/RPC and schema verification without port conflicts.
   - Pass cookies via `Cookie: session_token=...` headers to test authenticated scenarios.

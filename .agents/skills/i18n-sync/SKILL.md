@@ -42,5 +42,5 @@ export const enUS = {
 Run the canary contract test to ensure zero key drift:
 
 ```bash
-vpr agent:test:unit test/canary/i18n-contract.test.ts
+npm run agent:test:unit -- test/canary/i18n-contract.test.ts
 ```

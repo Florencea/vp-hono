@@ -1,34 +1,30 @@
 # syntax=docker/dockerfile:1
 
-# --- Build stage: official Vite+ toolchain image ---
-FROM ghcr.io/voidzero-dev/vite-plus:latest AS builder
+ARG NODE_VERSION=26.13.1
+
+# --- Build stage ---
+FROM node:${NODE_VERSION}-slim AS builder
 WORKDIR /app
 
 # Install dependencies first for layer caching
-COPY --chown=vp:vp package.json pnpm-lock.yaml* pnpm-workspace.yaml ./
-RUN vp install
+COPY package.json package-lock.json .npmrc ./
+RUN npm ci
 
-# Copy source and build (vp reads engines.node in package.json and provisions Node automatically)
-COPY --chown=vp:vp . .
-RUN vp build
-
-# Export the exact resolved Node.js binary for the runtime stage
-RUN cp "$(vp env which node | head -1)" /tmp/node
+# Copy source and build production bundles via project-local vp
+COPY . .
+RUN npm run build
 
 # --- Deps stage: production-only dependencies ---
-FROM ghcr.io/voidzero-dev/vite-plus:latest AS deps
+FROM node:${NODE_VERSION}-slim AS deps
 WORKDIR /app
-COPY --chown=vp:vp package.json pnpm-lock.yaml* pnpm-workspace.yaml ./
-RUN vp install --prod
+COPY package.json package-lock.json .npmrc ./
+RUN npm ci --omit=dev
 
-# --- Runtime stage: small, glibc, no vp ---
-FROM debian:bookworm-slim AS runner
+# --- Runtime stage ---
+FROM node:${NODE_VERSION}-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
-
-# The exact Node.js binary resolved by vp from engines.node
-COPY --from=builder /tmp/node /usr/local/bin/node
 
 # Copy built assets and production dependencies
 COPY --from=builder /app/dist ./dist

@@ -55,11 +55,11 @@ Execute the inner verification and formatting loop:
 
 ```bash
 # 1. Automatically fix Tailwind class ordering / canonical forms
-vpr lint:tailwind:fix
+npm run lint:tailwind:fix
 
 # 2. Type check, Oxlint, and Tailwind canonical class check
-vpr agent:verify:inner
+npm run agent:verify:inner
 
 # 3. Client E2E Chromium tests
-vpr agent:test:e2e
+npm run agent:test:e2e
 ```

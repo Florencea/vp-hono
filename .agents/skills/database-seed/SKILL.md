@@ -13,7 +13,7 @@ Procedure to push schema definitions and seed data into local SQLite and Cloudfl
 Push table definitions from `src/server/database/schema.ts`:
 
 ```bash
-vpr db:push
+npm run db:push
 ```
 
 ## 2. Seed Databases
@@ -21,7 +21,7 @@ vpr db:push
 Populate administrator accounts, departments, and roles across `database.sqlite` and local Cloudflare D1 (`.wrangler/state/v3/d1/`):
 
 ```bash
-vpr db:seed
+npm run db:seed
 ```
 
 ## 3. Verify Database Integrity
@@ -29,5 +29,5 @@ vpr db:seed
 Run server unit tests to confirm data consistency and permission scopes:
 
 ```bash
-vpr agent:test:unit test/server/
+npm run agent:test:unit -- test/server/
 ```

@@ -21,7 +21,7 @@ Guidelines for building UI components with React Aria Components, TanStack Form,
 
 - **No Inline `style`**: Never use `style={{ ... }}` on React or React Aria components (`shadcn/no-inline-styles`).
 - **No `!` (important)**: Never use the `!` modifier in Tailwind classes.
-- **Canonical Classes**: Use Tailwind CSS v4 canonical class syntax (e.g. `bg-(--variable)` instead of `bg-[var(--variable)]`). Run `vpr lint:tailwind` to diagnose and `vpr lint:tailwind:fix` to auto-fix.
+- **Canonical Classes**: Use Tailwind CSS v4 canonical class syntax (e.g. `bg-(--variable)` instead of `bg-[var(--variable)]`). Run `npm run lint:tailwind` to diagnose and `npm run lint:tailwind:fix` to auto-fix.
 - **Animation & Transitions**: Animations are powered by `tw-animate-css` and RAC interaction states (`data-entering`, `data-exiting`, `pressed:`, `focus-visible:`). Use spring-like micro-interactions (`transition-all duration-150 active:scale-95`).
 
 ## 3. React 19 & Core Component Wrappers
